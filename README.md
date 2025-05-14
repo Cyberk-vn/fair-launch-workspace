@@ -50,7 +50,7 @@ This Next.js application will communicate with the BANKR Backend API (built with
 1.  **Clone the repository:**
     ```bash
     git clone [URL_OF_THIS_REPOSITORY]
-    cd bankr-frontend
+    cd bankr-fe
     ```
 
 2.  **Install dependencies:**
@@ -60,6 +60,9 @@ This Next.js application will communicate with the BANKR Backend API (built with
 
     # Or using yarn
     yarn
+
+    # Or using pnpm
+    pnpm
     ```
 
 3.  **Set up environment variables:**
