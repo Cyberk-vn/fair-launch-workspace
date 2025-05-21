@@ -1,6 +1,6 @@
 ---
 description: "This rule defines standards for creating and managing NestJS Entity classes, primarily used for defining the shape of data in API responses and ensuring consistency with the Prisma schema. Apply this rule when: (1) Creating a new entity class (`*.entity.ts`), (2) Modifying an existing entity class, (3) Defining the structure of data returned by services or controllers, (4) Ensuring Swagger documentation accurately reflects response models. This rule governs structure, decorators, naming, and relationship handling, referencing the `prisma.schema` as the source of truth for database structure."
-globs: apps/be/**/*.*
+globs: erobos/apps/be/**/*.*
 alwaysApply: false
 ---
 

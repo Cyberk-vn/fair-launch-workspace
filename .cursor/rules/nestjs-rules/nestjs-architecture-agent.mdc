@@ -1,6 +1,6 @@
 ---
 description: "Defines the high-level architectural patterns and best practices for this NestJS project, focusing on modularity, serverless deployment, and maintainability. Apply when designing new features, structuring modules/libraries, or refactoring existing code."
-globs: apps/be/**/*.*
+globs: erobos/apps/be/**/*.*
 alwaysApply: false
 ---
 

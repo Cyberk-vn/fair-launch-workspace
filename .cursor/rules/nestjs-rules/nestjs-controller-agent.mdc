@@ -1,6 +1,6 @@
 ---
 description: "This rule defines standards for NestJS controllers based on project conventions. It should be applied when creating, modifying, or reviewing controller code. The rule ensures consistent controller structure, proper route handling, adherence to REST principles, correct dependency injection, Swagger documentation, and inclusion in the module."
-globs: apps/be/libs/**/*.controller.ts
+globs: erobos/apps/be/libs/**/*.controller.ts
 alwaysApply: false
 ---
 

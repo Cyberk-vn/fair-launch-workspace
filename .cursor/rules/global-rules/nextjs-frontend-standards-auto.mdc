@@ -1,10 +1,10 @@
 ---
 description: 
 globs: 
-- apps/bankr-fe/**/*.tsx
-- apps/bankr-fe/**/*.ts
-- apps/clanker-fe/**/*.tsx
-- apps/clanker-fe/**/*.ts
+- erobos/apps/bankr-fe/**/*.tsx
+- erobos/apps/bankr-fe/**/*.ts
+- erobos/apps/clanker-fe/**/*.tsx
+- erobos/apps/clanker-fe/**/*.ts
 alwaysApply: false
 ---
 

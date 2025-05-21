@@ -1,6 +1,6 @@
 ---
 description: "This rule defines standards for creating Data Transfer Objects (DTOs) in the NestJS application. Apply this rule when creating or modifying any DTO file (`*.dto.ts`). It ensures consistency in naming, structure, validation, type safety (especially for query params), and Swagger documentation, referencing Prisma schema and entity files where applicable."
-globs: apps/be/**/*.*
+globs: erobos/apps/be/**/*.*
 alwaysApply: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: "This rule defines standards for NestJS services. Apply when implementing business logic, data access (especially with Prisma), or any service layer functionality. Ensures separation of concerns, consistent data handling (including safe transformation to Entities), error management, and proper use of user context for operations."
-globs: apps/be/**/*.*
+globs: erobos/apps/be/**/*.*
 alwaysApply: false
 ---
 
