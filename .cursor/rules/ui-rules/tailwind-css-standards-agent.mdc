@@ -1,6 +1,8 @@
+---
 description: "This rule defines standards for configuring and using TailwindCSS (v3/v4) in Next.js projects, focusing on color management, CSS variable organization, custom utilities, CSS layers, and maintaining a scalable and maintainable globals.css (or equivalent setup for theming and base styles)."
 globs: 
 alwaysApply: false
+---
 
 # TailwindCSS (v3 & v4) Configuration and Usage Standards
 
