@@ -1,0 +1,315 @@
+---
+description: This rule applies when working with TanStack Query (React Query) in Next.js projects. It guides the creation and usage of custom hooks for data fetching, including naming conventions, query key management, error handling, cache management, and ensuring type safety with TypeScript. Use this rule to ensure consistency, efficiency, and maintainability for client-side data fetching operations.
+globs:
+  - apps/fe/**/*.tsx
+  - apps/fe/**/*.ts
+  - apps/fe/**/*.jsx
+  - apps/fe/**/*.js
+alwaysApply: false
+---
+
+# TanStack Query Hook Standards
+
+## Critical Rules
+
+- MUST use TanStack Query (formerly React Query) for all server-state management and data fetching operations within client-side Next.js components.
+- MUST follow the hook naming convention: `use[Entity][Action]Query` (e.g., `useUserProfileQuery`, `useTransactionListQuery`, `useProductsQuery`).
+- MUST ensure custom hooks expose and applications correctly utilize loading, error, and data states provided by TanStack Query.
+- MUST define and use specific TypeScript types for query function parameters, response data, and error objects to ensure type safety.
+- MUST use appropriate query keys following the structure: `[entity, id?, action?, otherParams?]` (e.g., `['user', userId, 'profile']`, `['products', { category: 'electronics', page: 1 }]`). Query keys MUST be serializable and unique.
+- MUST implement cache invalidation strategies using `queryClient.invalidateQueries` typically after mutations, or when data is known to be stale.
+- MUST implement pagination paradigms (e.g., using `useInfiniteQuery` or page parameters) when fetching large datasets or lists.
+- MUST configure appropriate retry logic (e.g., `retry` option in `useQuery`) for transient network errors or idempotent requests.
+
+## Implementation Guidelines
+
+### Query Hook Structure
+```typescript
+// Example for a standard query hook
+import { useQuery, UseQueryOptions, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions } from '@tanstack/react-query';
+
+// Assume fetchData is a well-typed function:
+// async function fetchData<TParams, TData>(params: TParams): Promise<TData>
+// Or for infinite queries:
+// async function fetchInfiniteData<TParams, TData>(params: TParams, pageParam?: any): Promise<{ data: TData[], nextPageCursor?: any }>
+
+
+// Define specific types for params, data, and error for a specific entity
+interface MyEntityParams { 
+  id: string; 
+  filter?: string; 
+}
+interface MyEntityData { 
+  id: string;
+  name: string;
+  // ... other properties
+}
+interface MyEntityError { 
+  message: string; 
+  code?: number; // e.g., HTTP status
+  details?: any; 
+}
+
+export const useMyEntityQuery = (
+  params: MyEntityParams,
+  options?: Omit<UseQueryOptions<MyEntityData, MyEntityError, MyEntityData, QueryKey>, 'queryKey' | 'queryFn' | 'enabled'>
+) => {
+  // Construct a robust key, ensuring all parts are defined or handled
+  const queryKey: QueryKey = ['myEntity', params.id, params.filter].filter(Boolean); 
+
+  return useQuery<MyEntityData, MyEntityError, MyEntityData, QueryKey>({
+    queryKey: queryKey,
+    queryFn: async (): Promise<MyEntityData> => {
+      // Replace with your actual data fetching logic, e.g., calling an API service
+      const response = await fetch(`/api/my-entity/${params.id}?filter=${params.filter || ''}`);
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: 'Failed to parse error response' }));
+        throw { 
+          message: errorData.message || `Failed to fetch MyEntity (HTTP ${response.status})`, 
+          code: response.status,
+          details: errorData 
+        } as MyEntityError;
+      }
+      return response.json();
+    },
+    enabled: !!params.id, // Example: only enable query if an ID is provided
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes (default is 5 min)
+    retry: (failureCount, error) => {
+      if (error.code === 404) return false; // Don't retry on 404
+      if (error.code === 401 || error.code === 403) return false; // Don't retry on auth errors
+      return failureCount < 2; // Retry up to 1 more time (total 2 attempts for other errors)
+    },
+    ...options 
+  });
+};
+
+// Example for an infinite query hook
+interface MyListParams { searchTerm?: string; sortBy?: string; }
+interface MyListItem { id: string; title: string; }
+interface MyListPage { data: MyListItem[]; nextPageCursor?: string; }
+
+// export const useMyInfiniteListQuery = (
+//   params: MyListParams,
+//   options?: Omit<UseInfiniteQueryOptions<MyListPage, MyEntityError, MyListItem, MyListPage, QueryKey>, 'queryKey' | 'queryFn' | 'getNextPageParam'>
+// ) => {
+//   const queryKey: QueryKey = ['myList', 'infinite', params].filter(Boolean);
+// 
+//   return useInfiniteQuery<MyListPage, MyEntityError, MyListItem, QueryKey>({
+//     queryKey: queryKey,
+//     queryFn: async ({ pageParam }): Promise<MyListPage> => {
+//       // const result = await fetchMyListAPI(params, pageParam); return result;
+//       const cursorQuery = pageParam ? `&cursor=${pageParam}` : '';
+//       const response = await fetch(`/api/my-list?searchTerm=${params.searchTerm || ''}&sortBy=${params.sortBy || ''}${cursorQuery}`);
+//       if (!response.ok) { /* ... error handling ... */ throw { message: 'Failed to fetch list' } as MyEntityError; }
+//       return response.json();
+//     },
+//     getNextPageParam: (lastPage) => lastPage.nextPageCursor,
+//     ...options
+//   });
+// };
+```
+
+### Error Handling
+- Utilize TanStack Query's `error` object (available from `useQuery` result) to display meaningful error messages to the user. The `error` object SHOULD match the defined `TError` type.
+- Implement React Error Boundaries at appropriate component tree levels to catch and handle rendering errors gracefully, potentially caused by query errors or other rendering issues.
+- The `queryFn` MUST throw an error (or return a rejected Promise with an error) for TanStack Query to correctly populate the error state. Custom error objects matching the hook's `TError` type, containing relevant information (e.g., status code, message, name), are strongly encouraged.
+- Configure the `retry` option in `useQuery` (or `defaultOptions` in `QueryClient`) for transient network issues. For specific HTTP errors (e.g., 404 Not Found, 401 Unauthorized), retrying is often inappropriate and should be disabled or handled conditionally.
+
+### Cache Management
+- Configure `staleTime` to define how long fetched data is considered fresh, reducing unnecessary refetches. Default is `0`.
+- Configure `cacheTime` (previously `gcTime`) to define how long inactive query data is kept in cache before being garbage collected. Default is `5 * 60 * 1000` (5 minutes). Adjust based on data sensitivity and application needs.
+- Use `queryClient.invalidateQueries({ queryKey: [queryKey] })` (or more specific invalidation filters) after mutations (e.g., create, update, delete operations) to mark relevant queries as stale and trigger refetches.
+- Consider using `queryClient.setQueryData` for optimistic updates to provide a responsive UI. Always ensure to handle potential rollback by returning a context from `onMutate` and using it in `onError` and `onSettled`.
+- Be mindful of how `refetchOnWindowFocus`, `refetchOnMount`, `refetchOnReconnect` (default behaviors are `true`) affect data freshness and API usage. Configure them globally or per-query as needed.
+
+### Type Safety
+- Consistently define and use TypeScript interfaces or types for: query function parameters (`TParams`), the data resolved by `queryFn` (`TQueryFnData`), the error object thrown by `queryFn` (`TError`), and the final data selected/returned by the hook (`TData`, often same as `TQueryFnData` unless `select` is used).
+- Explicitly type `useQuery`, `useInfiniteQuery`, and their options (e.g., `UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>`) to leverage TypeScript's full benefits for type inference and error checking.
+- If using the `select` option to transform or select a part of the data, ensure the return type of `select` matches the hook's `TData` generic, and that `TData` is correctly typed.
+
+## Examples
+
+<example>
+```typescript
+import { useQuery, UseQueryOptions, QueryKey, QueryClient } from '@tanstack/react-query';
+
+// Assume this is your actual data fetching function, well-typed
+// It should be defined elsewhere (e.g., an apiService.ts) and imported.
+async function fetchUserProfileAPI(userId: string): Promise<UserProfileData> {
+  const response = await fetch(`/api/users/${userId}/profile`);
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ message: 'Unknown error structure' }));
+    throw { 
+      name: 'UserProfileFetchError', 
+      message: errorData.message || `Failed to fetch user profile (HTTP ${response.status})`, 
+      code: response.status,
+      details: errorData
+    } as UserProfileError;
+  }
+  return response.json();
+}
+
+// Define specific types for params, data, and error
+interface UserProfileParams {
+  userId: string | undefined; // Allow undefined if query might be disabled
+}
+
+interface UserProfileData {
+  id: string;
+  name: string;
+  email: string;
+  bio?: string;
+  // ... other properties
+}
+
+interface UserProfileError {
+  name: string; 
+  message: string;
+  code?: number; 
+  details?: any;
+}
+
+// Custom hook following the naming convention use[Entity][Action]Query
+export const useUserProfileQuery = (
+  params: UserProfileParams,
+  options?: Omit<UseQueryOptions<UserProfileData, UserProfileError, UserProfileData, QueryKey>, 'queryKey' | 'queryFn' | 'enabled'>
+) => {
+  const { userId } = params;
+  const queryKey: QueryKey = ['user', userId, 'profile']; // Query key as per guidelines
+
+  return useQuery<UserProfileData, UserProfileError, UserProfileData, QueryKey>({
+    queryKey: queryKey,
+    queryFn: () => {
+      if (!userId) { // Type guard or assertion for userId if it's critical for API call
+        return Promise.reject({ name: 'InvalidParamsError', message: 'User ID is required but was not provided.' } as UserProfileError);
+      }
+      return fetchUserProfileAPI(userId);
+    },
+    enabled: !!userId, // Only enable the query if userId is provided and truthy
+    staleTime: 5 * 60 * 1000,       // 5 minutes
+    cacheTime: 15 * 60 * 1000,      // 15 minutes
+    retry: (failureCount, error) => {
+      if (error.code === 404) return false; 
+      if (error.name === 'InvalidParamsError') return false;
+      return failureCount < 2; 
+    },
+    ...options,
+  });
+};
+
+// Example of usage in a component:
+//
+// function UserProfileComponent({ userId }: { userId: string }) {
+//   const { data, isLoading, isError, error, refetch, isFetching } = useUserProfileQuery(
+//     { userId },
+//     {
+//       onSuccess: (data) => {
+//         console.log('User profile fetched successfully:', data.name);
+//       },
+//       onError: (error) => {
+//         console.error('Error fetching user profile:', error.message, error.code);
+//         // Potentially show a toast notification or specific error UI
+//       },
+//     }
+//   );
+//
+//   if (isLoading) return <p>Loading user profile...</p>;
+//   if (isError) return <p>Error: {error?.message || 'An unexpected error occurred.'}</p>;
+//   // isFetching is true during initial load AND background refetches
+//
+//   return (
+//     <div>
+//       <h1>{data?.name}</h1>
+//       <p>{data?.email}</p>
+//       <p>{data?.bio || 'No bio available.'}</p>
+//       <button onClick={() => refetch()} disabled={isFetching}>
+//         {isFetching ? 'Refreshing...' : 'Refresh Profile'}
+//       </button>
+//     </div>
+//   );
+// }
+```
+</example>
+
+<example type="invalid">
+```typescript
+import { useQuery } from '@tanstack/react-query';
+
+// Assumed untyped, global fetch function
+// const fetchSomeData = (id) => fetch(\''\`/api/data/\${id}\''\`).then(res => res.json());
+
+// Bad hook - Violations:
+// 1. Naming: 'useDataById' is okay, but could be more specific like 'useProductDetailQuery'.
+// 2. Parameters: 'id' directly, not as a typed params object. 'id' type is 'any'.
+// 3. Query Key: Array is good, but 'data' is generic. ['data', id] is not specific enough for global cache.
+// 4. Types: Completely missing TypeScript types for parameters, response data (TData), and error (TError).
+// 5. Query Function: Not typed. Error handling within queryFn is missing (e.g., !res.ok check).
+// 6. Options: No explicit staleTime, cacheTime. Retry logic is default (3 retries for all errors).
+// 7. Error Handling: 'error' in component will be 'unknown'. No defined error structure.
+// 8. Enabled: Query runs even if 'id' is undefined/null, potentially causing a bad API request.
+export const useDataById = (id: any) => { // 'id' is 'any'
+  // 'queryKey' is not descriptive enough. What 'data'? If other 'data' queries exist, this could collide or be confusing.
+  return useQuery(
+    ['data', id], // Lacks specificity
+    async () => {
+      // fetchSomeData is not defined here, assuming it's a global untyped function
+      // const data = await fetchSomeData(id); 
+      // For demonstration, let's inline a fetch:
+      const response = await fetch(\''\`/api/some-data/\${id}\''\`); // No !response.ok check
+      if (!response.ok) {
+          // This basic error won't be typed or structured
+          throw new Error('Network response was not ok'); 
+      }
+      return response.json(); // response.json() can also throw if body is not valid JSON
+    }
+    // No types provided to useQuery<TQueryFnData, TError, TData, TQueryKey>
+    // No specific options like staleTime, cacheTime, specific retry logic.
+  );
+};
+
+// Component usage:
+// const { data, isLoading, error } = useDataById('product123');
+// if (isLoading) return <p>Loading...</p>;
+// if (error) return <p>Error: {error.message}</p>; // 'error' is 'unknown', 'error.message' might not exist or TS will complain.
+```
+</example>
+
+## Best Practices
+
+1.  **Query Keys:**
+    *   Keep query keys as minimal yet descriptive as possible. They are the primary identifiers for your cached data.
+    *   Always use an array format for query keys, even for simple keys, to maintain consistency: e.g., `['todos']` not `'todos'`.
+    *   Ensure all parts of a query key are serializable (strings, numbers, booleans, or simple, stable arrays/objects of these). Avoid functions or complex class instances.
+    *   For dependent queries (queries that depend on other data), reflect this dependency in the query key structure if it aids clarity or invalidation, or ensure the `enabled` option is correctly and robustly used.
+
+2.  **Data Fetching Functions (`queryFn`):**
+    *   Centralize data fetching logic. The `queryFn` in a custom hook should ideally call a dedicated, well-typed API interaction function (e.g., an imported `fetchUserProfileAPI(userId)` from an `apiService.ts` file). This promotes reusability, testability, and separation of concerns.
+    *   Ensure `queryFn` always returns a Promise. It MUST resolve with the data (matching `TQueryFnData`) or reject with an error (matching `TError`).
+
+3.  **Custom Hook Design:**
+    *   Design custom hooks to be reusable and focused on a specific piece of server state or a specific data entity/resource.
+    *   Clearly document the purpose, parameters (and their types), and returned values/states (and their types) of each custom query hook using JSDoc comments.
+    *   Avoid putting UI-specific side effects (e.g., navigation, showing toasts directly) inside the query hook. The hook's responsibility is to provide data and state; the component consuming the hook should handle UI-specific side effects based on that data/state.
+
+4.  **Error Handling and User Experience:**
+    *   Provide clear feedback to users during loading (`isLoading`), error (`isError`, `error`), and refetching (`isFetching`) states by utilizing TanStack Query's status booleans appropriately in your components.
+    *   Distinguish between initial data load errors (`isError` is true and `data` is `undefined`) and background refetch errors (`isError` might be true, `isFetching` is true, and `error` is populated, but `data` might still exist from a previous successful fetch).
+    *   Consider global error handling strategies (e.g., using `QueryClient` default options for `onError`, or an error tracking service) for common error types like authentication failures (401) or server errors (5xx), in addition to local error handling in components.
+
+5.  **Performance Optimization:**
+    *   Fine-tune `staleTime` and `cacheTime` based on how frequently data changes and how critical up-to-date data is for the user experience.
+    *   Leverage the `enabled` option effectively to prevent queries from running unnecessarily (e.g., if required parameters are not yet available, a user lacks permissions, or a condition is not met).
+    *   Use the `select` option to transform data or subscribe to only specific parts of the query data. This can optimize re-renders if the selected data changes less frequently than the entire query object.
+    *   For large lists or collections, always implement pagination (e.g., `useInfiniteQuery` for infinite scrolling) or consider virtualization techniques to avoid performance bottlenecks and excessive data transfer.
+    *   Be cautious with `refetchInterval`. Use it only when near real-time data is essential (e.g., live dashboards) and be mindful of the potential load on your backend services and network traffic.
+
+6.  **Mutations (Side Effects with `useMutation`):**
+    *   When implementing mutations (e.g., using `useMutation` for Create, Update, Delete operations), always invalidate relevant queries (`queryClient.invalidateQueries`) on success to ensure data consistency across the application.
+    *   Consider using optimistic updates (`onMutate` and `onError` with rollback context) for a snappier user experience, but always handle the error case rigorously and ensure data consistency if the mutation fails.
+    *   Ensure mutation functions (`mutationFn`) are also well-typed for their input variables and the expected response or error. Structure errors from mutations similarly to query errors.
+
+7.  **TypeScript and Maintainability:**
+    *   Strive for strong type safety across all parts of your query setup: query keys, parameters, data objects, and error objects. This significantly reduces runtime errors and improves the developer experience.
+    *   Use `as const` for query key arrays if it simplifies type inference in advanced scenarios or when dealing with complex key structures, though generally, well-structured array keys with primitive types are sufficient.
+    *   Keep custom hooks, their related type definitions, and data fetching functions co-located or organized logically (e.g., by feature or entity in a dedicated `queries` or `hooks` folder) for easier navigation and maintenance. 

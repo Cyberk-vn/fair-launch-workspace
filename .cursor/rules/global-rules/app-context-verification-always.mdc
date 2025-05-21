@@ -1,0 +1,75 @@
+---
+description: Ensures the AI always verifies and confirms the target context (app/package) within the monorepo (apps/*, packages/*) before generating or modifying code. Mandates a clear identification process, including asking the user for clarification if the context is ambiguous, to prevent incorrect actions and maintain project structure integrity.
+globs: 
+alwaysApply: true
+---
+
+# App Context Verification Rule
+
+## Critical Rules
+
+- MUST identify the target app context before proceeding with any code generation or modification
+- MUST verify app context against the following structure:
+  ```
+  ./
+  ├── apps/
+  │   ├── bankr-fe/     # Bankr Frontend Application
+  │   ├── clanker-fe/   # Clanker Frontend Application
+  │   ├── be/           # Backend Services
+  │   ├── cdk/          # AWS CDK Infrastructure
+  │   └── ai/           # AI related services/logic
+  ├── packages/         # Directory for shared, reusable packages
+  ```
+- MUST explicitly ask the user to confirm app context if it cannot be determined from the request
+- MUST confirm the identified app context with the user before proceeding with any code generation
+- MUST use the following context identification process:
+  1. Check if request explicitly mentions an app name (e.g., "bankr-fe", "clanker-fe", "be", "cdk", "ai", or a specific package name from the `packages/` directory).
+  2. Check if request implies a specific context (e.g., "admin dashboard for bankr" implies `apps/bankr-fe/`).
+  3. Check if request relates to specific functionality (e.g., "update CDK stack" implies `apps/cdk/`, "work on a shared utility" implies a package within `packages/`).
+  4. If context is ambiguous, ask user to specify.
+- MUST maintain consistent path structure based on identified app context.
+- MUST ensure shared code goes into appropriate packages directory (e.g., `packages/[specific-package-name]/` for any shared package).
+
+## Context Identification Guidelines
+
+### Applications (within `apps/`)
+- **bankr-fe**: Bankr frontend application.
+- **clanker-fe**: Clanker frontend application.
+- **be**: Backend services, APIs, data processing for all applications.
+- **cdk**: AWS CDK infrastructure for the project.
+- **ai**: Services, logic, or utilities related to Artificial Intelligence.
+
+### Shared Packages (within `packages/`)
+- **packages/**: This directory houses various shared packages (e.g., `ui/`, `helpers/`, `libs/`, `plugin-openrouter/`). Code placed here should be designed for reusability across multiple applications or other packages. When referring to a specific package, use its name (e.g., `packages/plugin-openrouter`).
+
+## Examples
+
+<example>
+User: "Create a new settings page for the Bankr frontend"
+Agent: "I'll be working in the apps/bankr-fe directory for this new settings page. Would you like me to proceed with creating the component in this location?"
+</example>
+
+<example>
+User: "Add a new API endpoint for processing transactions"
+Agent: "This new API endpoint will be added to apps/be/. Is this correct?"
+</example>
+
+<example>
+User: "Update the OpenRouter plugin"
+Agent: "I'll be working in the packages/plugin-openrouter/ directory for this update. Shall I proceed?"
+</example>
+
+<example>
+User: "I need to create a new shared utility function."
+Agent: "Understood. This new shared utility function will be placed in a suitable sub-directory within `packages/`. Could you please specify the package name or a new package name if it doesn't exist yet?"
+</example>
+
+<example type="invalid">
+User: "Create a new component"
+Agent: *Proceeds without confirming app context like apps/bankr-fe or apps/clanker-fe, or a specific package*
+</example>
+
+<example type="invalid">
+User: "Add a new infrastructure resource"
+Agent: *Assumes apps/cdk without confirmation*
+</example> 

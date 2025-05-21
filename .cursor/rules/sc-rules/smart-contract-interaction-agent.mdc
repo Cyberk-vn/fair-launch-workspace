@@ -1,0 +1,325 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# Smart Contract Interaction Rules
+
+## Critical Rules
+
+- MUST use ethers.js v6 for all smart contract interactions.
+- MUST use TypeScript for type safety.
+- MUST validate input parameters before submitting transactions to the smart contract.
+- MUST abstract contract addresses and network configurations, avoiding hardcoding within interaction logic.
+- MUST distinguish clearly between read-only calls (queries) and state-changing transactions in method design and naming.
+- MUST implement proper error handling for blockchain transactions.
+- MUST include gas estimation and management.
+- MUST implement proper transaction confirmation handling.
+- MUST implement proper event handling and listening.
+- MUST follow the following contract interaction class naming convention:
+  ```
+  [Entity][Action]Contract
+  Example: TokenTransferContract, UserRegistrationContract
+  ```
+
+## Implementation Guidelines
+
+### Contract Interaction Structure
+
+The following class structure is a recommended pattern for encapsulating reusable or complex smart contract interaction logic:
+
+```typescript
+import { ethers, Contract, Signer, TransactionResponse, TransactionReceipt, BigNumberish, isAddress, EventLog } from 'ethers'; // Ensure all necessary types are imported
+
+// Example: Assume getContractConfig is a utility function to fetch address and ABI from a central place
+// import { getContractConfig } from './config-manager'; 
+
+export class [Entity][Action]Contract {
+  protected contract: Contract; // Changed to protected if extended, private otherwise
+  protected signer: Signer;     // Changed to protected if extended, private otherwise
+  // protected provider?: ethers.Provider; // Optional: if direct provider access is needed
+
+  constructor(contractAddress: string, contractAbi: any[], signer: Signer) {
+    // Example of how configuration abstraction might be used:
+    // const config = getContractConfig("MyToken"); // Assuming "MyToken" is a key for your contract
+    // this.signer = signer;
+    // this.provider = signer.provider; // If signer always has a provider
+    // this.contract = new Contract(config.address, config.abi, this.signer);
+    
+    // For direct instantiation as per rule example:
+    this.signer = signer;
+    this.contract = new Contract(contractAddress, contractAbi, this.signer);
+  }
+
+  // Example for a state-changing transaction
+  async performAction(methodName: string, params: any[] = [], confirmationBlocks: number = 1): Promise<TransactionReceipt | null> {
+    // TODO: Implement robust input validation for `params` based on `methodName`
+    // Example: if (methodName === 'transfer') { validateTransferParams(params); }
+
+    try {
+      // Gas Estimation and Management
+      const gasEstimate = await this.contract[methodName].estimateGas(...params);
+      const gasLimitWithBuffer = (gasEstimate * 120n) / 100n; // 20% buffer
+
+      const tx: TransactionResponse = await this.contract[methodName](...params, {
+        gasLimit: gasLimitWithBuffer
+        // gasPrice: (await this.signer.provider?.getFeeData())?.gasPrice // Optional: for legacy gas pricing
+      });
+
+      // Transaction Confirmation Handling
+      const receipt = await tx.wait(confirmationBlocks);
+      if (!receipt) {
+          console.warn(`Transaction ${tx.hash} receipt is null after waiting for ${confirmationBlocks} confirmations. Status might be uncertain.`);
+          // Depending on desired strictness, could throw an error or return null.
+      }
+      // console.log(`Transaction ${methodName} successful with receipt:`, receipt);
+      return receipt;
+    } catch (error: any) {
+      throw this.handleTransactionError(error, methodName, params);
+    }
+  }
+
+  // Example for a read-only call (query)
+  async queryData(methodName: string, params: any[] = []): Promise<any> {
+    // TODO: Implement input validation for `params` if applicable for the query
+
+    try {
+      return await this.contract[methodName](...params);
+    } catch (error: any) {
+      throw this.handleQueryError(error, methodName, params);
+    }
+  }
+
+  protected handleTransactionError(error: any, methodName: string, params: any[]): Error {
+    // Placeholder - MUST be implemented as per Error Handling guidelines
+    console.error(`Contract Transaction Error in ${methodName} with params ${JSON.stringify(params)}:`, error);
+    let message = `Transaction failed: ${error.message || 'Unknown error'}`;
+    if (error.code === ethers.ErrorCode.CALL_EXCEPTION) { // Using ethers.ErrorCode for v6
+        message = `Transaction reverted for ${methodName}: ${error.reason || error.data || error.message}`;
+    } else if (error.code === ethers.ErrorCode.INSUFFICIENT_FUNDS) {
+        message = `Insufficient funds for transaction ${methodName}.`;
+    } else if (error.code === ethers.ErrorCode.REPLACEMENT_UNDERPRICED) {
+        message = `Transaction ${methodName} replacement is underpriced. Another transaction with the same nonce exists.`;
+    }
+    // Add more specific error checks
+    return new Error(message);
+  }
+
+  protected handleQueryError(error: any, methodName: string, params: any[]): Error {
+    // Placeholder - MUST be implemented
+    console.error(`Contract Query Error in ${methodName} with params ${JSON.stringify(params)}:`, error);
+    return new Error(`Query ${methodName} failed: ${error.message || 'Unknown error'}`);
+  }
+
+  // Event Listening Example
+  public setupEventListener(eventName: string, listenerCallback: (...args: any[]) => void): void {
+    this.contract.on(eventName, listenerCallback);
+    // console.log(`Listening for ${eventName} events...`);
+  }
+
+  public removeEventListener(eventName: string, listenerCallback: (...args: any[]) => void): void {
+    this.contract.off(eventName, listenerCallback);
+    // console.log(`Stopped listening for ${eventName} events.`);
+  }
+
+  public removeAllListeners(eventName?: string): void {
+    this.contract.removeAllListeners(eventName);
+    // console.log(eventName ? `Removed all listeners for ${eventName}` : "Removed all contract listeners.");
+  }
+}
+```
+**Note on Contract Interaction Structure:**
+Custom hooks (e.g., in frontend applications) can either instantiate and use these contract interaction classes or manage `ethers.Contract` instances directly. Regardless of the approach, all critical rules regarding error handling, gas management, transaction confirmation, input validation, and type safety MUST be adhered to. Hooks should also manage their own state (loading, error, data) as appropriate for the UI.
+
+### Error Handling
+- MUST implement specific error handling for:
+  - Transaction failures (e.g., revert, out of gas, nonce issues)
+  - Gas estimation failures
+  - Network errors (e.g., RPC unavailable, timeout)
+  - Contract-specific errors (based on custom errors or revert reasons)
+- MUST provide meaningful and, where possible, user-actionable error messages.
+- MUST implement proper error recovery strategies where appropriate (e.g., retry for transient network errors).
+
+### Gas Management
+- MUST implement proper gas estimation before sending transactions.
+- MUST handle potential gas price fluctuations (e.g., by using `provider.getFeeData()` for EIP-1559 transactions, or allowing configurable gas prices).
+- MUST implement gas limit safety checks (e.g., adding a buffer to estimated gas).
+- MUST provide gas optimization strategies if applicable (e.g., batching transactions).
+
+### Event Handling
+- MUST implement proper event listeners for relevant contract events.
+- MUST handle event filtering effectively to target specific events.
+- MUST implement proper event listener cleanup (e.g., `off()` or `removeAllListeners()`) to prevent memory leaks, especially in long-lived applications or components.
+- MUST handle event confirmation if actions depend on events being confirmed on the blockchain.
+
+### Type Safety
+- MUST define proper TypeScript interfaces or types for:
+  - Contract method parameters (input).
+  - Transaction responses and receipts.
+  - Event data payloads.
+  - Custom error types if used.
+
+## Examples
+
+<example>
+```typescript
+// Good implementation adhering to rules
+import { ethers, Contract, Signer, TransactionResponse, TransactionReceipt, BigNumberish, isAddress, EventLog } from 'ethers';
+
+// Assuming a utility for configuration (address, ABI)
+// import { getContractConfig } from './config-manager';
+
+export class TokenTransferContract {
+  private contract: Contract;
+  private signer: Signer;
+
+  constructor(contractAddress: string, contractAbi: any[], signer: Signer) {
+    this.signer = signer;
+    this.contract = new Contract(contractAddress, contractAbi, this.signer);
+  }
+
+  async transfer(to: string, amount: BigNumberish, confirmations: number = 1): Promise<TransactionReceipt | null> {
+    if (!isAddress(to)) {
+      throw new Error("Validation Error: Invalid 'to' address provided.");
+    }
+    const bnAmount = ethers.toBigInt(amount);
+    if (bnAmount <= 0) {
+      throw new Error("Validation Error: Transfer amount must be positive.");
+    }
+
+    try {
+      const gasEstimate = await this.contract.transfer.estimateGas(to, bnAmount);
+      const gasLimitWithBuffer = (gasEstimate * 120n) / 100n; // 20% buffer
+
+      const tx: TransactionResponse = await this.contract.transfer(to, bnAmount, {
+        gasLimit: gasLimitWithBuffer
+      });
+      
+      console.log(`Transfer transaction sent: ${tx.hash}`);
+      const receipt: TransactionReceipt | null = await tx.wait(confirmations);
+      
+      if (receipt) {
+        if (receipt.status === 1) {
+          console.log(`Transfer to ${to} for ${ethers.formatUnits(bnAmount, 'ether')} ETH confirmed in block ${receipt.blockNumber}`);
+        } else {
+          console.error(`Transfer transaction ${receipt.hash} reverted.`);
+          throw new Error(`Transaction ${receipt.hash} reverted in block ${receipt.blockNumber}.`);
+        }
+      } else {
+         console.warn(`Transaction ${tx.hash} receipt is null after waiting for ${confirmations} confirmations.`);
+         // Handle as a potentially pending or failed transaction without receipt
+         throw new Error(`Transaction ${tx.hash} did not return a receipt after ${confirmations} confirmations.`);
+      }
+      return receipt;
+    } catch (error: any) {
+      throw this.handleTransferError(error, { to, amount });
+    }
+  }
+  
+  async getBalance(address: string): Promise<bigint> {
+    if (!isAddress(address)) {
+      throw new Error("Validation Error: Invalid address provided for getBalance.");
+    }
+    try {
+      const balance = await this.contract.balanceOf(address);
+      return ethers.toBigInt(balance);
+    } catch (error: any) {
+      throw this.handleQueryError(error, { address });
+    }
+  }
+
+  public setupTransferEventListener(listener: (from: string, to: string, amount: bigint, event: EventLog) => void): void {
+    this.contract.on("Transfer", (from, to, value, event) => {
+        listener(from, to, ethers.toBigInt(value), event as EventLog);
+    });
+    console.log("Listening for Transfer events...");
+  }
+
+  private handleTransferError(error: any, context: { to: string, amount: BigNumberish }): Error {
+    console.error(`Transfer to ${context.to} for amount ${ethers.formatUnits(ethers.toBigInt(context.amount))} failed:`, error);
+    if (error.code === ethers.ErrorCode.CALL_EXCEPTION) {
+        return new Error(`Transaction reverted by smart contract: ${error.reason || error.data || 'No reason provided'}.`);
+    }
+    // Add more specific error handling
+    return new Error(`Transfer failed: ${error.message || 'An unknown error occurred'}`);
+  }
+
+  private handleQueryError(error: any, context: object): Error {
+    console.error(`Query failed with context ${JSON.stringify(context)}:`, error);
+    return new Error(`Query failed: ${error.message || 'An unknown error occurred'}`);
+  }
+}
+```
+</example>
+
+<example type="invalid">
+```typescript
+// Bad implementation - missing error handling, gas management, input validation, and type safety
+import { Contract } from 'ethers'; // Missing Signer, etc.
+
+export class TokenContract {
+  private contract: Contract; // Not properly initialized with signer
+
+  constructor(address: string, abi: any) {
+      // this.contract = new Contract(address, abi); // Missing signer for transactions
+      // For the sake of example, assume it's somehow assigned.
+      // @ts-ignore
+      this.contract = new Contract(address, abi, null); // This would fail for transactions
+  }
+
+  async transfer(to: string, amount: number) { // 'amount' as number is problematic
+    // No input validation for 'to' or 'amount'
+    // No gas estimation or management
+    // No transaction confirmation handling (tx.wait())
+    // No specific error handling
+    try {
+        const tx = await this.contract.transfer(to, amount); // This will likely fail or be unsafe
+        return tx; // Returning TransactionResponse, not waiting for receipt
+    } catch (e: any) {
+        console.log("An error occurred", e.message); // Very generic error handling
+        throw e;
+    }
+  }
+
+  async getBalance(user: string) {
+      // No validation for user address
+      return this.contract.balanceOf(user); // No error handling for query
+  }
+}
+```
+</example>
+
+## Best Practices
+
+1.  **Contract Interaction**
+    *   Use proper contract abstraction (e.g., for addresses, ABIs, network configurations).
+    *   Implement thorough parameter validation before sending transactions.
+    *   Handle transaction confirmation reliably (e.g., wait for sufficient block confirmations).
+    *   Implement robust event handling and listening mechanisms.
+    *   If implementing retry logic for transactions, ensure operations are designed to be idempotent where possible to prevent unintended side effects from multiple executions.
+
+2.  **Error Handling**
+    *   Implement specific, custom error types for better error management and debugging.
+    *   Provide clear, meaningful, and user-friendly error messages.
+    *   Handle potential network errors gracefully.
+    *   Implement retry logic with appropriate backoff strategies for transient errors (e.g., network issues, RPC node failures) for non-state-changing calls or idempotent transactions.
+
+3.  **Gas Management**
+    *   Implement accurate gas estimation mechanisms.
+    *   Develop strategies to handle gas price fluctuations (e.g., using gas price oracles, allowing user configuration).
+    *   Implement gas limit safety checks and buffers to prevent out-of-gas errors.
+    *   Consider gas optimization strategies in how contract functions are called (e.g., batching calls if supported by the contract).
+
+4.  **Type Safety (TypeScript)**
+    *   Define precise TypeScript interfaces for all contract parameters, transaction responses, event data, and error types.
+    *   Utilize TypeScript's type inference capabilities but provide explicit types where ambiguity can arise.
+    *   Carefully handle nullable/optional fields to prevent runtime errors.
+    *   Implement type guards for complex or union types.
+
+5.  **Security Considerations (Client-Side)**
+    *   NEVER embed or expose private keys directly in client-side or frontend code. Rely on secure signer integrations (e.g., browser wallets, hardware wallets via appropriate providers).
+    *   Sanitize or validate any user-provided inputs that are passed to smart contract functions, even if the primary validation occurs within the contract, as an additional layer of defense.
+    *   Regularly review and update all dependencies, especially `ethers.js` and related cryptographic libraries, to incorporate the latest security patches.
+    *   Be mindful of potential reentrancy issues if contract interaction logic involves multiple calls or complex state dependencies, although primary prevention is at the smart contract level.
+``` 

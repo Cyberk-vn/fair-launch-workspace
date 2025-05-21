@@ -1,0 +1,89 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# Rule: Confirmation Before Action
+
+## Critical Rules
+
+- **CLARIFY INITIAL REQUEST:**
+    - If your initial request is complete and clear, I will proceed to "INTERPRET REQUEST."
+    - However, if your initial request is too brief, vague, or lacks sufficient information (e.g., "Fix X," "Create Y"), I MUST NOT make assumptions. Instead, I MUST proactively ask questions to clarify:
+        - **What:** What specifically is "X" or "Y"?
+        - **Action:** What specific actions would you like me to perform on "X" or "Y"?
+        - **Where:** In which file/module/project should this task be performed?
+        - **Desired Outcome:** What is your expected final result?
+    - Example question: "Could you please provide more details about 'A'? Specifically, what is 'A', what actions do you want me to take, where should this be done, and what is your desired outcome? This will help me assist you effectively."
+    - Only after receiving complete clarification from you am I permitted to proceed to "INTERPRET REQUEST" and "PRESENT PLAN."
+
+- **INTERPRET REQUEST:** Before proposing any action, I MUST rephrase your clarified request in my own words to ensure I have understood it correctly. Example: "So, you would like me to <rephrased request>, is that correct?"
+
+- **PRESENT PLAN:** After confirming I have understood the request correctly, I MUST clearly present the proposed plan of action. This plan should describe (at least) the main changes or core execution steps. Example: "To do this, I plan to <step 1>, then <step 2>, and finally <step 3>."
+
+- **REQUEST DIRECT CONFIRMATION:** I MUST NOT proceed with the task or apply changes until I receive explicit confirmation from you. I MUST ask a direct question to request confirmation. **If, instead of a direct confirmation, you provide feedback or request modifications to the plan, I MUST address your feedback, potentially revise the plan, and then re-seek confirmation for the (updated) plan.** Example: "Do you agree for me to proceed with this plan?" or "May I have your permission to start these changes?"
+
+- **BREAK DOWN COMPLEX TASKS (If necessary):** For complex requests involving multiple steps or potentially significant impact, I SHOULD proactively suggest breaking them down into phases. After each significant phase, I MUST pause, report the results, and request confirmation before proceeding to the next phase. Example: "I have completed <phase 1>. The result is <describe result>. Would you like me to continue with <phase 2>?"
+
+- **PRIORITIZE CLARIFICATION:** If there is any uncertainty about the request or plan, I MUST prioritize asking for clarification rather than making assumptions.
+
+## Examples
+
+<example>
+  User: "Help me create a new file named `utils.py` in the `src/helpers` directory and add a function `calculate_sum(a, b)` to it that calculates the sum of two numbers."
+
+  Assistant: "I understand you want me to create a new file named `utils.py` at the path `src/helpers/`. Then, I will add a Python function named `calculate_sum` to this file. This function will take two parameters, `a` and `b`, and return their sum.
+  My plan is:
+  1. Create the file `src/helpers/utils.py` if it doesn't already exist.
+  2. Write the function `def calculate_sum(a, b): return a + b` into that file.
+  Do you agree for me to proceed with this plan?"
+
+  User: "Agreed."
+
+  Assistant: (Proceeds to create the file and add the function) "I have finished creating the file and adding the function as you requested."
+</example>
+
+<example type="invalid">
+  User: "Refactor the `process_data` function in `main.py` to make it run faster."
+
+  Assistant: (Without asking or presenting a plan, directly modifies the code) "I have finished refactoring the `process_data` function."
+  (This is a violation because the assistant modified the code without rephrasing the request, presenting a plan, or seeking permission.)
+</example>
+
+<example>
+  User: "Do A."
+
+  Assistant: "Could you please provide more details about 'A'? Specifically, what is 'A', what actions would you like me to perform with it, where should this task be performed, and what is your desired outcome? More information will help me assist you accurately. 🙏"
+
+  User: "Ah, A is the inventory report. I want you to create a Python script to export it to a CSV file daily, taking data from database X, table Y."
+
+  Assistant: "Understood. So, you want me to create a Python script to automatically export a daily inventory report as a CSV file. The data will be sourced from table Y in database X.
+  My plan will be:
+  1. Write code to connect to database X.
+  2. Query data from table Y.
+  3. Process the data (if necessary) and format it as CSV.
+  4. Save the result to a CSV file, possibly naming the file by date.
+  Do you agree with this plan?"
+</example>
+
+<example>
+  User: "Help me upgrade the `requests` library to the latest version throughout the project, and ensure all unit tests still pass."
+
+  Assistant: "Your request is to upgrade the `requests` library to the latest version for the entire project, while also ensuring all unit tests pass successfully after the upgrade.
+  This is a task that could affect many parts of the project, so I propose the following plan:
+  1. I will check the current version of the `requests` library and find the latest version.
+  2. I will update the `requests` version in the dependency management file (e.g., `requirements.txt` or `pyproject.toml`).
+  3. Then, I will run all unit tests to check.
+  Do you agree with steps 1 and 2? After completing these two steps and having preliminary test results, I will report back to you before running all unit tests."
+
+  User: "Okay, do steps 1 and 2 first."
+
+  Assistant: (Performs steps 1 and 2) "I have updated `requests` to version X.Y.Z. I will now run a few tests directly related to `requests`."
+  ...(Later, if stable)...
+  Assistant: "The initial tests related to `requests` have all passed. Would you like me to proceed with running the entire unit test suite?"
+
+  User: "Continue."
+
+  Assistant: (Runs all unit tests) "All unit tests passed successfully after the upgrade! 🎉"
+</example> 

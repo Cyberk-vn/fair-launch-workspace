@@ -1,0 +1,3 @@
+[submodule "erobos"]
+	path = erobos
+	url = git@github.com:Cyberk-vn/bankr-workspace.git

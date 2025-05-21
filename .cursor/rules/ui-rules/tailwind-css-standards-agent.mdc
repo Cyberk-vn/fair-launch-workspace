@@ -1,0 +1,193 @@
+description: "This rule defines standards for configuring and using TailwindCSS (v3/v4) in Next.js projects, focusing on color management, CSS variable organization, custom utilities, CSS layers, and maintaining a scalable and maintainable globals.css (or equivalent setup for theming and base styles)."
+globs: 
+alwaysApply: false
+
+# TailwindCSS (v3 & v4) Configuration and Usage Standards
+
+## Critical Rules
+
+### Theme and CSS Variable Management
+- MUST define the core color palette, typography, spacing, and breakpoints primarily through Tailwind's theme configuration. 
+  - For **v3**, this is typically `tailwind.config.js`.
+  - For **v4**, while `tailwind.config.js` might still be used, be aware of potential new configuration paradigms (e.g., CSS-first configuration, different config schema) introduced by its new engine. Always refer to official v4 documentation.
+- MUST define semantic color names as CSS variables within `:root` (for light mode) and `.dark` scopes in a dedicated theming file (e.g., `_theme.css`, `_variables.css`) imported into `globals.css`.
+- CSS variable names for colors MUST follow a consistent and descriptive naming convention (e.g., `--color-primary`, `--color-text-base`, `--color-brand-accent`, `--color-surface-default`).
+- The Tailwind theme configuration (especially in **v3**) SHOULD then reference these CSS variables to ensure a single source of truth. **v4** might offer more direct ways for its engine to consume these CSS variables.
+
+### CSS File Structure
+- To prevent `globals.css` from becoming overly large, custom CSS (beyond global variable definitions, font imports, and essential base layers) SHOULD be organized into separate, well-named files (e.g., `_base.css`, `_components.css`, `_utilities.css`, `_typography.css`) typically under a `src/styles/` directory and imported into `globals.css`.
+- `globals.css` SHOULD primarily serve as an entry point for importing other CSS files and defining truly global styles or configurations.
+
+### CSS Layers
+- MUST utilize Tailwind CSS layers (`@layer base`, `@layer components`, `@layer utilities`) correctly. 
+  - This is crucial in **v3** for managing CSS specificity and ordering.
+  - In **v4**, while the concept of layers remains, the new engine might optimize their handling or offer new ways to manage CSS order; adhere to v4's specific documentation on layer usage and best practices.
+- Base styles (HTML element styling, resets) MUST be placed in the `@layer base`.
+- Reusable custom component styles (if not achievable with utilities or component-scoped CSS) SHOULD be placed in `@layer components`.
+- Custom utility classes MUST be placed in `@layer utilities`.
+
+### Custom Utilities and Components
+- Custom utility classes SHOULD be prefixed (e.g., `.u-text-balance`, `.c-card-custom`) to avoid conflicts, unless they are extending existing Tailwind utilities via plugins (more common in **v3**).
+- Avoid creating custom CSS for styles that can be achieved through Tailwind's default utilities or by extending the theme.
+
+### Color and Font Usage
+- In React/Next.js components (JSX/TSX), colors and typographic styles MUST primarily be applied using Tailwind utility classes (e.g., `bg-primary`, `text-foreground`, `font-sans`) which map to the defined CSS variables and theme settings.
+- Web font imports (`@import url(...)`) and `@font-face` definitions MUST be at the top of `globals.css` or a dedicated `_fonts.css` file.
+- Font families MUST be defined as CSS variables (e.g., `--font-sans`) and then configured in `tailwind.config.js` (**v3**) or the equivalent v4 configuration to be used with Tailwind's font utilities.
+
+### Responsive Design and Dark Mode
+- MUST use Tailwind's built-in responsive variants (e.g., `sm:`, `md:`, `lg:`) and dark mode variants (`dark:`).
+- Dark mode styles MUST be implemented using the `.dark` class selector strategy, with corresponding color variable overrides.
+
+## Implementation Guidelines
+
+### Theme Configuration (Tailwind Config File)
+- **For v3:** Structure the `theme` object in `tailwind.config.js` logically (colors, fontFamily, etc.). Reference CSS variables (e.g., `colors: { primary: 'oklch(var(--color-primary) / <alpha-value>)' }`).
+- **For v4:** Consult v4 documentation for theme definition. This might involve CSS variables being directly consumed by the engine, or a modified `tailwind.config.js` or new configuration files (e.g., CSS-based config). The goal is still a clear definition of design tokens.
+- Keep the config focused on design tokens, not one-off component styles.
+
+### CSS Variable Definition (`_theme.css` or `_variables.css`)
+- Define global CSS variables for light/dark themes using `:root` and `.dark`. Group logically.
+- Example (OKLCH preferred for colors):
+  ```css
+  /* src/styles/_theme.css */
+  @layer base { /* Or define outside layers if purely variable definitions not needing @apply */
+    :root {
+      --radius-lg: 0.75rem;
+      --color-background: oklch(0.98 0.01 240); /* Light theme background */
+      --color-primary: oklch(0.5 0.15 260);    /* Light theme primary */
+      --font-sans: "Inter", system-ui, sans-serif;
+    }
+    .dark {
+      --color-background: oklch(0.15 0.01 240); /* Dark theme background */
+      --color-primary: oklch(0.6 0.15 260);     /* Dark theme primary */
+    }
+  }
+  ```
+
+### Structuring `globals.css`
+- Recommended import order: Font imports, TailwindCSS imports (version specific), custom theme variables, other custom style partials.
+- Example:
+  ```css
+  /* apps/your-app/src/app/globals.css */
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+
+  /* Tailwind CSS v3 (PostCSS) common imports: */
+  /* @tailwind base; */
+  /* @tailwind components; */
+  /* @tailwind utilities; */
+
+  /* Tailwind CSS v4 (New Engine - specific import may vary): */
+  @import "tailwindcss"; /* Refer to v4 docs for exact import */
+  
+  @import "./styles/_theme.css"; /* Defines CSS vars */
+  @import "./styles/_base.css";   /* Custom base styles using @layer base */
+  /* Optionally: @import "./styles/_components.css"; */
+  /* Optionally: @import "./styles/_utilities.css"; */
+  ```
+
+### Using CSS Layers for Custom Styles
+- Place custom styles in appropriate layers to ensure correct specificity.
+  ```css
+  /* src/styles/_base.css */
+  @layer base {
+    body { @apply bg-background text-foreground font-sans antialiased; }
+    /* Other global element styles */
+  }
+  ```
+
+## Examples
+
+<example>
+```
+// --- File Structure (Example) ---
+// apps/your-app/src/
+// |-- app/globals.css
+// |-- styles/
+// |   |-- _theme.css
+// |   |-- _base.css
+// |-- components/ (for React components)
+// tailwind.config.js (for v3, or v4 if applicable)
+
+// --- tailwind.config.js (Tailwind v3 Example) ---
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: 'class',
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        background: 'oklch(var(--color-background) / <alpha-value>)',
+        primary: 'oklch(var(--color-primary) / <alpha-value>)',
+        // ... referencing CSS variables from _theme.css
+      },
+      fontFamily: {
+        sans: ['var(--font-sans)', 'sans-serif'],
+      }
+    },
+  },
+  plugins: [ /* e.g., require('@tailwindcss/typography') */ ],
+};
+
+// --- Note for Tailwind CSS v4 ---
+// The tailwind.config.js structure might evolve or be replaced by CSS-native configurations.
+// v4's engine aims for higher performance and might allow configuration directly within CSS.
+// Always refer to the official v4 documentation for the latest configuration methods.
+
+// --- src/styles/_theme.css (Conceptual) ---
+@layer base {
+  :root {
+    --font-sans: 'Inter', sans-serif;
+    --color-background: oklch(0.98 0.01 240);
+    --color-primary: oklch(0.5 0.15 260);
+  }
+  .dark {
+    --color-background: oklch(0.15 0.01 240);
+    --color-primary: oklch(0.6 0.15 260);
+  }
+}
+
+// --- src/app/globals.css (Conceptual, check v4 syntax) ---
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+// For v3: @tailwind base; @tailwind components; @tailwind utilities;
+// For v4: @import "tailwindcss"; (or as per v4 docs)
+@import "../styles/_theme.css";
+
+@layer base {
+  body { @apply bg-background font-sans; }
+}
+```
+</example>
+
+<example type="invalid">
+```
+// --- tailwind.config.js (Bad Practice - hardcoding, not using CSS vars for theming) ---
+module.exports = {
+  theme: { extend: { colors: { 'custom-blue': '#1E90FF' } } },
+};
+
+// --- globals.css (Bad Practice - unsystematic, overrides without layers) ---
+@tailwind base; @tailwind components; @tailwind utilities;
+body { background-color: #F0F2F5; /* Hardcoded, no theme variable */ }
+.my-specific-button { background-color: #007bff !important; /* Overly specific, !important */ }
+```
+</example>
+
+## Best Practices
+
+1.  **Theme First Approach:** Customize Tailwind's theme/config before writing custom CSS. Use semantic names.
+2.  **CSS Variables for Theming:** Leverage CSS variables extensively for dynamic theming. Prefer modern color functions like `oklch()`.
+3.  **Scalable CSS Organization:** Keep `globals.css` lean. Import organized partials.
+4.  **Mastering Tailwind Layers:** Understand and correctly use `@layer base`, `@layer components`, and `@layer utilities` as per the Tailwind version's recommendations.
+5.  **Minimize Custom CSS:** Strive to use utility classes. If creating custom component classes, try `@apply` first (especially in **v3**; **v4** might have different preferred composition methods).
+6.  **Performance:** Ensure accurate `content` paths for purging. Only import used fonts/weights. Be aware of **v4's** performance benefits from its new engine.
+7.  **Accessibility (A11y):** Ensure color contrast, clear focus states.
+8.  **Staying Updated (v3 vs. v4):** Crucially, as Tailwind CSS **v4** matures, its engine (e.g., "Lightning CSS") and CSS-first approaches will introduce new best practices. Adapt these rules by consulting official **v4** documentation. Practices optimal for **v3** (PostCSS-based) may have more efficient equivalents in **v4**.
+
+
+</rewritten_file> 
+6.  **Utility Class Naming and Scope:** Prefix global custom utilities. Prefer co-located styles (CSS Modules) for component-specific styling.
+7.  **Performance Considerations:** Be mindful of CSS bundle size. Ensure `content` paths in `tailwind.config.js` are accurate for purging. Only import used fonts/weights.
+8.  **Accessibility (A11y):** Ensure sufficient color contrast. Define clear focus states. Use `sr-only` for accessible hidden content.
+9.  **Commenting and Documentation:** Comment complex custom CSS or non-obvious theming decisions.
+10. **Staying Updated:** As Tailwind CSS evolves (e.g., v4 engine), stay updated with its latest features and recommended practices. 
