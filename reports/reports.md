@@ -4,22 +4,25 @@ Tài liệu này nhằm mục đích theo dõi tiến độ và quản lý các 
 
 ---
 
-### Business Requirements Reports 
+### Progress Reports 
 
 | Tên Features / Task | Mô tả | Trạng thái | Người thực hiện | Ngày hoàn thành dự kiến (EDD) |
 |---|---|---|---|---|
-| BR-001 - Home-page functionality: | hiển thị danh sách các dự án, cho phép ngươi dùng lọc và truy cập vào chi tiết các dự án. | Todo | Kanz, Team | 11/06/2025 |
-| BR-002 - Allow users to create tokens | Cung cấp cho người dùng khả năng tạo (mint) token mới trên nền tảng Clanker. Người dùng có thể xác định các thuộc tính cơ bản cho token của họ như hình ảnh, tên, ký hiệu, mô tả, tổng cung, vốn hóa thị trường ban đầu, liên kết mạng xã hội và cấu hình các tham số phân bổ token ban đầu (ví dụ: cho dev, cho giao dịch công khai, cho vault). | Todo | Mai, Kanz | 11/06/2025 |
-| BR-003 - Support token trading (Buy/Sell with APT) | Cho phép người dùng thực hiện các giao dịch mua và bán token được tạo trên nền tảng Clanker bằng APT **thông qua giao diện của Clanker, giao diện này sẽ gọi các hàm tương ứng từ hợp đồng thông minh của sàn giao dịch phi tập trung Hyperion Aptos để xử lý giao dịch.** Clanker sẽ không phát triển hợp đồng thông minh riêng cho việc khớp lệnh hoặc quản lý thanh khoản. Các giao dịch phải được ghi lại và có thể xác minh trên blockchain thông qua hợp đồng của Hyperion. | Todo | Thai, Kanz | 11/06/2025 |
-| BR-004 - Deploy Clanker smart contract | Triển khai thành công và ổn định hợp đồng thông minh cốt lõi của Clanker (cho các chức năng không phải DEX) lên mạng Aptos để quản lý các chức năng chính của nền tảng. | Todo | Kanz | 11/06/2025 |
-| BR-005 - Wallet connection and user management (X/Farcaster Login) | Cho phép người dùng kết nối ví tiền điện tử Aptos của họ và đăng nhập vào nền tảng bằng tài khoản X (Twitter) hoặc Farcaster để thực hiện giao dịch và quản lý token/tính năng liên quan đến tài khoản của họ. | Todo | Duc | 11/06/2025 |
-| BR-006 - Manage Listed Token Information | Cho phép người tạo token quản lý và chỉnh sửa thông tin hiển thị (metadata) của các token mà họ đã tạo (ví dụ: mô tả, logo, liên kết mạng xã hội). | Todo | Thai | 11/06/2025 |
-| BR-007 - Ensure basic legal compliance | Chuẩn bị và tích hợp các tài liệu pháp lý cần thiết như Điều khoản Sử dụng và Chính sách Quyền riêng tư cho nền tảng. | Todo | Truong | 11/06/2025 |
-| BR-008 - Create a foundation for the AI development phase (Bankr) | Xây dựng Clanker với kiến trúc và nền tảng vững chắc, có khả năng mở rộng và tích hợp, phục vụ cho việc phát triển các tính năng AI trong giai đoạn tiếp theo (dự án Bankr). | Todo | Team | 11/06/2025 |
-| BR-009 - Reward Mechanism for Token Creators | Thiết lập một cơ chế cho phép người tạo token nhận phần thưởng dựa trên hiệu suất hoặc các tham số được xác định trước của token mà họ tạo (ví dụ: dựa trên khối lượng giao dịch của token). Người tạo token phải có thể xem thông tin về phần thưởng ước tính và thực hiện các hành động để nhận phần thưởng về ví của họ. | Todo | Kanz, Thai | 11/06/2025 |
-| BR-010 - Activate Token Vault Mechanism (Token Locking) | Cung cấp một tính năng cho phép người tạo token tùy chọn cấu hình một phần token của họ vào "kho bạc" (vault) trong quá trình tạo token. Token trong kho bạc sẽ bị khóa trong một khoảng thời gian nhất định hoặc cho đến khi một điều kiện cụ thể được đáp ứng trước khi chúng có thể được nhận. | Todo | Kanz, Mai | 11/06/2025 |
-| BR-011 - Allow Claiming Tokens from Vault | Người dùng đủ điều kiện (ví dụ: người tạo token hoặc địa chỉ ví được chỉ định) PHẢI có thể nhận token đã mở khóa từ kho bạc sau khi các điều kiện khóa được đáp ứng. | Todo | Kanz, Thai | 11/06/2025 |
-| BR-012 - Display Reference Information about Future Bot (Bankr) | Hiển thị thông tin công khai cơ bản liên quan đến bot AI (ví dụ: @bankrbot từ hình ảnh) như một phần giới thiệu về dự án Bankr trong tương lai, bao gồm tên, mô tả ngắn, các chỉ số tương tác (ví dụ: số người theo dõi) và liên kết mạng xã hội của bot. | Todo | Thai, Mai | 11/06/2025 |
+| FR-001 - Kết nối Ví Aptos | Hệ thống PHẢI cho phép người dùng kết nối ví Aptos tương thích của họ. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-002 - Tạo Token Mới | Hệ thống PHẢI cho phép người dùng (đã đăng nhập và kết nối ví) tạo token mới trên mạng lưới Aptos thông qua một quy trình gồm nhiều bước trên nền tảng Clanker. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-003 - Hiển thị Thông tin Chi tiết Token | Hệ thống PHẢI hiển thị thông tin chi tiết và các chức năng tương tác cho mỗi token. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-004 - Đăng nhập Người dùng (X/Twitter) | Hệ thống PHẢI cho phép người dùng đăng nhập bằng tài khoản X (Twitter). | Todo | Chưa gán | YYYY-MM-DD |
+| FR-005 - Truy cập Trang Quản trị Token (Admin Page) | Hệ thống PHẢI cho phép người tạo token (đã đăng nhập) truy cập một trang quản trị riêng cho token của họ. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-006 - Claim Phần thưởng Token từ Trang Admin | Hệ thống PHẢI cho phép người tạo token (trên trang Admin, đã kết nối ví) xem và claim phần thưởng. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-007 - Mua Token bằng APT thông qua Tương tác Hợp đồng Hyperion | Hệ thống PHẢI cho phép người dùng mua token bằng APT. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-008 - Bán Token để nhận APT thông qua Tương tác Hợp đồng Hyperion | Hệ thống PHẢI cho phép người dùng bán token để đổi lấy APT. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-009 - Hiển thị Danh sách Token/Dự án và Tìm kiếm | Hệ thống PHẢI hiển thị danh sách token/dự án và cung cấp chức năng tìm kiếm. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-010 - Hiển thị Dòng Chảy Giao dịch Gần Đây trên Nền tảng (Marquee/Ticker) | Hệ thống PHẢI hiển thị dòng chảy các giao dịch mua/bán token vừa thực hiện thành công của các token được tạo trên Clanker đã thực hiện thông qua tương tác với hợp đồng thông minh của Hyperion Aptos (ví dụ: bằng cách lắng nghe các sự kiện (events) phát ra từ contract Hyperion liên quan đến các token này hoặc truy vấn lịch sử giao dịch). | Todo | Chưa gán | YYYY-MM-DD |
+| FR-011 - Hiển thị Điều khoản Sử dụng và Chính sách Quyền riêng tư | Hệ thống PHẢI cung cấp quyền truy cập dễ dàng đến các tài liệu này. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-012 - Cấu hình Token Vault khi Tạo Token | Hệ thống PHẢI cho phép người tạo token, tùy chọn trong quá trình tạo token (FR-002), cấu hình tham số Vault. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-013 - Chỉnh sửa Thông tin (Metadata) Token từ Trang Admin | Hệ thống PHẢI cho phép người tạo token (trên trang Admin) chỉnh sửa metadata. | Todo | Chưa gán | YYYY-MM-DD |
+| FR-014 - Hiển thị Thông tin Tham khảo về Bot | Hệ thống PHẢI hiển thị khu vực thông tin tĩnh về bot AI (ví dụ: CryptoGenie/@bankrbot) trên trang chi tiết token (FR-003). | Todo | Chưa gán | YYYY-MM-DD |
+| FR-015 - Claim Token từ Vault | Hệ thống PHẢI cho phép người dùng đủ điều kiện claim token từ Vault sau khi điều kiện khóa thỏa mãn, thông qua trang Admin. | Todo | Chưa gán | YYYY-MM-DD |
 
 ---
 
