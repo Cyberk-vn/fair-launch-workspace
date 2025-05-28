@@ -1,0 +1,116 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Quy Tắc Soạn Thảo Tài Liệu Tiếng Việt
+
+## Critical Rules
+
+-   **Ngôn ngữ chính**: Sử dụng tiếng Việt làm ngôn ngữ chính trong tất cả các tài liệu.
+-   **Thuật ngữ chuyên ngành**: Giữ nguyên các thuật ngữ chuyên ngành bằng tiếng Anh.
+    -   Ví dụ: API, framework, database, class, function, module, library, component, service, endpoint, request, response, blockchain, smart contract, token, wallet, transaction, address, gas fee, node, SDK, IDE, JSON, XML, YAML, CSV, HTML, CSS, JavaScript, Python, Java, C++, HTTP, HTTPS, SSL/TLS, DNS, IP, URL, URI, Docker, Kubernetes, CI/CD, Git, repository, branch, commit, merge, pull request, issue, bug, feature, UI (User Interface), UX (User Experience), frontend, backend, middleware, cache, cookie, session, JWT (JSON Web Token), OAuth, Agile, Scrum, sprint, backlog, user story, v.v.
+-   **Cấu trúc bắt buộc**: Mỗi tài liệu PHẢI bao gồm mục "Mục đích của tài liệu".
+    -   **Nội dung mục "Mục đích của tài liệu"**: Phải mô tả rõ:
+        -   Cách sử dụng tài liệu này.
+        -   Đối tượng người đọc chính (ai cần đọc tài liệu này).
+        -   Mục tiêu/lợi ích chính mà tài liệu này mang lại.
+-   **Trình bày**: Tài liệu phải được trình bày mạch lạc, rõ ràng, dễ hiểu và có cấu trúc tốt.
+    -   Sử dụng tiêu đề (headings) để phân cấp nội dung.
+    -   Chia thành các đoạn văn ngắn gọn, tập trung vào một ý chính.
+    -   Sử dụng danh sách (bullet points, numbered lists) khi liệt kê thông tin.
+-   **Ví dụ minh họa**: Khuyến khích sử dụng các ví dụ cụ thể, đoạn mã (code snippets), hoặc hình ảnh minh họa để làm rõ các khái niệm hoặc hướng dẫn phức tạp.
+-   **Kiểm tra và rà soát**: Sau khi soạn thảo, cần đọc lại để kiểm tra lỗi chính tả, ngữ pháp và tính nhất quán của tài liệu.
+
+## Examples
+
+<example>
+```markdown
+# Hướng dẫn Tích hợp Payment Gateway ABC
+
+## Mục đích của tài liệu
+
+-   **Cách sử dụng**: Tài liệu này cung cấp hướng dẫn từng bước để các nhà phát triển (developers) tích hợp thành công **Payment Gateway** ABC vào ứng dụng của họ.
+-   **Đối tượng**: Dành cho các lập trình viên backend, frontend hoặc fullstack đang làm việc trên các dự án cần xử lý thanh toán trực tuyến.
+-   **Mục tiêu**: Giúp người đọc hiểu rõ quy trình tích hợp, các yêu cầu kỹ thuật và cách xử lý các kịch bản thanh toán phổ biến thông qua **Payment Gateway** ABC.
+
+## Giới thiệu
+
+Tài liệu này hướng dẫn cách tích hợp **Payment Gateway** ABC vào ứng dụng của bạn để xử lý thanh toán. Chúng tôi sẽ sử dụng **REST API** do họ cung cấp.
+
+## Bước 1: Đăng ký Tài khoản Nhà phát triển
+
+Trước tiên, bạn cần đăng ký một tài khoản nhà phát triển trên trang chủ của **Payment Gateway** ABC để nhận **API key** và **secret key**.
+
+## Bước 2: Cài đặt Thư viện (SDK)
+
+Nếu có, hãy cài đặt **SDK** (Software Development Kit) chính thức của họ:
+
+```bash
+npm install abc-payment-sdk
+```
+
+## Bước 3: Gọi API Thanh toán
+
+Dưới đây là một ví dụ về cách tạo một yêu cầu thanh toán (payment **request**) bằng cách sử dụng **endpoint** `/create-payment`:
+
+```javascript
+const apiClient = new AbcPaymentClient({ apiKey: '''YOUR_API_KEY''' });
+
+async function createPayment(orderId, amount) {
+  try {
+    const response = await apiClient.post('''/create-payment''', {
+      order_id: orderId,
+      amount: amount,
+      currency: '''VND''',
+      // Các tham số khác tùy theo yêu cầu của API
+    });
+    // Xử lý payment response ở đây
+    console.log('''Payment successful:''', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('''Payment failed:''', error.response?.data || error.message);
+    throw error;
+  }
+}
+```
+
+Trong ví dụ trên, chúng ta đã sử dụng các thuật ngữ như `Payment Gateway`, `REST API`, `API key`, `secret key`, `SDK`, `request`, `response`, `endpoint`.
+</example>
+
+<example type="invalid">
+```markdown
+# Chỉ dẫn dùng cổng thanh toán A B C
+
+<!-- Thiếu mục "Mục đích của tài liệu" -->
+
+## Tổng quan
+
+Giấy tờ này chỉ cách làm sao để cho cổng thanh toán A B C vào app của anh/chị. Ta sẽ dùng giao diện lập trình ứng dụng kiểu nghỉ ngơi.
+
+## Phần 1: Ghi danh
+
+Lấy một cái chìa khóa giao diện lập trình ứng dụng và một cái chìa khóa bí mật.
+
+## Phần 2: Gọi giao diện
+
+Đây là mẫu gửi một cái đòi tiền:
+
+```javascript
+// Đoạn code này cố gắng dịch tất cả các từ chuyên ngành sang tiếng Việt, ví dụ:
+// "client" thành "máy khách", "post" thành "gửi", "data" thành "dữ liệu".
+// Cách trình bày cũng không rõ ràng, thiếu cấu trúc.
+const mayKhachApi = new MayKhachThanhToanABC({ chiaKhoaApi: '''CHIA_KHOA_CUA_BAN''' });
+
+async function taoThanhToan(maDonHang, soTien) {
+  const ketQua = await mayKhachApi.gui('''/tao-giao-dich''', { /* ... */ });
+  // xử lý kết quả
+}
+```
+Lỗi:
+- **Thiếu mục "Mục đích của tài liệu".**
+- Dịch các thuật ngữ chuyên ngành ("API", "client", "post", "data", "request", "response", "endpoint").
+- Trình bày không mạch lạc, thiếu cấu trúc rõ ràng, sử dụng từ ngữ không chuẩn.
+</example>
+
+</rewritten_file>
