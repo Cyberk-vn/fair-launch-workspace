@@ -17,7 +17,7 @@
 
 ## 2. Business Requirements (BR)
 
-*   **BR-001 - Phát triển nền tảng DAO trên Aptos:** Xây dựng một nền tảng Tổ Chức Tự Trị Phi Tập Trung (DAO) hoạt động trên mạng lưới Aptos, cho phép người dùng thực hiện các chức năng cốt lõi liên quan đến token.
+*   **BR-001 - Home-page functionality:** hiển thị danh sách các dự án, cho phép ngươi dùng lọc và truy cập vào chi tiết các dự án.
 *   **BR-002 - Cho phép người dùng tạo token:** Cung cấp khả năng cho người dùng tạo (mint) các token mới trên nền tảng Clanker. Người dùng có thể định nghĩa các thuộc tính cơ bản cho token của họ như hình ảnh, tên, ký hiệu, mô tả, tổng cung, vốn hóa thị trường ban đầu, các liên kết mạng xã hội, và cấu hình các thông số phân bổ token ban đầu (ví dụ: cho dev, cho public trade, cho vault).
 *   **BR-003 - Hỗ trợ giao dịch token (Mua/Bán bằng APT):** Cho phép người dùng thực hiện giao dịch mua và bán các token được tạo trên nền tảng Clanker bằng APT **thông qua giao diện của Clanker, vốn sẽ gọi các hàm tương ứng từ hợp đồng thông minh của sàn giao dịch phi tập trung Hyperion Aptos để xử lý giao dịch.** Clanker sẽ không tự phát triển hợp đồng thông minh cho cơ chế khớp lệnh hay quản lý thanh khoản. Các giao dịch phải được ghi nhận và có thể kiểm chứng trên blockchain thông qua hợp đồng của Hyperion.
 *   **BR-004 - Triển khai hợp đồng thông minh Clanker:** Triển khai thành công và ổn định hợp đồng thông minh (smart contract) cốt lõi của Clanker lên mạng lưới Aptos để quản lý các chức năng chính của nền tảng (không bao gồm các chức năng DEX).
