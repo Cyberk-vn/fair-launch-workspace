@@ -25,7 +25,7 @@
 
     * **BR-XXX - [Requirement Title]:** [Description of the business requirement.]
         * *Example from BANKR:*
-            * **BR-001 - Enable simplified blockchain transactions:** "Allow users to execute complex blockchain actions (buy, sell, swap, limit orders) via simple text commands." [cite: 6]
+            * **BR-001 - Home-page functionality:** Display a list of projects, allowing users to filter and access project details.
             * **BR-002 - Provide effortless wallet management:** "Allow users to check balances and manage their linked digital wallet through conversational commands." [cite: 7]
             * **BR-003 - Leverage Al for intuitive interaction:** "Utilize advanced Al (Al chat GPT core, elizaOS - note: specific Al models not specified in source) to interpret natural language user commands accurately and execute corresponding actions." [cite: 8]
             * **BR-004 - Integrate with a secure wallet provider:** "Utilize Privy for secure, non-custodial wallet creation, management, and transaction signing." [cite: 9]

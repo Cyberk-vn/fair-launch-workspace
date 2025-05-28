@@ -17,7 +17,7 @@
 
 ## 2. Business Requirements (BR)
 
-*   **BR-001 - Develop DAO platform on Aptos:** Build a Decentralized Autonomous Organization (DAO) platform operating on the Aptos network, allowing users to perform core token-related functions.
+*   **BR-001 - Home-page functionality:** Display a list of projects, allowing users to filter and access project details.
 *   **BR-002 - Allow users to create tokens:** Provide users with the ability to create (mint) new tokens on the Clanker platform. Users can define basic attributes for their tokens such as image, name, symbol, description, total supply, initial market capitalization, social media links, and configure initial token allocation parameters (e.g., for dev, for public trade, for vault).
 *   **BR-003 - Support token trading (Buy/Sell with APT):** Allow users to perform buy and sell transactions for tokens created on the Clanker platform using APT **via Clanker's interface, which will call corresponding functions from the smart contracts of the Hyperion Aptos decentralized exchange to process transactions.** Clanker will not develop its own smart contracts for order matching or liquidity management. Transactions must be recorded and verifiable on the blockchain through Hyperion's contracts.
 *   **BR-004 - Deploy Clanker smart contract:** Successfully and stably deploy Clanker's core smart contract (for non-DEX functionalities) to the Aptos network to manage the platform's main functions.
