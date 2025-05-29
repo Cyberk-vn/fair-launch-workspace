@@ -1,0 +1,67 @@
+---
+description: "This rule defines a keyword-driven workflow (PLAN, ACTION, REVIEW, TEST) for AI interaction, adaptable to any user language. It governs task planning, execution, code modifications, review, and test strategy formulation. This rule activates when a user's prompt begins with a case-insensitive keyword: PLAN, ACTION, REVIEW, or TEST. It ensures a structured, traceable, and iterative approach, with versioned outputs at each stage saved to markdown files in the `/thinking/{work-item-name}/` directory."
+globs: 
+alwaysApply: false
+---
+
+# Keyword-Driven Workflow (PLAN, ACTION, REVIEW, TEST)
+
+## General Critical Rules
+- The agent MUST identify the operative keyword (`PLAN`, `ACTION`, `REVIEW`, `TEST`), case-insensitively, at the beginning of the user's prompt, regardless of the language used for the rest of the prompt.
+- The agent MUST establish a `{work-item-name}`. This name can be derived from the user's prompt (e.g., feature name, task description) or explicitly provided by the user.
+    - If derived, the agent MUST confirm the `{work-item-name}` with the user during the initial `PLAN` phase (e.g., "Tôi sẽ sử dụng '{derived-name}' làm tên cho công việc này. Ông có đồng ý không?").
+    - The `{work-item-name}` can include path segments (e.g., `project-foo/feature-bar`). The agent MUST create necessary subdirectories under `/thinking/`.
+- All generated Markdown files (e.g., `plan-YYYYMMDD-HHMMSS.md`, `action-YYYYMMDD-HHMMSS.md`) MUST be stored in `/thinking/{work-item-name}/`. Filenames MUST include a `YYYYMMDD-HHMMSS` timestamp to ensure versioning and prevent overwrites.
+- The agent MUST inform the user clearly about the creation, full path, and name of these Markdown files at each step.
+- If a required input file for `ACTION`, `REVIEW`, or `TEST` phases is missing or malformed, the agent MUST inform the user and suggest reverting to the `PLAN` phase or providing the correct file/path.
+
+## PLAN Phase (Prompt starts with "PLAN")
+- **Operation Mode:** The agent MUST operate in "planning mode" exclusively.
+- **No Code Edits:** The agent MUST NOT propose or execute any direct modifications to source code.
+- **Output Generation:** The agent MUST generate a detailed plan, solution, or answer.
+- **Structured Format:** The output MUST be formatted into a structured Markdown template (Objective, Proposed Steps, Key Considerations, etc.).
+- **File Creation:** This plan MUST be saved as `/thinking/{work-item-name}/plan-{YYYYMMDD-HHMMSS}.md`.
+- **User Notification:** The agent MUST inform the user of the file created (e.g., "Tôi đã tạo kế hoạch tại `/thinking/my-project/my-feature/plan-20231027-103000.md`.").
+
+## ACTION Phase (Prompt starts with "ACTION")
+- **Context Verification:** The agent MUST verify this is a follow-up to a `PLAN` or `REVIEW` phase for a specific `{work-item-name}`. The user should specify if ambiguous.
+- **Input File:**
+    - If following `PLAN`: Read the latest relevant `/thinking/{work-item-name}/plan-*.md` (or user-specified version).
+    - If following `REVIEW`: Read the latest relevant `/thinking/{work-item-name}/review-*.md` and its corresponding `action-*.md` to understand context. The agent MUST apply revisions based on the review.
+- **Strict Adherence:** The agent MUST strictly adhere to instructions in the input `.md` file. Out-of-scope tasks MUST be deferred.
+- **Code Modification:** The agent WILL now make direct edits to source code.
+- **Output Documentation:** After changes, document all modifications (files created/modified/deleted, diffs) in `/thinking/{work-item-name}/action-{YYYYMMDD-HHMMSS}.md`.
+- **User Notification:** Inform the user of the `action-{timestamp}.md` file created.
+
+## REVIEW Phase (Prompt starts with "REVIEW")
+- **Input File:** Read the latest `/thinking/{work-item-name}/action-*.md` for the specified `{work-item-name}`.
+- **No Code Edits:** The agent MUST NOT modify source code.
+- **Critical Analysis:** Review code changes for quality, best practices, bugs, security, performance, maintainability. Suggest concrete improvements.
+- **File Creation:** Save review as `/thinking/{work-item-name}/review-{YYYYMMDD-HHMMSS}.md`.
+- **User Notification:** Inform the user of the file created.
+
+## TEST Phase (Prompt starts with "TEST")
+- **Input File:** Read the latest `/thinking/{work-item-name}/action-*.md` for the specified `{work-item-name}`.
+- **No Code Edits:** The agent MUST NOT modify source code.
+- **Test Plan Design:** Design a conceptual test plan (happy path, edge cases, abnormal cases, expected outcomes). This is for defining tests, not executing them.
+- **File Creation:** Save test plan as `/thinking/{work-item-name}/test-{YYYYMMDD-HHMMSS}.md`.
+- **User Notification:** Inform the user of the file created.
+
+## Examples
+
+<example name="PLAN Phase with name derivation">
+User: "PLAN: I want to refactor the logging system in our 'phoenix-service'."
+Agent: "Hiểu rồi. Tôi sẽ lập kế hoạch cho việc tái cấu trúc hệ thống logging. Tôi sẽ sử dụng 'phoenix-service-logging-refactor' làm tên cho công việc này. Ông có đồng ý không?"
+User: "Đồng ý."
+Agent: "...sau khi xử lý... Tôi đã tạo kế hoạch chi tiết tại `/thinking/phoenix-service-logging-refactor/plan-20231028-090000.md`. Mời ông xem qua."
+</example>
+
+<example name="ACTION Phase with missing plan">
+User: "ACTION: Implement the payment gateway for 'alpha-checkout'."
+Agent: "Tôi không tìm thấy tệp kế hoạch (plan-*.md) nào cho công việc 'alpha-checkout'. Ông có thể cung cấp đường dẫn đến tệp kế hoạch, hoặc chúng ta nên bắt đầu bằng lệnh 'PLAN: setup payment gateway for alpha-checkout' không?"
+</example>
+
+<example name="Case-insensitive keyword">
+User: "plan: create a new component for user profiles"
+Agent: "Hiểu rồi. Tôi sẽ lập kế hoạch cho component mới cho hồ sơ người dùng. Tôi sẽ sử dụng 'user-profile-component' làm tên công việc. Ông đồng ý chứ?"
+</example> 
