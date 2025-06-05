@@ -71,7 +71,7 @@ Mai:
 1. Sửa lại scaling ảnh thẻ project ở home (done)
 2. Lắp bonding curve cho thẻ project (done)
 3. Hiện thông báo lỗi isufficinent ở create buy trang create token (done)
-4. Lắp API cho transaction list tại trang header (done)
+4. Lắp API cho transaction list tại trang header (1/2)
 5. Responsive cho màn create token (done)
 6. Xóa filter volume và pair  (done)
 7. Chỉnh lại skeleton ở home (done)
@@ -90,3 +90,6 @@ Thái:
 5. Lắp hook get useAmountIn, getAmountOut tại cho swap_exact_out (done)
 
 - 4/6/2025
+
+Mai
+
