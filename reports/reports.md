@@ -89,23 +89,22 @@ Thái:
 4. fix indexer (done)
 5. Lắp hook get useAmountIn, getAmountOut tại cho swap_exact_out (done)
 
-- 4/6/2025
-
+- 5/6/2025
 Mai:
-- Sửa trader home
+- Sửa trader home (done)
 - Tính lại giá token khi tạo project 
-- Show token icon + tên trên slider
-- Vẽ trang welcome 
+- Show token icon + tên trên slider (done)
+- Vẽ trang welcome (done)
 - Responsive header
 
 Thái:
-- Làm nút switch trạng thái buy/sell
-- Sửa logic để phục vụ cho sell
+- Làm nút switch trạng thái buy/sell (done)
+- Sửa logic để phục vụ cho sell (done)
 - Sửa focus của input ở admin (done)
 
 Đức:
 - check lại bonding curve trong màn detail (done)
 - Trả về api hiển thị icon + token token cho transaction list (done)
-- Làm việc với anh Huy list thông tin cần cho project thống nhất lại vụ số
+- Làm việc với anh Huy list thông tin cần cho project thống nhất lại vụ số (done)
 - Ghép pulic trade
-- Sửa lại thông số market cap ở detail và ở home
+- Sửa lại thông số market cap ở detail và ở home (done)
