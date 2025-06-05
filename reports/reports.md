@@ -72,7 +72,7 @@ Mai:
 2. Lắp bonding curve cho thẻ project (done)
 3. Hiện thông báo lỗi isufficinent ở create buy trang create token (done)
 4. Lắp API cho transaction list tại trang header (1/2)
-5. Responsive cho màn create token (done)
+5. Responsive cho màn create token (not done)
 6. Xóa filter volume và pair  (done)
 7. Chỉnh lại skeleton ở home (done)
 
@@ -91,5 +91,21 @@ Thái:
 
 - 4/6/2025
 
-Mai
+Mai:
+- Sửa trader home
+- Tính lại giá token khi tạo project 
+- Show token icon + tên trên slider
+- Vẽ trang welcome 
+- Responsive header
+
+Thái:
+- Làm nút switch trạng thái buy/sell
+- Sửa logic để phục vụ cho sell
+- Ghép pulic trade
+- Sửa focus của input ở admin 
+
+Đức:
+- check lại bonding curve trong màn detail
+- Trả về api hiển thị icon + token token cho transaction list
+- Làm việc với anh Huy list thông tin cần cho project thống nhất lại vụ số
 
