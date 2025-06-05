@@ -28,13 +28,65 @@ Thái:
 
 - 2/6/2025:
 Mai:
-1. Validate creator đang lỗi
-2. Sửa UI trang home
-3. Lắp api cho search input header
+1. Validate creator đang lỗi (done)
+2. Sửa UI trang home (not done)
+3. Lắp api cho search input header (done)
 Thái:
-1. API vào detail
-2. Slippage dialog + thêm slippage lúc mua
-3. Fix routing slug
+1. API vào detail (done)
+2. Slippage dialog + thêm slippage lúc mua (done)
+3. Fix routing slug (1/2)
+https://www.aiptos.fun/project/0x1b2115b5006d66f889ccddd3bd19b3ea4c8fd206dec1e94d9bd09b8c25580fee?page=1&pageSize=10
+4. Lấy giá để hiển thị marketcap (done)
 Đức:
-1. Fix lỗi refresh access token X 
-3. Indexer phải xong hôm nay
+1. Fix lỗi refresh access token X (not done)
+2. 
+3. Indexer phải xong hôm nay (trading, project)
+
+Mai:
+1. Sửa ETH -> APT (done)
+2. Check balance trước khi tạo project (done)
+3. Giá Marketcap ở project list (done)
+4. Upload được gif và svg (done)
+5. UI/UX home: project avatar chưa scale (not done)
+6. Thêm thanh bonding curve cho project card (not finished)
+
+Thái:
+1. ghép Trading history 
+2. Ghép bonding curve (done - useProgressBondingCurveToken)
+3. Check slippage (max bao nhiêu) (done)
+4. Thêm slug routing (theo symbol) (not finished)
+5. Chỉnh marketcap APT theo real, ban đầu virtual (not finished)
+6. Thay icon url trong khu trading (cho input apt và receive amount)
+
+Đức:
+1. Hook Bonding curve (done - useProgressBondingCurveToken)
+2. Trả về count traders (done - useGetProjectTotalTraders)
+3. Đẩy code refersher token (not done)
+4. Trả thông tin volume cho project filter được (chưa done) => cache volume cho project
+5. Trả thông tin phần trăm creator, public trade cho detail (done - useProjectVolume) 
+6. Đổi icon clanker trên x lại thành icon clanker mới (done)
+
+- 3/6/2025:
+Mai:
+1. Sửa lại scaling ảnh thẻ project ở home (done)
+2. Lắp bonding curve cho thẻ project (done)
+3. Hiện thông báo lỗi isufficinent ở create buy trang create token (done)
+4. Lắp API cho transaction list tại trang header (done)
+5. Responsive cho màn create token (done)
+6. Xóa filter volume và pair  (done)
+7. Chỉnh lại skeleton ở home (done)
+
+Thái:
+1. Hoàn thành nốt trading history (done)
+3. Hiện data ở dev trade, public trade (not done)
+4. Lắp project social url vào trang detail (done)
+5. Hiển thị giá balance của coin đang cầm trong ví (not done)
+
+Đức:
+1. Xin social link, privacy policy, term of service, legal document
+2. Làm cache lại volume cho project (không ưu tiên)
+3. fix refresh token x (done)
+4. fix indexer (done)
+5. Lắp hook get useAmountIn, getAmountOut tại cho swap_exact_out (done)
+
+- 4/6/2025
