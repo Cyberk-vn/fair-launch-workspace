@@ -101,11 +101,11 @@ Mai:
 Thái:
 - Làm nút switch trạng thái buy/sell
 - Sửa logic để phục vụ cho sell
-- Ghép pulic trade
-- Sửa focus của input ở admin 
+- Sửa focus của input ở admin (done)
 
 Đức:
-- check lại bonding curve trong màn detail
-- Trả về api hiển thị icon + token token cho transaction list
+- check lại bonding curve trong màn detail (done)
+- Trả về api hiển thị icon + token token cho transaction list (done)
 - Làm việc với anh Huy list thông tin cần cho project thống nhất lại vụ số
-
+- Ghép pulic trade
+- Sửa lại thông số market cap ở detail và ở home
