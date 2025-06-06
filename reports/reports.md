@@ -109,3 +109,20 @@ Thái:
 - Làm việc với anh Huy list thông tin cần cho project thống nhất lại vụ số (done)
 - Ghép pulic trade (done)
 - Sửa lại thông số market cap ở detail và ở home (done)
+
+- 6/6/2025
+Mai:
+- Responsive cho header
+- Ghép lại giá token khi tạo cho project
+- Sort và search cho project list
+Thái:
+- Vẽ chart
+- Design sau khi graduated 
+  + disabled phần trading
+  + gọi link sang phần hyperion dex
+Đức:
+- làm lại project list sort theo indexer db của anh Huy
+- tạo môi trường prodcution cho fe, s3, be đã có
+- xin anh Huy địa chỉ mainnet contract
+- xin tiền khách hàng deploy mainnet
+- xin link legal document và social urls
