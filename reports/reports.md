@@ -101,6 +101,7 @@ Thái:
 - Làm nút switch trạng thái buy/sell (done)
 - Sửa logic để phục vụ cho sell (done)
 - Sửa focus của input ở admin (done)
+- Lấy balance của coin đang cầm trong ví (done)
 
 Đức:
 - check lại bonding curve trong màn detail (done)
