@@ -106,5 +106,5 @@ Thái:
 - check lại bonding curve trong màn detail (done)
 - Trả về api hiển thị icon + token token cho transaction list (done)
 - Làm việc với anh Huy list thông tin cần cho project thống nhất lại vụ số (done)
-- Ghép pulic trade
+- Ghép pulic trade (done)
 - Sửa lại thông số market cap ở detail và ở home (done)
