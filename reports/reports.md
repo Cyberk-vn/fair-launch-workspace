@@ -127,3 +127,27 @@ Thái:
 - xin anh Huy địa chỉ mainnet contract
 - xin tiền khách hàng deploy mainnet
 - xin link legal document và social urls
+
+- 8/6/25:
+Mai:
+- Ghép dữ liệu api mới cho home
+  + Search input + hiển thị volume
+  + Project list + sort volume/created_at
+- Check bug chị Hương liên quan đến màn home
+- Ghép lại giá token khi tạo cho project
+Thái:
+- Lắp api mới cho trang detail chart
+- Sửa swap đang bị bug âm số
+- Check bug chị Hương liên quan đến màn hình detail
+- Check bug chị Hương liên quan đến màn hình admin
+- Chỉnh sửa phần detail
+Đức:
+- Báo thông tin claim fee
+- Push khách hàng để lấy thông tin quan trọng
+- Làm hook tính giá ảo token cho Mai
+- Tạo môi trường indexer cho production
+- Nhờ anh Huy đẩy contract mainnet
+- Xử lý thông số dev buy, public trade
+
+Nice too have:
+- Chỉ dẫn chọn ảnh cho token icon url: highlight, màu,...
