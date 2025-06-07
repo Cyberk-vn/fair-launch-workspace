@@ -112,16 +112,17 @@ Thái:
 
 - 6/6/2025
 Mai:
-- Responsive cho header
+- Responsive cho header (done)
 - Ghép lại giá token khi tạo cho project
 - Sort và search cho project list
 Thái:
-- Vẽ chart
+- Vẽ lắp logic cho chart (1/2)
 - Design sau khi graduated 
-  + disabled phần trading
+  + disabled phần trading (done)
   + gọi link sang phần hyperion dex
 Đức:
-- làm lại project list sort theo indexer db của anh Huy
+- làm lại project list sort theo indexer db của anh Huy (done)
+- migrate hết api sang indexer db mới (done)
 - tạo môi trường prodcution cho fe, s3, be đã có
 - xin anh Huy địa chỉ mainnet contract
 - xin tiền khách hàng deploy mainnet
