@@ -130,24 +130,41 @@ Thái:
 
 - 8/6/25:
 Mai:
-- Ghép dữ liệu api mới cho home
-  + Search input + hiển thị volume
+- Ghép dữ liệu api mới cho home (done)
+  + Search input + hiển thị volume (done)
   + Project list + sort volume/created_at
-- Check bug chị Hương liên quan đến màn home
-- Ghép lại giá token khi tạo cho project
+- Check bug chị Hương liên quan đến màn home 
+- Ghép lại giá token khi tạo cho project (done)
 Thái:
 - Lắp api mới cho trang detail chart
-- Sửa swap đang bị bug âm số
+- Sửa swap đang bị bug âm số (done)
 - Check bug chị Hương liên quan đến màn hình detail
-- Check bug chị Hương liên quan đến màn hình admin
-- Chỉnh sửa phần detail
+- Check bug chị Hương liên quan đến màn hình admin (done)
+- Chỉnh sửa phần detail social link (done)
 Đức:
 - Báo thông tin claim fee
-- Push khách hàng để lấy thông tin quan trọng
-- Làm hook tính giá ảo token cho Mai
+- Push khách hàng để lấy thông tin quan trọng (done)
+- Làm hook tính giá ảo token cho Mai (done)
 - Tạo môi trường indexer cho production
 - Nhờ anh Huy đẩy contract mainnet
-- Xử lý thông số dev buy, public trade
+- Xử lý thông số dev buy, public trade (done)
 
 Nice too have:
 - Chỉ dẫn chọn ảnh cho token icon url: highlight, màu,...
+
+- 9/6/25: cho đến 10h demo mai
+Mai:
+- Check bug chị Hương màn home
+- Free test trang Home
+Thái:
+- Check logic chart
+- Sửa lại social về ban đầu
+- Check bug tại màn detail
+- Free test trang detail
+Đức:
+- Sửa public available -> public trade
+- Free test các thông số: bonding curve, volume, marketcap, price...
+- Tạo thêm môi trường đề phòng lỗi
+- Viết kịch bản demo cho
+Chị Hương:
+- Tạo thêm token và project lấy thêm data
