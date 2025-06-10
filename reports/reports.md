@@ -168,3 +168,18 @@ Thái:
 - Viết kịch bản demo cho
 Chị Hương:
 - Tạo thêm token và project lấy thêm data
+
+10/6/25:
+Mai:
+- Sửa thông số trader
+- Làm animation chạy chữ cho project graduate thành công
+Thái
+- Thêm claim cho admin detail
+- Không lấy được balance của token
+- Check bug chị Hương ở detail
+Đức:
+- Hỏi anh Huy cách lấy thông số claim fee (balance, phần trăm)
+- Làm hook claim rewards
+- Xin schedule ngày lên mainnet của khách
+
+nice to have:
