@@ -181,8 +181,8 @@ Thái
 - Fix admin bị kick ra khỏi trang (done)
 - Hỏi anh Huy cách lấy thông số claim fee (balance) (done)
 - Làm hook claim rewards (done)
-- Làm hook lấy số phí được claim (done)
-- Lắp hook lấy số phí claim được (done)
+- Lắp hook lấy số phí được claim (done)
+- Sửa slippage default 5.5 -> 2.5 (done)
 - Check bug chị Hương
 - Xin schedule ngày lên mainnet của khách
 
