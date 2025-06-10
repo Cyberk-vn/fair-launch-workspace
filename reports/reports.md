@@ -171,15 +171,19 @@ Chị Hương:
 
 10/6/25:
 Mai:
-- Sửa thông số trader
-- Làm animation chạy chữ cho project graduate thành công
+- Sửa thông số trader (done)
+- Làm animation chạy chữ cho project graduate thành công (done)
 Thái
-- Thêm claim cho admin detail
+- Thêm claim cho admin detail (done)
 - Không lấy được balance của token
 - Check bug chị Hương ở detail
 Đức:
-- Hỏi anh Huy cách lấy thông số claim fee (balance, phần trăm)
-- Làm hook claim rewards
+- Fix admin bị kick ra khỏi trang (done)
+- Hỏi anh Huy cách lấy thông số claim fee (balance) (done)
+- Làm hook claim rewards (done)
+- Làm hook lấy số phí được claim (done)
+- Lắp hook lấy số phí claim được (done)
+- Check bug chị Hương
 - Xin schedule ngày lên mainnet của khách
 
 nice to have:
