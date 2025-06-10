@@ -172,6 +172,7 @@ Chị Hương:
 10/6/25:
 Mai:
 - Sửa thông số trader (done)
+- Làm animation transaction list (done)
 - Làm animation chạy chữ cho project graduate thành công (done)
 Thái
 - Thêm claim cho admin detail (done)
