@@ -19,7 +19,7 @@ alwaysApply: {true or false}
 ## Critical Rules
 
 - Concise, bulleted list of actionable rules the agent MUST follow
-
+ 
 ## Examples
 
 <example>

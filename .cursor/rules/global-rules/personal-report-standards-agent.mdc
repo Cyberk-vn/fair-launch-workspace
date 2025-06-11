@@ -1,0 +1,87 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Personal Report Standards
+
+## Critical Rules
+
+- Reports MUST follow the exact three-section structure:
+  1. Tổng Quan Tiến Độ (Progress Overview)
+  2. Báo Cáo Hoạt Động Gần Nhất (Recent Activities)
+  3. Danh Sách Nhiệm Vụ (Task List)
+
+- Progress Overview section MUST include:
+  - Overall project progress percentage
+  - Mermaid pie chart showing task distribution
+  - Clear notes about chart updates
+
+- Recent Activities section MUST use the following structure:
+  - ✨ Thành tựu (Achievements)
+    - Bullet points for completed items
+    - Focus on impact and value delivered
+  - 🚧 Đang thực hiện (In Progress)
+    - Current tasks with expected completion dates
+    - Clear, actionable items
+  - ⚠️ Vấn đề và Giải pháp (Issues and Solutions)
+    - Problem statement followed by solution approach
+    - Keep it concise and actionable
+
+- Task List section MUST include:
+  - Feature/Task ID and name
+  - Status using standard emojis (✅ 🔄 ⏳)
+  - Expected completion date
+  - Relevant notes
+
+## Examples
+
+<example>
+### ✨ Thành tựu
+- Hoàn thành tính năng authentication với 100% test coverage
+- Tối ưu performance, giảm 30% thời gian load
+
+### 🚧 Đang thực hiện
+- Implement search functionality
+- Dự kiến hoàn thành: 15/06/2025
+
+### ⚠️ Vấn đề và Giải pháp
+- Performance issues: Implementing caching layer
+- API timeout: Optimizing query structure
+</example>
+
+<example type="invalid">
+### Achievements
+- Done some stuff
+- Working on things
+
+### Current Work
+- Doing something
+- Will finish soon
+
+### Problems
+- Things are slow
+- Not working well
+</example>
+
+## Important Notes
+
+1. **Ensure Consistency:**
+   - All tasks must map to FR/BR in PRD
+   - Status must be updated regularly
+   - Timeline must be realistic and achievable
+
+2. **Track Progress:**
+   - Update report at least once a day
+   - Clearly mark completed milestones
+   - Note important changes
+
+3. **Manage Issues:**
+   - Categorize issues by priority
+   - Suggest specific solutions
+   - Track time spent on resolution
+
+4. **Suggest Improvements:**
+   - Based on data and metrics
+   - Focus on feasible solutions
+   - Prioritize based on impact vs effort
