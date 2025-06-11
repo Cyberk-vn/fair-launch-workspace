@@ -1,0 +1,127 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Bug Report Standards
+
+## Critical Rules
+
+- MUST create a new folder for each bug with format `BUG-XXX` where XXX is a number from 001-999
+- MUST include a bug report file named `README.md` in each bug folder
+- MUST follow this structure for bug reports:
+  ```md
+  # BUG-XXX: [Short Description]
+  
+  ## 1. Overview
+  - Browser/Device: [Required]
+  - OS: [Optional]
+  - Version: [Optional]
+  - Feature: [Required - Link to related feature e.g., FR-XXX]
+  - Status: [Required - todo/doing/fixed/reopened/canceled]
+  - Assignee: [Required - Name of assigned person]
+  - Frequency: [Optional - 100%/75%/50%/25%]
+  - Env: [Required - dev/staging/prod]
+  
+  ## 2. Steps to Reproduce
+  [Detailed steps to reproduce the bug]
+  
+  ## 3. Actual Result
+  [What actually happens]
+  
+  ## 4. Expected Result
+  [What should happen]
+  
+  ## 5. Evidence
+  ### Bug Evidence
+  [Screenshots/videos showing the bug]
+  
+  ### Fixed Evidence
+  [Screenshots/videos showing the fix]
+  
+  ## 6. Discussion
+  [Optional - Any discussions about the bug]
+  
+  ## 7. Impact Analysis
+  ### Affected Areas
+  [List of affected areas]
+  
+  ### Test Requirements
+  [List of test requirements]
+  ```
+
+## Quality Check Steps
+
+1. **Completeness Check**
+   - Title follows BUG-XXX format
+   - All required fields in Overview are filled
+   - Evidence section has at least one screenshot/video
+   - Impact Analysis is documented
+
+2. **Clarity Check**
+   - Description is clear and concise
+   - Steps to reproduce are detailed enough
+   - Actual vs Expected results are clearly differentiated
+   - Test requirements are specific and testable
+
+3. **Traceability Check**
+   - Feature reference is valid (FR-XXX format)
+   - Assignee is clearly specified
+   - Status is up-to-date
+   - Environment is specified
+
+4. **Impact Check**
+   - Affected areas are properly identified
+   - Test requirements cover all affected areas
+   - Evidence matches described problem
+
+## Examples
+
+<example>
+```md
+# BUG-001: Layout lệch trong tính năng search tại màn hình home
+
+## 1. Overview
+- Browser/Device: Web Browser
+- OS: Development Environment
+- Version: Latest
+- Feature: FR-009: Màn hình Home (Search Feature)
+- Status: fixed
+- Assignee: Mai
+- Frequency: 100%
+- Env: dev
+
+## 2. Steps to Reproduce
+[Steps to reproduce bug]
+
+## 3. Actual Result
+Layout của tính năng search bị lệch nghiêm trọng trên màn hình home.
+
+## 4. Expected Result
+Layout của tính năng search cần được hiển thị đúng vị trí.
+
+## 5. Evidence
+[Evidence details]
+
+## 7. Impact Analysis
+### Affected Areas
+- Giao diện màn hình Home
+- Tính năng Search
+- UX
+
+### Test Requirements
+- Kiểm tra layout search trên các màn hình
+- Kiểm tra tương tác của search
+- Kiểm tra responsive design
+```
+</example>
+
+<example type="invalid">
+```md
+# Bug in search
+
+- It's not working
+- Please fix
+- No screenshots
+```
+</example>
