@@ -26,6 +26,7 @@
 *   **BR-007 - Đảm bảo tuân thủ pháp lý cơ bản:** Chuẩn bị và tích hợp các tài liệu pháp lý cần thiết như Điều khoản Sử dụng (Terms of Use) và Chính sách Quyền riêng tư (Privacy Policy) cho nền tảng.
 *   **BR-008 - Tạo nền tảng cho giai đoạn phát triển AI (Bankr):** Xây dựng Aiptos với kiến trúc và nền tảng vững chắc, có khả năng mở rộng và tích hợp, phục vụ cho việc phát triển các tính năng AI trong giai đoạn tiếp theo (dự án Bankr).
 *   **BR-009 - Hiển thị Thông tin Tham khảo về Bot Tương lai (Bankr):** Hiển thị các thông tin công khai cơ bản liên quan đến bot AI (ví dụ: @bankrbot từ hình ảnh) như một phần giới thiệu cho dự án Bankr trong tương lai, bao gồm tên, mô tả ngắn, số liệu tương tác (ví dụ: followers), và các liên kết mạng xã hội của bot.
+*   **BR-010 - Cơ chế Chia sẻ Doanh thu cho Người tạo Token:** Cung cấp cho người tạo token một cơ chế để nhận một phần phí giao dịch (40%) được tạo ra khi token của họ được giao dịch trên Hyperion, tạo động lực cho việc tạo ra các token chất lượng.
 
 ---
 
@@ -132,6 +133,14 @@
     *   **Điều kiện sau khi hoàn thành:** Thông tin Bot hiển thị rõ ràng.
     *   **Mức độ ưu tiên:** Trung bình
 
+**FR-013 - Claim Phí Giao dịch từ Hyperion**
+*   **FR-013 - Claim Phí Giao dịch từ Hyperion:** Hệ thống PHẢI cung cấp chức năng cho người tạo token claim (nhận) phần phí giao dịch (40%) của họ từ các giao dịch trên Hyperion.
+    *   **Mô tả:** Trên trang Admin của token, PHẢI có một khu vực hiển thị số dư phí tích lũy từ Hyperion (ví dụ: "Phí có thể nhận: X APT"). Một nút "Claim Fees". Chức năng này chỉ hiển thị và hoạt động sau khi token đã được niêm yết trên Hyperion.
+    *   **Kích hoạt/Sự kiện:** Người tạo token nhấp nút "Claim" trên trang Admin.
+    *   **Điều kiện tiên quyết:** Người dùng là người tạo token, đã đăng nhập (FR-004), đang ở trang Admin (FR-005), có phí tích lũy để claim.
+    *   **Điều kiện sau khi hoàn thành:** Số dư phí được chuyển vào ví của người tạo. Số dư phí chưa claim trên giao diện được cập nhật về 0. Người dùng nhận được xác nhận.
+    *   **Mức độ ưu tiên:** Trung bình
+
 ---
 
 ## 4. Assumptions & Constraints
@@ -144,6 +153,7 @@
     *   **A-005 - Tính sẵn có và Độ tin cậy của API Xác thực Bên Thứ Ba:** API xác thực của X (Twitter) và Farcaster sẽ hoạt động ổn định và cho phép tích hợp để xác thực người dùng.
     *   **A-006 - Người dùng có APT cho Phí Gas:** Người dùng sẽ có đủ lượng token APT để chi trả phí giao dịch (gas fees) cho các hoạt động trên mạng lưới Aptos.
     *   **A-007 - Cấu trúc URL của Hyperion có thể dự đoán được:** Giả định rằng Hyperion có một cấu trúc URL ổn định và có thể dự đoán được cho các trang swap (ví dụ: `hyperion.xyz/swap?input=[token_A]&output=[token_B]`) để Aiptos có thể tạo liên kết chuyển hướng chính xác cho người dùng.
+    *   **A-008 - Hyperion hỗ trợ và cung cấp API/Cơ chế cho việc Chia sẻ Phí:** Giả định rằng Hyperion có một cơ chế kỹ thuật (ví dụ: hợp đồng thông minh hoặc API) cho phép Aiptos và người tạo token truy vấn và rút phần phí giao dịch của họ (40% cho người tạo, 40% cho Aiptos) một cách đáng tin cậy.
 
 *   **Constraints:**
     *   **C-001 - Thời hạn Dự án:** Dự án Aiptos có mục tiêu hoàn thành và ra mắt các chức năng cốt lõi vào ngày 11 tháng 6 năm 2025.
@@ -206,6 +216,12 @@
     *   **Tác động:** Cao
     *   **Kế hoạch Giảm thiểu / Hành động:** Theo dõi chặt chẽ các thông báo từ Hyperion. Thông báo rõ ràng cho người dùng về việc giao dịch giai đoạn sau được xử lý bởi hợp đồng của Hyperion và các rủi ro liên quan khi chuyển hướng.
 
+*   **R-009 - Rủi ro về Cơ chế Thu và Phân phối Phí từ Hyperion:**
+    *   **Mô tả:** Cơ chế kỹ thuật để thu và phân phối phí từ Hyperion có thể phức tạp, không đáng tin cậy, hoặc có thể thay đổi mà không báo trước. Lỗi trong cơ chế này có thể dẫn đến việc tính sai phí, không thể claim, hoặc mất mát doanh thu cho cả Aiptos và người tạo token.
+    *   **Khả năng xảy ra:** Trung bình
+    *   **Tác động:** Cao
+    *   **Kế hoạch Giảm thiểu / Hành động:** Nghiên cứu kỹ lưỡng tài liệu kỹ thuật của Hyperion. Xây dựng một module riêng biệt, được kiểm thử kỹ lưỡng để xử lý việc tương tác với cơ chế phí của Hyperion. Có kế hoạch dự phòng và thông báo cho người dùng nếu cơ chế của Hyperion thay đổi.
+
 ---
 
 ## 6. Screens / User Interface
@@ -233,6 +249,7 @@
 *   **Trang Quản trị Token (Admin Page):**
     *   **Mô tả:** Truy cập từ trang chi tiết token (nếu là người tạo). Bao gồm các khu vực:
         *   **Update Token Info:** Biểu mẫu chỉnh sửa metadata (Description, Website, Farcaster, X, Telegram) và nút "Save changes".
+        *   **Khu vực Claim Phí Giao dịch (Fee Claim Area):** Hiển thị số dư phí tích lũy từ Hyperion (ví dụ: "Phí có thể nhận: X APT"). Một nút "Claim Fees". Chức năng này chỉ hiển thị và hoạt động sau khi token đã được niêm yết trên Hyperion.
 
 *   **Thành phần Dòng Chảy Giao dịch (Live Transactions Ticker/Marquee Component):**
     *   **Mô tả:** Thành phần động (đầu/cuối trang) hiển thị liên tục giao dịch mới nhất trên các hợp đồng bonding curve của Aiptos.
