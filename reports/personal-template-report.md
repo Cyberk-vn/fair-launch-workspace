@@ -5,45 +5,80 @@
 ## 1. Tổng Quan Tiến Độ
 > Hướng dẫn: Cập nhật % tiến độ dựa trên số task đã hoàn thành / tổng số task
 
-Tổng tiến độ dự án: [75]%
+Tổng tiến độ dự án: [X]%
 
 ```mermaid
 pie title Task Status Distribution
-    "Completed" : 33.3
-    "In Progress" : 33.3
-    "Not Started" : 33.3
+    "Completed" : [X]
+    "In Progress" : [Y]
+    "Not Started" : [Z]
 ```
-> Note: Biểu đồ trên sẽ tự động cập nhật khi bạn thay đổi trạng thái các task trong phần 3
 
 ## 2. Báo Cáo Hoạt Động Gần Nhất
-> Cập nhật ngắn gọn về tiến độ trong tuần/sprint hiện tại
 
 ### ✨ Thành tựu
 - [Liệt kê thành tựu chính đã hoàn thành]
 - [Các milestone đã đạt được]
+- [Các bug đã được fix - nếu có]
 
 ### 🚧 Đang thực hiện
 - [Công việc đang làm]
-- [Dự kiến hoàn thành: DD/MM/YYYY]
+- [Dự kiến hoàn thành: DD/MM/YYYY] (Bắt buộc có ngày dự kiến)
 
 ### ⚠️ Vấn đề và Giải pháp
 - [Vấn đề]: [Giải pháp dự kiến]
 - [Khó khăn gặp phải]: [Cách giải quyết]
 
-## 3. Danh Sách Nhiệm Vụ
-> Hướng dẫn: 
-> - Thêm/sửa các task trong bảng bên dưới
-> - Trạng thái: Sử dụng một trong ba emoji: ✅ 🔄 ⏳
-> - Ngày: Định dạng DD/MM/YYYY
+## 3. Tasks
 
-| Tính năng / Task | Trạng thái | Ngày hoàn thành dự kiến | Ghi chú |
-|------------------|------------|------------------------|----------|
-| [Đăng ký người dùng] | ✅ Hoàn thành | [10/06/2025] | [Ghi chú nếu có] |
-| [Xác thực email] | 🔄 Đang thực hiện | [12/06/2025] | [Ghi chú nếu có] |
-| [Tích hợp ví Web3] | ⏳ Chưa bắt đầu | [15/06/2025] | [Ghi chú nếu có] |
+| Feature | Todo | Committed | Merged | Tested | Demo | Delivered | Mainnet | Dự kiến hoàn thành |
+|---------|:----:|:---------:|:------:|:------:|:----:|:---------:|:-------:|-------------------|
+| **[FR-XXX] - [Tên Feature]** |  |  |  |  |  |  |  | DD/MM/YYYY |
+| - UI Development |  |  |  |  |  |  |  | DD/MM/YYYY |
+| - Mobile Responsive |  |  |  |  |  |  |  | DD/MM/YYYY |
+| - Backend APIs |  |  |  |  |  |  |  | DD/MM/YYYY |
+| - Database Design (Review) |  |  |  |  |  |  |  | DD/MM/YYYY |
+| - Error Handling |  |  |  |  |  |  |  | DD/MM/YYYY |
+| - Unit Tests (>90%) |  |  |  |  |  |  |  | DD/MM/YYYY |
 
-> Chú thích trạng thái:
-> - ✅ Hoàn thành: Task đã được hoàn thành và kiểm tra
-> - 🔄 Đang thực hiện: Task đang được phát triển
-> - ⏳ Chưa bắt đầu: Task trong kế hoạch nhưng chưa bắt đầu
-> Note: Cập nhật các ngày trong biểu đồ Gantt để phản ánh timeline thực tế của dự án
+Chú thích:
+- ✓: Đã hoàn thành
+- Các cột trống: Đã vượt qua trạng thái này
+
+## 4. Giải thích Trạng thái Features
+
+1. **Todo** 📋
+   - Chưa bắt đầu làm
+   - Tính năng đang trong giai đoạn lên kế hoạch
+   - Chưa có người được assign
+
+2. **Committed** 💻
+   - Đã hoàn thành việc code
+   - Đã commit code nhưng chưa được merge vào nhánh dev
+   - Các tính năng không có lỗi
+   - Các user-flow đã được self-test cẩn thận và hoạt động tốt
+
+3. **Merged** 🔄
+   - Code đã được merge vào nhánh chính
+   - Đã được triển khai CI/CD thành công
+   - Sẵn sàng cho việc testing
+
+4. **Tested** ✅
+   - Đã test thành công và không có lỗi nghiêm trọng
+   - Đã sẵn sàng cho người dùng sử dụng
+   - Có thể tiến hành demo
+
+5. **Demo** 🎯
+   - Đã thực hiện demo nội bộ trong team
+   - Hoạt động tốt không có lỗi đáng kể
+   - Không có vấn đề ảnh hưởng tới trải nghiệm người dùng
+
+6. **Delivered** 🚀
+   - Đã thực hiện demo cho khách hàng
+   - Tính năng hoạt động tốt và không có lỗi
+   - Sẵn sàng cho việc deploy mainnet
+
+7. **Mainnet** ⭐️
+   - Tính năng đã được mainnet thành công
+   - Đã hoàn tất việc kiểm tra lần cuối
+   - Không phát hiện lỗi trong môi trường production
