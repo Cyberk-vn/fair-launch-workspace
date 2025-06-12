@@ -1,4 +1,4 @@
-# Báo Cáo Phát Triển Cá Nhân - Mai
+# Báo Cáo Phát Triển Cá Nhân - Đức
 
 ## 1. Tổng Quan Tiến Độ
 
