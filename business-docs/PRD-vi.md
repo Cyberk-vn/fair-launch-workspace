@@ -25,9 +25,8 @@
 *   **BR-006 - Quản lý Thông tin Token Niêm yết:** Cho phép người tạo token quản lý và chỉnh sửa thông tin hiển thị (metadata) của token mà họ đã tạo (ví dụ: mô tả, logo, các đường dẫn liên kết mạng xã hội).
 *   **BR-007 - Đảm bảo tuân thủ pháp lý cơ bản:** Chuẩn bị và tích hợp các tài liệu pháp lý cần thiết như Điều khoản Sử dụng (Terms of Use) và Chính sách Quyền riêng tư (Privacy Policy) cho nền tảng.
 *   **BR-008 - Tạo nền tảng cho giai đoạn phát triển AI (Bankr):** Xây dựng Aiptos với kiến trúc và nền tảng vững chắc, có khả năng mở rộng và tích hợp, phục vụ cho việc phát triển các tính năng AI trong giai đoạn tiếp theo (dự án Bankr).
-*   **BR-009 - Hiển thị Thông tin Tham khảo về Bot Tương lai (Bankr):** Hiển thị các thông tin công khai cơ bản liên quan đến bot AI (ví dụ: @bankrbot từ hình ảnh) như một phần giới thiệu cho dự án Bankr trong tương lai, bao gồm tên, mô tả ngắn, số liệu tương tác (ví dụ: followers), và các liên kết mạng xã hội của bot.
-*   **BR-010 - Cơ chế Chia sẻ Doanh thu cho Người tạo Token:** Cung cấp cho người tạo token một cơ chế để nhận một phần phí giao dịch (40%) được tạo ra khi token của họ được giao dịch trên Hyperion, tạo động lực cho việc tạo ra các token chất lượng.
-*   **BR-011 - Cung cấp Thông tin Hướng dẫn "How It Works":** Cung cấp một mục "How It Works" rõ ràng và dễ tiếp cận để giải thích cho người dùng về cơ chế hoạt động của nền tảng, bao gồm cấu trúc phí, quy trình bonding curve, và các giai đoạn của một token.
+*   **BR-009 - Cơ chế Chia sẻ Doanh thu cho Người tạo Token:** Cung cấp cho người tạo token một cơ chế để nhận một phần phí giao dịch (40%) được tạo ra khi token của họ được giao dịch trên Hyperion, tạo động lực cho việc tạo ra các token chất lượng.
+*   **BR-010 - Cung cấp Thông tin Hướng dẫn "How It Works":** Cung cấp một mục "How It Works" rõ ràng và dễ tiếp cận để giải thích cho người dùng về cơ chế hoạt động của nền tảng, bao gồm cấu trúc phí, quy trình bonding curve, và các giai đoạn của một token.
 
 ---
 
@@ -56,7 +55,7 @@
             *   **Thanh tiến độ Bonding Curve:** Một thanh tiến trình trực quan cho thấy mức vốn hóa thị trường hiện tại so với mốc yêu cầu để niêm yết trên Hyperion.
             *   **Bảng Giao dịch Gần đây:** Một bảng liệt kê các giao dịch mua/bán gần nhất của token này (loại giao dịch, số lượng, giá, thời gian).
         *   **Khi token đã đạt mốc và chuyển sang Hyperion:** Toàn bộ giao diện Mua/Bán, thanh tiến độ, và bảng giao dịch của token sẽ bị ẩn hoặc vô hiệu hóa. Thay vào đó, một khu vực thông báo nổi bật sẽ hiển thị, cùng với một nút bấm lớn: **"Giao dịch trên Hyperion"**. Nút này sẽ mở một tab mới hoặc chuyển hướng người dùng đến đúng trang swap cho token đó trên website của Hyperion.
-        *   Khu vực Thông tin Bot (tên, mô tả, followers, link, lệnh mẫu). Nút "Admin page".
+        *   Nút "Admin page" để người tạo token truy cập trang quản lý.
     *   **Kích hoạt/Sự kiện:** Người dùng nhấp vào token từ danh sách (FR-008) hoặc truy cập trực tiếp.
     *   **Điều kiện tiên quyết:** Token tồn tại, metadata có sẵn.
     *   **Điều kiện sau khi hoàn thành:** Người dùng xem được thông tin toàn diện và có thể thực hiện giao dịch mua/bán token trên bonding curve của Aiptos hoặc được chuyển hướng sang Hyperion.
@@ -126,28 +125,20 @@
     *   **Điều kiện sau khi hoàn thành:** Metadata token được cập nhật; Nhận xác nhận.
     *   **Mức độ ưu tiên:** Trung bình
 
-**FR-012 - Hiển thị Thông tin Tham khảo về Bot**
-*   **FR-012 - Hiển thị Thông tin Tham khảo về Bot:** Hệ thống PHẢI hiển thị khu vực thông tin tĩnh về bot AI (ví dụ: CryptoGenie/@bankrbot) trên trang chi tiết token (FR-003).
-    *   **Mô tả:** Khu vực này hiển thị: Tên Bot, Avatar, Mô tả ngắn, Số người theo dõi, Ví dụ lệnh Bot hiểu, Liên kết social/thông tin thêm về Bot. Đây là thông tin tĩnh, không có chat trực tiếp.
-    *   **Kích hoạt/Sự kiện:** Người dùng xem trang chi tiết token.
-    *   **Điều kiện tiên quyết:** Nội dung thông tin Bot đã chuẩn bị.
-    *   **Điều kiện sau khi hoàn thành:** Thông tin Bot hiển thị rõ ràng.
-    *   **Mức độ ưu tiên:** Trung bình
-
-**FR-013 - Claim Phí Giao dịch từ Hyperion**
-*   **FR-013 - Claim Phí Giao dịch từ Hyperion:** Hệ thống PHẢI cung cấp chức năng cho người tạo token claim (nhận) phần phí giao dịch (40%) của họ từ các giao dịch trên Hyperion.
+**FR-012 - Claim Phí Giao dịch từ Hyperion**
+*   **FR-012 - Claim Phí Giao dịch từ Hyperion:** Hệ thống PHẢI cung cấp chức năng cho người tạo token claim (nhận) phần phí giao dịch (40%) của họ từ các giao dịch trên Hyperion.
     *   **Mô tả:** Trên trang Admin của token, PHẢI có một khu vực hiển thị số dư phí tích lũy từ Hyperion (ví dụ: "Phí có thể nhận: X APT"). Một nút "Claim Fees". Chức năng này chỉ hiển thị và hoạt động sau khi token đã được niêm yết trên Hyperion.
     *   **Kích hoạt/Sự kiện:** Người tạo token nhấp nút "Claim" trên trang Admin.
     *   **Điều kiện tiên quyết:** Người dùng là người tạo token, đã đăng nhập (FR-004), đang ở trang Admin (FR-005), có phí tích lũy để claim.
     *   **Điều kiện sau khi hoàn thành:** Số dư phí được chuyển vào ví của người tạo. Số dư phí chưa claim trên giao diện được cập nhật về 0. Người dùng nhận được xác nhận.
     *   **Mức độ ưu tiên:** Trung bình
 
-**FR-014 - Hiển thị Mục "How It Works"**
-*   **FR-014 - Hiển thị Mục "How It Works":** Hệ thống PHẢI cung cấp một mục/trang "How It Works" có thể truy cập dễ dàng từ các vị trí chính (ví dụ: header hoặc footer).
+**FR-013 - Hiển thị Mục "How It Works"**
+*   **FR-013 - Hiển thị Mục "How It Works":** Hệ thống PHẢI cung cấp một mục/trang "How It Works" có thể truy cập dễ dàng từ các vị trí chính (ví dụ: header hoặc footer).
     *   **Mô tả:** Mục này sẽ cung cấp thông tin chi tiết, rõ ràng và dễ hiểu về:
         *   **Phí tạo token:** Giải thích rằng Aiptos không thu phí để tạo token. Người dùng chỉ cần trả phí gas cho mạng lưới.
         *   **Quy trình Bonding Curve:** Giải thích cách hoạt động của bonding curve và mục tiêu vốn hóa thị trường cần đạt để được niêm yết trên Hyperion (ví dụ: cần đạt một mốc APT cụ thể).
-        *   **Cơ cấu phí sau khi niêm yết:** Giải thích rõ rằng sau khi niêm yết, phí giao dịch trên Hyperion là 1%, được phân chia như sau: 40% cho người tạo token (có thể claim), 40% cho Aiptos, và 20% cho Hyperion.
+        *   **Phí Giao dịch:** "Khi giao dịch trên Hyperion, phí là 1%. Phân chia: 40% cho bạn (người tạo), 40% cho Aiptos, 20% cho Hyperion."
     *   **Kích hoạt/Sự kiện:** Người dùng nhấp vào liên kết/nút "How It Works".
     *   **Điều kiện tiên quyết:** Nội dung đã được soạn thảo.
     *   **Điều kiện sau khi hoàn thành:** Người dùng xem được thông tin giải thích chi tiết, có thể dưới dạng một trang riêng hoặc một modal.
@@ -253,7 +244,11 @@
             *   **Thanh tiến độ Bonding Curve:** Cho thấy tiến trình đạt đến mốc vốn hóa thị trường để niêm yết trên Hyperion.
             *   **Bảng Giao dịch:** Liệt kê các giao dịch mua/bán gần nhất của token này.
         *   **Khu vực Giao dịch (Giai đoạn sau khi niêm yết Hyperion):** Khu vực này được thay thế bằng một thông báo (ví dụ: "Token này hiện đang giao dịch trên Hyperion!") và một nút bấm duy nhất **"Giao dịch trên Hyperion"** để điều hướng người dùng.
-        *   Khu vực Thông tin Bot (tên, mô tả, followers, link, lệnh mẫu). Nút "Admin page".
+        *   Nút "Admin page" để người tạo token truy cập trang quản lý.
+    *   **Kích hoạt/Sự kiện:** Người dùng nhấp vào token từ danh sách (FR-008) hoặc truy cập trực tiếp.
+    *   **Điều kiện tiên quyết:** Token tồn tại, metadata có sẵn.
+    *   **Điều kiện sau khi hoàn thành:** Người dùng xem được thông tin toàn diện và có thể thực hiện giao dịch mua/bán token trên bonding curve của Aiptos hoặc được chuyển hướng sang Hyperion.
+    *   **Mức độ ưu tiên:** Cao
 
 *   **Trang Tạo Token Mới (Create New Token Page):**
     *   **Mô tả:** Biểu mẫu một bước: Token Image (tải lên), Token Name, Token Symbol, Description. **Sẽ có thêm một trường tùy chọn (ví dụ: "Creator Pre-buy Amount (APT)") để người tạo nhập số lượng APT muốn dùng để mua trước token.** Nút "Create".
