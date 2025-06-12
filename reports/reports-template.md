@@ -1,3 +1,28 @@
+# Báo Cáo Tiến Độ Dự Án
+
+## Tổng Quan
+> Biểu đồ thể hiện tổng quan trạng thái của toàn bộ features trong dự án
+
+```mermaid
+pie title Phân Bố Trạng thái Features
+    "Done" : 0
+    "Doing" : 0
+    "Todo" : 100
+    "Bugs" : 0
+    "Pending" : 0
+```
+
+## Cập Nhật Gần Đây
+> Cập nhật về các features đã hoàn thành và vấn đề phát sinh trong tuần/sprint hiện tại
+
+### ✨ Features Hoàn Thành
+- [Liệt kê các features vừa hoàn thành]
+- [Mô tả ngắn gọn về giá trị mang lại]
+
+### ⚠️ Vấn Đề và Giải Pháp
+- [Mô tả vấn đề]: [Giải pháp đang thực hiện]
+- [Các rủi ro tiềm ẩn]: [Kế hoạch phòng ngừa]
+
 ### Ghi chú
 
 ### Hướng dẫn sử_dụng tài_liệu
