@@ -1,0 +1,153 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Personal Report Standards
+
+## Critical Rules
+
+- Reports MUST follow the exact three-section structure:
+  1. Tổng Quan Tiến Độ (Progress Overview)
+  2. Báo Cáo Hoạt Động Gần Nhất (Recent Activities)
+  3. Danh Sách Nhiệm Vụ (Task List)
+
+- Progress Overview section MUST include:
+  - Overall project progress percentage
+  - Mermaid pie chart showing task distribution
+  - Clear notes about chart updates
+
+- Recent Activities section MUST use the following structure:
+  - ✨ Thành tựu (Achievements)
+    - Bullet points for completed items
+    - Focus on impact and value delivered
+  - 🚧 Đang thực hiện (In Progress)
+    - Current tasks with expected completion dates
+    - Clear, actionable items
+  - ⚠️ Vấn đề và Giải pháp (Issues and Solutions)
+    - Problem statement followed by solution approach
+    - Keep it concise and actionable
+
+- Task List section MUST include:
+  - Feature/Task ID and name
+  - Status using standard emojis (✅ 🔄 ⏳)
+  - Expected completion date
+  - Relevant notes
+  
+### Breaking Rules for Feature Implementation
+1. **UI Development Requirements**
+   - Every feature MUST have a "UI Development" task if it includes user interface
+   - MUST include "Mobile Responsive" as a separate task
+   - UI tasks MUST be reviewed against design system standards
+   - MUST include accessibility considerations
+
+2. **Backend Development Requirements**
+   - MUST have "Backend APIs" task for features requiring server interaction
+   - API documentation MUST be included in the task
+   - MUST follow RESTful or GraphQL standards as per project requirements
+   - MUST include API versioning strategy
+
+3. **Database Design Requirements**
+   - MUST have "Database Design" task for features requiring data persistence
+   - MUST be reviewed by dev-lead or senior developer
+   - MUST include entity relationship diagrams
+   - MUST consider data migration strategy
+   - MUST document any schema changes
+
+4. **Error Handling Requirements**
+   - MUST have "Error Handling" task
+   - MUST cover all abnormal cases
+   - MUST implement proper error logging
+   - MUST provide user-friendly error messages
+   - MUST handle network errors and timeouts
+   - MUST implement proper validation
+   - MUST handle edge cases
+
+5. **Testing Requirements**
+   - MUST have "Unit Tests" task
+   - MUST achieve >90% code coverage
+   - MUST include integration tests where applicable
+   - MUST include performance tests for critical paths
+   - MUST document test cases
+
+### Progress Tracking Rules
+1. **Status Tracking**
+   - MUST use the following status columns:
+     - Todo
+     - Committed
+     - Merged
+     - Tested
+     - Demo
+     - Delivered
+     - Mainnet
+
+2. **Timeline Management**
+   - All in-progress tasks MUST have expected completion dates
+   - Dates MUST be in DD/MM/YYYY format
+   - Any timeline changes MUST be documented with reasons
+
+3. **Progress Reporting**
+   - MUST update progress percentage based on completed tasks
+   - MUST document achievements in current period
+   - MUST list ongoing tasks with completion dates
+   - MUST document blockers and solutions
+
+## Examples
+
+<example>
+### Good Feature Implementation
+| Feature | Todo | Committed | Merged | Tested | Demo | Delivered | Mainnet | Due Date |
+|---------|:----:|:---------:|:------:|:------:|:----:|:---------:|:-------:|----------|
+| **FR-001 - User Authentication** |  |  |  |  |  |  |  | 15/07/2025 |
+| - UI Development |  | ✓ | ✓ | ✓ |  |  |  | 10/07/2025 |
+| - Mobile Responsive |  | ✓ | ✓ | ✓ |  |  |  | 10/07/2025 |
+| - Backend APIs |  | ✓ | ✓ | ✓ |  |  |  | 12/07/2025 |
+| - Database Design (Review) | ✓ | ✓ | ✓ | ✓ |  |  |  | 08/07/2025 |
+| - Error Handling |  | ✓ | ✓ | ✓ |  |  |  | 13/07/2025 |
+| - Unit Tests (>90%) |  | ✓ | ✓ | ✓ |  |  |  | 14/07/2025 |
+
+### Good Progress Report
+🚧 Đang thực hiện:
+- Implementing user authentication UI components
+- Expected completion: 10/07/2025
+- Setting up API endpoints for authentication
+- Expected completion: 12/07/2025
+</example>
+
+<example type="invalid">
+### Poor Feature Implementation
+| Feature | Status | Due Date |
+|---------|--------|----------|
+| User Authentication | In Progress | July 2025 |
+
+### Poor Progress Report
+🚧 Đang thực hiện:
+- Working on authentication
+- Will be done soon
+</example>
+
+## Best Practices
+
+1. **Task Breakdown**
+   - Break down features into manageable tasks
+   - Each task should be completable within 1-2 days
+   - Include clear acceptance criteria
+   - Define dependencies between tasks
+
+2. **Progress Tracking**
+   - Update status daily
+   - Include specific metrics where possible
+   - Document blockers immediately
+   - Keep timeline estimates realistic
+
+3. **Quality Control**
+   - Review all deliverables against requirements
+   - Document test results
+   - Include performance metrics
+   - Track technical debt
+
+4. **Communication**
+   - Use clear, concise language
+   - Include relevant screenshots/diagrams
+   - Highlight risks early
+   - Document decisions and their rationale
