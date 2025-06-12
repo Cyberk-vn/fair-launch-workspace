@@ -27,6 +27,7 @@
 *   **BR-008 - Tạo nền tảng cho giai đoạn phát triển AI (Bankr):** Xây dựng Aiptos với kiến trúc và nền tảng vững chắc, có khả năng mở rộng và tích hợp, phục vụ cho việc phát triển các tính năng AI trong giai đoạn tiếp theo (dự án Bankr).
 *   **BR-009 - Hiển thị Thông tin Tham khảo về Bot Tương lai (Bankr):** Hiển thị các thông tin công khai cơ bản liên quan đến bot AI (ví dụ: @bankrbot từ hình ảnh) như một phần giới thiệu cho dự án Bankr trong tương lai, bao gồm tên, mô tả ngắn, số liệu tương tác (ví dụ: followers), và các liên kết mạng xã hội của bot.
 *   **BR-010 - Cơ chế Chia sẻ Doanh thu cho Người tạo Token:** Cung cấp cho người tạo token một cơ chế để nhận một phần phí giao dịch (40%) được tạo ra khi token của họ được giao dịch trên Hyperion, tạo động lực cho việc tạo ra các token chất lượng.
+*   **BR-011 - Cung cấp Thông tin Hướng dẫn "How It Works":** Cung cấp một mục "How It Works" rõ ràng và dễ tiếp cận để giải thích cho người dùng về cơ chế hoạt động của nền tảng, bao gồm cấu trúc phí, quy trình bonding curve, và các giai đoạn của một token.
 
 ---
 
@@ -140,6 +141,17 @@
     *   **Điều kiện tiên quyết:** Người dùng là người tạo token, đã đăng nhập (FR-004), đang ở trang Admin (FR-005), có phí tích lũy để claim.
     *   **Điều kiện sau khi hoàn thành:** Số dư phí được chuyển vào ví của người tạo. Số dư phí chưa claim trên giao diện được cập nhật về 0. Người dùng nhận được xác nhận.
     *   **Mức độ ưu tiên:** Trung bình
+
+**FR-014 - Hiển thị Mục "How It Works"**
+*   **FR-014 - Hiển thị Mục "How It Works":** Hệ thống PHẢI cung cấp một mục/trang "How It Works" có thể truy cập dễ dàng từ các vị trí chính (ví dụ: header hoặc footer).
+    *   **Mô tả:** Mục này sẽ cung cấp thông tin chi tiết, rõ ràng và dễ hiểu về:
+        *   **Phí tạo token:** Giải thích rằng Aiptos không thu phí để tạo token. Người dùng chỉ cần trả phí gas cho mạng lưới.
+        *   **Quy trình Bonding Curve:** Giải thích cách hoạt động của bonding curve và mục tiêu vốn hóa thị trường cần đạt để được niêm yết trên Hyperion (ví dụ: cần đạt một mốc APT cụ thể).
+        *   **Cơ cấu phí sau khi niêm yết:** Giải thích rõ rằng sau khi niêm yết, phí giao dịch trên Hyperion là 1%, được phân chia như sau: 40% cho người tạo token (có thể claim), 40% cho Aiptos, và 20% cho Hyperion.
+    *   **Kích hoạt/Sự kiện:** Người dùng nhấp vào liên kết/nút "How It Works".
+    *   **Điều kiện tiên quyết:** Nội dung đã được soạn thảo.
+    *   **Điều kiện sau khi hoàn thành:** Người dùng xem được thông tin giải thích chi tiết, có thể dưới dạng một trang riêng hoặc một modal.
+    *   **Mức độ ưu tiên:** Cao
 
 ---
 
@@ -256,5 +268,11 @@
 
 *   **Chân Trang (Footer):**
     *   **Mô tả:** Liên kết "Điều khoản Sử dụng", "Chính sách Quyền riêng tư", link mạng xã hội của Aiptos.
+
+*   **Trang/Modal "How It Works"**:
+    *   **Mô tả:** Một trang hoặc modal giải thích rõ ràng các điểm chính, có thể kèm đồ họa minh họa:
+        *   **Tạo Token:** "Miễn phí trên Aiptos, bạn chỉ trả phí gas mạng lưới."
+        *   **Bonding Curve:** "Token của bạn cần đạt một mốc vốn hóa thị trường nhất định để được niêm yết trên Hyperion."
+        *   **Phí Giao dịch:** "Khi giao dịch trên Hyperion, phí là 1%. Phân chia: 40% cho bạn (người tạo), 40% cho Aiptos, 20% cho Hyperion."
 
 --- 
