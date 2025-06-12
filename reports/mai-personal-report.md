@@ -14,20 +14,16 @@ pie title Task Status Distribution
 ## 2. Báo Cáo Hoạt Động Gần Nhất
 
 ### ✨ Thành tựu
-- Hoàn thành animation transaction list với trải nghiệm người dùng mượt mà
-- Triển khai animation chạy chữ cho project graduate
-- Hoàn thiện tính năng upload hình ảnh token với hỗ trợ gif và svg
+- Sửa phần animation cho "The project has graduated" trang Home
+- Xóa logo aptos ở list project trang Home
+- Sửa lỗi khi Cancel upload ảnh và lỗi không hiện validate size limit và format file.
 
 ### 🚧 Đang thực hiện
-- Tối ưu hiệu năng sort và search cho project list
-- Fix BUG-001: Layout lệch trong tính năng search tại màn hình home
-- Hoàn thiện FR-010: Hiển thị Dòng Chảy Giao dịch Gần Đây
-- Dự kiến hoàn thành: 11/06/2025
+- Fix các bugs chị Hương log hoặc design bảo sửa
+- Dự kiến hoàn thành: 13/06/2025
 
 ### ⚠️ Vấn đề và Giải pháp
-- Performance sort và search: Đang implement debounce và thêm cache layer
-- API calls tốn thời gian: Tối ưu bằng caching và batch requests
-- Thông số trader cần được kiểm tra và cập nhật lại
+- Code windows khá choke
 
 ## 3. Danh Sách Nhiệm Vụ đã và đang Thực Hiện
 
