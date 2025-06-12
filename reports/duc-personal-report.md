@@ -19,7 +19,7 @@ pie title Task Status Distribution
 - Setup môi trường production
 
 ### 🚧 Đang thực hiện
-- Tiếp tục setup môi trường production
+- Tiếp tục setup môi trường production (12/06/2025 hoàn thành)
 
 ### ⚠️ Vấn đề và Giải pháp
 - Không có
