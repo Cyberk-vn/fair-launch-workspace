@@ -18,7 +18,7 @@
 ## 2. Business Requirements (BR)
 
 *   **BR-001 - Home-page functionality:** hiển thị danh sách các dự án, cho phép ngươi dùng lọc và truy cập vào chi tiết các dự án.
-*   **BR-002 - Cho phép người dùng tạo token:** Cung cấp khả năng cho người dùng tạo (mint) các token mới trên nền tảng Aiptos với các thuộc tính tối giản: **hình ảnh, tên, ký hiệu, và mô tả.**
+*   **BR-002 - Cho phép người dùng tạo token và mua trước:** Cung cấp khả năng cho người dùng tạo (mint) token mới với các thuộc tính tối giản (**hình ảnh, tên, ký hiệu, mô tả**) và **cho phép người tạo mua trước một lượng token ở mức giá khởi điểm trong quá trình tạo.**
 *   **BR-003 - Hỗ trợ giao dịch token (Mua/Bán bằng APT):** Cho phép người dùng mua/bán token bằng APT **trực tiếp với hợp đồng bonding curve của Aiptos**. Khi token đạt mốc vốn hóa thị trường định trước, nền tảng sẽ **tự động tạo cặp thanh khoản trên Hyperion Aptos và chuyển hướng người dùng đến trang swap của Hyperion để tiếp tục giao dịch.**
 *   **BR-004 - Triển khai hợp đồng thông minh Aiptos:** Triển khai thành công và ổn định hợp đồng thông minh (smart contract) cốt lõi của Aiptos lên mạng lưới Aptos để quản lý **cơ chế bonding curve và quá trình chuyển giao thanh khoản.**
 *   **BR-005 - Kết nối ví và quản lý người dùng (Đăng nhập X):** Cho phép người dùng kết nối ví tiền điện tử Aptos và đăng nhập vào nền tảng bằng tài khoản X (Twitter) để thực hiện giao dịch và quản lý các token/tính năng liên quan đến tài khoản của họ.
@@ -41,17 +41,19 @@
 
 **FR-002 - Tạo Token Mới**
 *   **FR-002 - Tạo Token Mới:** Hệ thống PHẢI cho phép người dùng (đã đăng nhập và kết nối ví) tạo token mới trên mạng lưới Aptos thông qua một quy trình đơn giản trên nền tảng Aiptos.
-    *   **Mô tả:** Quá trình tạo token sẽ diễn ra trong một bước duy nhất, yêu cầu người dùng cung cấp: **Hình ảnh Token, Tên Token, Ký hiệu Token, và Mô tả Token.** Sau khi tạo, người dùng (người tạo) sẽ là người đầu tiên có cơ hội mua token trên bonding curve.
+    *   **Mô tả:** Quá trình tạo token sẽ diễn ra trong một bước. Ngoài việc cung cấp các thông tin cơ bản (**Hình ảnh, Tên, Ký hiệu, Mô tả**), hệ thống PHẢI cho phép người tạo **nhập một số lượng APT để mua trước token ở mức giá khởi điểm của bonding curve.** Lượng mua trước này là tùy chọn.
     *   **Kích hoạt/Sự kiện:** Người dùng đã đăng nhập, kết nối ví, điều hướng đến mục "Create" và hoàn thành biểu mẫu, sau đó nhấp nút "Create".
-    *   **Điều kiện tiên quyết:** Đã đăng nhập (FR-004), Ví Aptos đã kết nối (FR-001), Đủ APT cho phí gas.
-    *   **Điều kiện sau khi hoàn thành:** Hợp đồng token mới được triển khai trên Aptos; Token liên kết với người tạo; Token niêm yết trên Aiptos và bắt đầu giao dịch trên bonding curve; Người dùng nhận xác nhận thành công hoặc lỗi.
+    *   **Điều kiện tiên quyết:** Đã đăng nhập (FR-004), Ví Aptos đã kết nối (FR-001), Đủ APT cho phí gas (và cho lượng mua trước nếu có).
+    *   **Điều kiện sau khi hoàn thành:** Hợp đồng token mới được triển khai; Token liên kết với người tạo; **Nếu người tạo mua trước, lượng token tương ứng được chuyển vào ví của họ;** Token niêm yết trên Aiptos và bắt đầu giao dịch trên bonding curve cho những người dùng khác; Người dùng nhận xác nhận.
     *   **Mức độ ưu tiên:** Cao
 
 **FR-003 - Hiển thị Thông tin Chi tiết Token**
 *   **FR-003 - Hiển thị Thông tin Chi tiết Token:** Hệ thống PHẢI hiển thị thông tin chi tiết và các chức năng tương tác cho mỗi token.
-    *   **Mô tả:** Bao gồm: Thông tin Cơ bản Token (hình ảnh, tên, ký hiệu, mô tả, vốn hóa bằng APT (tham khảo USD/ETH), CA, Owner, followers, nút "Add to wallet", link social); **Trạng thái Token** ("Đang giao dịch trên Bonding Curve" hoặc "Đã niêm yết trên Hyperion"); Biểu đồ Giá Token (dữ liệu giá được truy vấn từ hợp đồng bonding curve của Aiptos); **Khu vực Giao dịch (có hai trạng thái):**
-        *   **Khi token đang trên bonding curve:** Hiển thị giao diện Mua/Bán tương tác với hợp đồng của Aiptos.
-        *   **Khi token đã đạt mốc và chuyển sang Hyperion:** Toàn bộ giao diện Mua/Bán này sẽ bị ẩn hoặc vô hiệu hóa. Thay vào đó, một khu vực thông báo nổi bật sẽ hiển thị, cùng với một nút bấm lớn: **"Giao dịch trên Hyperion"**. Nút này sẽ mở một tab mới hoặc chuyển hướng người dùng đến đúng trang swap cho token đó trên website của Hyperion.
+    *   **Mô tả:** Bao gồm: Thông tin Cơ bản Token (hình ảnh, tên, ký hiệu, mô tả, **vốn hóa thị trường (market cap)**, CA, Owner, followers, nút "Add to wallet", link social); **Thông tin Cung cấp (Supply Info):** hiển thị rõ **lượng token người tạo đã mua trước**, **lượng đã bán ra công chúng**, và **tổng cung hiện tại trên bonding curve**; **Trạng thái Token** ("Đang giao dịch trên Bonding Curve" hoặc "Đã niêm yết trên Hyperion"); Biểu đồ Giá Token (dữ liệu giá được truy vấn từ hợp đồng bonding curve của Aiptos, thể hiện giá theo từng giao dịch); **Khu vực Giao dịch (có hai trạng thái):**
+        *   **Khi token đang trên bonding curve:** Hiển thị giao diện Mua/Bán. Bên dưới đó, PHẢI hiển thị:
+            *   **Thanh tiến độ Bonding Curve:** Một thanh tiến trình trực quan cho thấy mức vốn hóa thị trường hiện tại so với mốc yêu cầu để niêm yết trên Hyperion.
+            *   **Bảng Giao dịch Gần đây:** Một bảng liệt kê các giao dịch mua/bán gần nhất của token này (loại giao dịch, số lượng, giá, thời gian).
+        *   **Khi token đã đạt mốc và chuyển sang Hyperion:** Toàn bộ giao diện Mua/Bán, thanh tiến độ, và bảng giao dịch của token sẽ bị ẩn hoặc vô hiệu hóa. Thay vào đó, một khu vực thông báo nổi bật sẽ hiển thị, cùng với một nút bấm lớn: **"Giao dịch trên Hyperion"**. Nút này sẽ mở một tab mới hoặc chuyển hướng người dùng đến đúng trang swap cho token đó trên website của Hyperion.
         *   Khu vực Thông tin Bot (tên, mô tả, followers, link, lệnh mẫu). Nút "Admin page".
     *   **Kích hoạt/Sự kiện:** Người dùng nhấp vào token từ danh sách (FR-008) hoặc truy cập trực tiếp.
     *   **Điều kiện tiên quyết:** Token tồn tại, metadata có sẵn.
@@ -218,13 +220,15 @@
     *   **Mô tả:** Hiển thị danh sách token dạng lưới (thẻ token: logo, tên, ký hiệu, market cap (APT, tham khảo USD), thời gian tạo, CA, traders, owner, nút tương tác nhanh). Thanh tìm kiếm. Sắp xếp ("Newest"), lọc ("All Pairs"). Nút "Create Token Mới" (nếu đã đăng nhập/kết nối ví).
 
 *   **Trang Chi tiết Token (Token Detail Page):**
-    *   **Mô tả:** Thông tin cơ bản (logo, tên, ký hiệu, mô tả, market cap (APT, tham khảo USD/ETH), CA, owner, followers, nút "Add to wallet", link social). Biểu đồ giá.
-        *   **Khu vực Giao dịch (Giai đoạn Bonding Curve):** Hiển thị Tab Mua/Bán, ô nhập liệu, thông tin giá từ bonding curve, nút "Mua", nút "Bán".
+    *   **Mô tả:** Thông tin cơ bản (logo, tên, ký hiệu, mô tả, market cap, CA, owner, followers, nút "Add to wallet", link social). **Bổ sung:** hiển thị rõ **lượng token người tạo đã mua trước**, **lượng đã bán cho công chúng**, và **tổng cung hiện tại trên bonding curve**. Biểu đồ giá (hiển thị giá theo từng giao dịch).
+        *   **Khu vực Giao dịch (Giai đoạn Bonding Curve):** Hiển thị Tab Mua/Bán, ô nhập liệu, thông tin giá từ bonding curve, nút "Mua", nút "Bán". **Bên dưới khu vực này sẽ hiển thị:**
+            *   **Thanh tiến độ Bonding Curve:** Cho thấy tiến trình đạt đến mốc vốn hóa thị trường để niêm yết trên Hyperion.
+            *   **Bảng Giao dịch:** Liệt kê các giao dịch mua/bán gần nhất của token này.
         *   **Khu vực Giao dịch (Giai đoạn sau khi niêm yết Hyperion):** Khu vực này được thay thế bằng một thông báo (ví dụ: "Token này hiện đang giao dịch trên Hyperion!") và một nút bấm duy nhất **"Giao dịch trên Hyperion"** để điều hướng người dùng.
         *   Khu vực Thông tin Bot (tên, mô tả, followers, link, lệnh mẫu). Nút "Admin page".
 
 *   **Trang Tạo Token Mới (Create New Token Page):**
-    *   **Mô tả:** Biểu mẫu một bước nhập: Token Image (tải lên), Token Name, Token Symbol, Description. Nút "Create".
+    *   **Mô tả:** Biểu mẫu một bước: Token Image (tải lên), Token Name, Token Symbol, Description. **Sẽ có thêm một trường tùy chọn (ví dụ: "Creator Pre-buy Amount (APT)") để người tạo nhập số lượng APT muốn dùng để mua trước token.** Nút "Create".
 
 *   **Trang Quản trị Token (Admin Page):**
     *   **Mô tả:** Truy cập từ trang chi tiết token (nếu là người tạo). Bao gồm các khu vực:
