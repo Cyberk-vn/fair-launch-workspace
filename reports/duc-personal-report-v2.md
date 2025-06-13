@@ -14,12 +14,10 @@ pie title Task Status Distribution
 ## 2. Báo Cáo Hoạt Động Gần Nhất
 
 ### ✨ Thành tựu
-- Sửa giao diện đăng nhập X, hiển thị ảnh đại diện từ X nếu có
-- Check các bug aiptos#39, aiptos#171, aiptos#35, aiptos#145, aiptos#113
-- Setup môi trường production
+- Đã hoàn thành setup môi trường production
 
 ### 🚧 Đang thực hiện
-- Tiếp tục setup môi trường production (12/06/2025 hoàn thành)
+- Free test và fix bugs nếu có
 
 ### ⚠️ Vấn đề và Giải pháp
 - Không có
