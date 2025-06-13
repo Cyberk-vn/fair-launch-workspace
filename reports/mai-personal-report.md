@@ -14,16 +14,17 @@ pie title Task Status Distribution
 ## 2. Báo Cáo Hoạt Động Gần Nhất
 
 ### ✨ Thành tựu
-- Sửa phần animation cho "The project has graduated" trang Home
-- Xóa logo aptos ở list project trang Home
-- Sửa lỗi khi Cancel upload ảnh và lỗi không hiện validate size limit và format file.
+- Capitalize footer: aiptos.fun
+- Adjust UI follow new design: rocket icon in bonding curve (home), border random màu
+- Add APT symbol at market cap
+- Fix display total supply at Create token page: remove controller and display as 1,000,000,000
 
 ### 🚧 Đang thực hiện
-- Fix các bugs chị Hương log hoặc design bảo sửa
+- Test animation cho border
 - Dự kiến hoàn thành: 13/06/2025
 
 ### ⚠️ Vấn đề và Giải pháp
-- Code windows khá choke
+- Search cho mobile cần thảo luận lại
 
 ## 3. Danh Sách Nhiệm Vụ đã và đang Thực Hiện
 
