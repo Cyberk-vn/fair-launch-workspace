@@ -17,7 +17,7 @@ pie title Task Status Distribution
 - Đã hoàn thành setup môi trường production
 
 ### 🚧 Đang thực hiện
-- Thêm các hàm chuyển đổi network
+- Thêm thông báo khi network không phù hợp
 - Free test và fix bugs nếu có
 
 ### ⚠️ Vấn đề và Giải pháp
