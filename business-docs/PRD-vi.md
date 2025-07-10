@@ -1,273 +1,326 @@
-# Product Requirements Document - Aiptos
+# Tài liệu Yêu cầu Sản phẩm - Thẻ Cào Amaterasu
 
-**Date:** [Ngày tạo/Cập nhật gần nhất]
+**Phiên bản Tiếng Việt**
 
-**Version:** 1.0
-
-**Prepared By:** [Tên cụ/Đội ngũ của cụ]
-
----
-
-## 1. Introduction / Overview
-
-*   **Project Summary:** Dự án Aiptos nhằm mục đích tạo ra một nền tảng trên mạng lưới Aptos, cho phép bất kỳ ai cũng có thể khởi chạy token một cách công bằng thông qua **cơ chế bonding curve (đường cong liên kết)**. Người dùng có thể mua và bán token trực tiếp với hợp đồng thông minh của Aiptos.
-*   **Detailed Overview:** Tài liệu này mô tả các yêu cầu cho Aiptos, một nền tảng được phát triển cho mạng Aptos. Mục tiêu cốt lõi của dự án là cho phép người dùng tạo token tùy chỉnh với các thông tin tối giản như hình ảnh, tên, ký hiệu, và mô tả. Nền tảng sẽ cho phép người dùng mua và bán các token được tạo ra bằng APT (token gốc của Aptos) **thông qua hợp đồng bonding curve của Aiptos**. Khi một token đạt đến một mốc vốn hóa thị trường nhất định, nền tảng sẽ **tự động chuyển giao thanh khoản và niêm yết token đó lên sàn giao dịch phi tập trung (DEX) Hyperion Aptos**. Tại thời điểm này, mọi giao dịch tiếp theo sẽ được thực hiện trực tiếp trên giao diện của Hyperion, và **Aiptos sẽ hướng người dùng đến đó**. Hợp đồng thông minh (smart contract) của Aiptos sẽ được triển khai trên mạng Aptos. Giao diện người dùng chính sẽ là một trang web (Aiptos site). Dự án Aiptos cũng đóng vai trò là nền tảng ban đầu, tạo tiền đề cho việc phát triển giai đoạn AI tiếp theo (dự án Bankr).
+**Ngày:** 2025-06-16 (dựa trên phiên bản tài liệu gốc)  
+**Phiên bản:** 1.0-dev  
+**Chuẩn bị bởi:** AI Assistant (dựa trên Amaterasu Scratch Card (1).pdf)
 
 ---
 
-## 2. Business Requirements (BR)
+## 1. Giới thiệu / Tổng quan
 
-*   **BR-001 - Home-page functionality:** hiển thị danh sách các dự án, cho phép ngươi dùng lọc và truy cập vào chi tiết các dự án.
-*   **BR-002 - Cho phép người dùng tạo token và mua trước:** Cung cấp khả năng cho người dùng tạo (mint) token mới với các thuộc tính tối giản (**hình ảnh, tên, ký hiệu, mô tả**) và **cho phép người tạo mua trước một lượng token ở mức giá khởi điểm trong quá trình tạo.**
-*   **BR-003 - Hỗ trợ giao dịch token (Mua/Bán bằng APT):** Cho phép người dùng mua/bán token bằng APT **trực tiếp với hợp đồng bonding curve của Aiptos**. Khi token đạt mốc vốn hóa thị trường định trước, nền tảng sẽ **tự động tạo cặp thanh khoản trên Hyperion Aptos và chuyển hướng người dùng đến trang swap của Hyperion để tiếp tục giao dịch.**
-*   **BR-004 - Triển khai hợp đồng thông minh Aiptos:** Triển khai thành công và ổn định hợp đồng thông minh (smart contract) cốt lõi của Aiptos lên mạng lưới Aptos để quản lý **cơ chế bonding curve và quá trình chuyển giao thanh khoản.**
-*   **BR-005 - Kết nối ví và quản lý người dùng (Đăng nhập X):** Cho phép người dùng kết nối ví tiền điện tử Aptos và đăng nhập vào nền tảng bằng tài khoản X (Twitter) để thực hiện giao dịch và quản lý các token/tính năng liên quan đến tài khoản của họ.
-*   **BR-006 - Quản lý Thông tin Token Niêm yết:** Cho phép người tạo token quản lý và chỉnh sửa thông tin hiển thị (metadata) của token mà họ đã tạo (ví dụ: mô tả, logo, các đường dẫn liên kết mạng xã hội).
-*   **BR-007 - Đảm bảo tuân thủ pháp lý cơ bản:** Chuẩn bị và tích hợp các tài liệu pháp lý cần thiết như Điều khoản Sử dụng (Terms of Use) và Chính sách Quyền riêng tư (Privacy Policy) cho nền tảng.
-*   **BR-008 - Tạo nền tảng cho giai đoạn phát triển AI (Bankr):** Xây dựng Aiptos với kiến trúc và nền tảng vững chắc, có khả năng mở rộng và tích hợp, phục vụ cho việc phát triển các tính năng AI trong giai đoạn tiếp theo (dự án Bankr).
-*   **BR-009 - Cơ chế Chia sẻ Doanh thu cho Người tạo Token:** Cung cấp cho người tạo token một cơ chế để nhận một phần phí giao dịch (40%) được tạo ra khi token của họ được giao dịch trên Hyperion, tạo động lực cho việc tạo ra các token chất lượng.
-*   **BR-010 - Cung cấp Thông tin Hướng dẫn "How It Works":** Cung cấp một mục "How It Works" rõ ràng và dễ tiếp cận để giải thích cho người dùng về cơ chế hoạt động của nền tảng, bao gồm cấu trúc phí, quy trình bonding curve, và các giai đoạn của một token.
+### Tóm tắt Dự án
 
----
+Dự án Thẻ Cào Amaterasu nhằm mục đích tạo ra một **trò chơi thẻ cào công bằng, tiết lộ ngay lập tức** trên mạng chính Aptos (Move v2). Nó bao gồm các tính năng như:
 
-## 3. Functional Requirements (FR)
+- Jackpot
+- Xổ số hàng tháng
+- Hệ thống điểm
+- Tiền thưởng giới thiệu
+- Giảm giá theo gói
 
-**FR-001 - Kết nối Ví Aptos**
-*   **FR-001 - Kết nối Ví Aptos:** Hệ thống PHẢI cho phép người dùng kết nối ví Aptos tương thích của họ.
-    *   **Mô tả:** Người dùng cần có khả năng kết nối ví Aptos hiện có của họ với nền tảng Aiptos. Nút "Connect" trên header. Thông báo trạng thái.
-    *   **Kích hoạt/Sự kiện:** Người dùng nhấp vào nút "Connect" trên header hoặc cố gắng thực hiện một hành động yêu cầu ví đã kết nối.
-    *   **Điều kiện tiên quyết:** Người dùng đã cài đặt/có sẵn ví tương thích với Aptos.
-    *   **Điều kiện sau khi hoàn thành:** Ví của người dùng được kết nối an toàn với nền tảng; địa chỉ ví của người dùng được hiển thị trên header; người dùng có thể tiếp tục các hành động yêu cầu ví. HOẶC Kết nối ví không thành công và người dùng được thông báo.
-    *   **Mức độ ưu tiên:** Cao
+### Tổng quan Chi tiết
 
-**FR-002 - Tạo Token Mới**
-*   **FR-002 - Tạo Token Mới:** Hệ thống PHẢI cho phép người dùng (đã đăng nhập và kết nối ví) tạo token mới trên mạng lưới Aptos thông qua một quy trình đơn giản trên nền tảng Aiptos.
-    *   **Mô tả:** Quá trình tạo token sẽ diễn ra trong một bước. Ngoài việc cung cấp các thông tin cơ bản (**Hình ảnh, Tên, Ký hiệu, Mô tả**), hệ thống PHẢI cho phép người tạo **nhập một số lượng APT để mua trước token ở mức giá khởi điểm của bonding curve.** Lượng mua trước này là tùy chọn.
-    *   **Kích hoạt/Sự kiện:** Người dùng đã đăng nhập, kết nối ví, điều hướng đến mục "Create" và hoàn thành biểu mẫu, sau đó nhấp nút "Create".
-    *   **Điều kiện tiên quyết:** Đã đăng nhập (FR-004), Ví Aptos đã kết nối (FR-001), Đủ APT cho phí gas (và cho lượng mua trước nếu có).
-    *   **Điều kiện sau khi hoàn thành:** Hợp đồng token mới được triển khai; Token liên kết với người tạo; **Nếu người tạo mua trước, lượng token tương ứng được chuyển vào ví của họ;** Token niêm yết trên Aiptos và bắt đầu giao dịch trên bonding curve cho những người dùng khác; Người dùng nhận xác nhận.
-    *   **Mức độ ưu tiên:** Cao
+Tài liệu này mô tả các yêu cầu cho trò chơi Thẻ Cào Amaterasu. Mục tiêu cốt lõi là cung cấp trải nghiệm người dùng mượt mà cho việc mua và tiết lộ thẻ cào kỹ thuật số, với sự nhấn mạnh mạnh mẽ về tính công bằng và khả năng thanh toán tài chính.
 
-**FR-003 - Hiển thị Thông tin Chi tiết Token**
-*   **FR-003 - Hiển thị Thông tin Chi tiết Token:** Hệ thống PHẢI hiển thị thông tin chi tiết và các chức năng tương tác cho mỗi token.
-    *   **Mô tả:** Bao gồm: Thông tin Cơ bản Token (hình ảnh, tên, ký hiệu, mô tả, **vốn hóa thị trường (market cap)**, CA, Owner, followers, nút "Add to wallet", link social); **Thông tin Cung cấp (Supply Info):** hiển thị rõ **lượng token người tạo đã mua trước**, **lượng đã bán ra công chúng**, và **tổng cung hiện tại trên bonding curve**; **Trạng thái Token** ("Đang giao dịch trên Bonding Curve" hoặc "Đã niêm yết trên Hyperion"); Biểu đồ Giá Token (dữ liệu giá được truy vấn từ hợp đồng bonding curve của Aiptos, thể hiện giá theo từng giao dịch); **Khu vực Giao dịch (có hai trạng thái):**
-        *   **Khi token đang trên bonding curve:** Hiển thị giao diện Mua/Bán. Bên dưới đó, PHẢI hiển thị:
-            *   **Thanh tiến độ Bonding Curve:** Một thanh tiến trình trực quan cho thấy mức vốn hóa thị trường hiện tại so với mốc yêu cầu để niêm yết trên Hyperion.
-            *   **Bảng Giao dịch Gần đây:** Một bảng liệt kê các giao dịch mua/bán gần nhất của token này (loại giao dịch, số lượng, giá, thời gian).
-        *   **Khi token đã đạt mốc và chuyển sang Hyperion:** Toàn bộ giao diện Mua/Bán, thanh tiến độ, và bảng giao dịch của token sẽ bị ẩn hoặc vô hiệu hóa. Thay vào đó, một khu vực thông báo nổi bật sẽ hiển thị, cùng với một nút bấm lớn: **"Giao dịch trên Hyperion"**. Nút này sẽ mở một tab mới hoặc chuyển hướng người dùng đến đúng trang swap cho token đó trên website của Hyperion.
-        *   Nút "Admin page" để người tạo token truy cập trang quản lý.
-    *   **Kích hoạt/Sự kiện:** Người dùng nhấp vào token từ danh sách (FR-008) hoặc truy cập trực tiếp.
-    *   **Điều kiện tiên quyết:** Token tồn tại, metadata có sẵn.
-    *   **Điều kiện sau khi hoàn thành:** Người dùng xem được thông tin toàn diện và có thể thực hiện giao dịch mua/bán token trên bonding curve của Aiptos hoặc được chuyển hướng sang Hyperion.
-    *   **Mức độ ưu tiên:** Cao
+**Tính năng Chính:**
 
-**FR-004 - Đăng nhập Người dùng (X/Twitter)**
-*   **FR-004 - Đăng nhập Người dùng (X/Twitter):** Hệ thống PHẢI cho phép người dùng đăng nhập bằng tài khoản X (Twitter).
-    *   **Mô tả:** Tích hợp API xác thực X. Sau khi đăng nhập, liên kết phiên với hoạt động quản lý.
-    *   **Kích hoạt/Sự kiện:** Người dùng nhấp "Đăng nhập" và chọn "Đăng nhập bằng X".
-    *   **Điều kiện tiên quyết:** Người dùng có tài khoản X; Aiptos đã cấu hình tích hợp.
-    *   **Điều kiện sau khi hoàn thành:** Người dùng được xác thực, đăng nhập; Hệ thống tạo phiên làm việc. HOẶC Đăng nhập thất bại, nhận thông báo lỗi.
-    *   **Mức độ ưu tiên:** Cao
+- Nhiều cấp độ thẻ với các quỹ giải thưởng động (Quỹ Thưởng Thẻ, Quỹ Xổ số Lớn, Quỹ Jackpot)
+- Cơ chế phân chia doanh số minh bạch
+- Sở hữu thẻ dựa trên NFT (có thể tặng hoặc đốt để tiết lộ kết quả)
+- Tính ngẫu nhiên trên chuỗi cho việc tiết lộ
+- Khuyến khích giới thiệu và biện pháp chống lạm dụng
 
-**FR-005 - Truy cập Trang Quản trị Token (Admin Page)**
-*   **FR-005 - Truy cập Trang Quản trị Token (Admin Page):** Hệ thống PHẢI cho phép người tạo token (đã đăng nhập) truy cập một trang quản trị riêng cho token của họ.
-    *   **Mô tả:** Từ trang chi tiết token, nếu là người tạo và đã đăng nhập, nhấp nút "Admin page" để đến trang quản lý (chỉnh sửa metadata).
-    *   **Kích hoạt/Sự kiện:** Người tạo token đã đăng nhập, ở trang chi tiết token, nhấp "Admin page".
-    *   **Điều kiện tiên quyết:** Đã đăng nhập (FR-004); Là người tạo/chủ sở hữu token đang xem.
-    *   **Điều kiện sau khi hoàn thành:** Chuyển hướng đến trang quản trị của token.
-    *   **Mức độ ưu tiên:** Cao
+**Mục tiêu Hiệu suất:**
 
-**FR-006 - Mua Token bằng APT trên Bonding Curve**
-*   **FR-006 - Mua Token bằng APT trên Bonding Curve:** Hệ thống PHẢI cho phép người dùng mua token bằng APT **khi token đang trong giai đoạn bonding curve.**
-    *   **Mô tả:** Trên trang chi tiết token, trong Khu vực Giao dịch, người dùng PHẢI có thể nhập số lượng token muốn mua hoặc số lượng APT muốn chi. Hệ thống PHẢI hiển thị tỷ giá giao dịch dự kiến từ bonding curve. Khi người dùng nhấp nút 'Mua', hệ thống PHẢI khởi tạo một giao dịch với hợp đồng bonding curve của **Aiptos**, yêu cầu người dùng xác nhận giao dịch này từ ví Aptos đã kết nối. Chức năng này sẽ bị vô hiệu hóa sau khi token được niêm yết trên Hyperion.
-    *   **Kích hoạt/Sự kiện:** Người dùng chọn mua và xác nhận giao dịch trên giao diện Aiptos, tương tác với hợp đồng Aiptos.
-    *   **Điều kiện tiên quyết:** Đã kết nối ví Aptos; Đủ APT để thanh toán và phí gas; Token đang trong giai đoạn bonding curve.
-    *   **Điều kiện sau khi hoàn thành:** Token mua được chuyển vào ví người dùng; Số dư APT của người dùng giảm tương ứng; Giao dịch được ghi lại trên blockchain thông qua hợp đồng của Aiptos; Người dùng nhận được thông báo xác nhận.
-    *   **Mức độ ưu tiên:** Cao
-
-**FR-007 - Bán Token để nhận APT trên Bonding Curve**
-*   **FR-007 - Bán Token để nhận APT trên Bonding Curve:** Hệ thống PHẢI cho phép người dùng bán token để đổi lấy APT **khi token đang trong giai đoạn bonding curve.**
-    *   **Mô tả:** Trên trang chi tiết token, trong Khu vực Giao dịch, người dùng PHẢI có thể chọn token muốn bán và nhập số lượng. Hệ thống PHẢI hiển thị số lượng APT dự kiến nhận được. Khi người dùng nhấp nút 'Bán', hệ thống PHẢI khởi tạo một giao dịch với hợp đồng bonding curve của **Aiptos**, yêu cầu người dùng xác nhận giao dịch này từ ví Aptos đã kết nối. Chức năng này sẽ bị vô hiệu hóa sau khi token được niêm yết trên Hyperion.
-    *   **Kích hoạt/Sự kiện:** Người dùng chọn bán và xác nhận giao dịch trên giao diện Aiptos, tương tác với hợp đồng Aiptos.
-    *   **Điều kiện tiên quyết:** Đã kết nối ví Aptos; Đủ token bán và APT cho phí gas; Token đang trong giai đoạn bonding curve.
-    *   **Điều kiện sau khi hoàn thành:** Số lượng token bán bị trừ khỏi ví người dùng; Số dư APT của người dùng tăng tương ứng; Giao dịch được ghi lại trên blockchain thông qua hợp đồng của Aiptos; Người dùng nhận được thông báo xác nhận.
-    *   **Mức độ ưu tiên:** Cao
-
-**FR-008 - Hiển thị Danh sách Token/Dự án và Tìm kiếm**
-*   **FR-008 - Hiển thị Danh sách Token/Dự án và Tìm kiếm:** Hệ thống PHẢI hiển thị danh sách token/dự án và cung cấp chức năng tìm kiếm.
-    *   **Mô tả:** Hiển thị dạng Lưới: thẻ token (hình ảnh, tên, ký hiệu, Market Cap bằng APT (tham khảo USD), thời gian tạo, CA, traders, owner, nút tương tác nhanh). Thanh tìm kiếm ("Search by token name or symbol..."). Sắp xếp ("Newest"), lọc ("All Pairs").
-    *   **Kích hoạt/Sự kiện:** Người dùng truy cập trang danh sách token hoặc sử dụng tìm kiếm/bộ lọc.
-    *   **Điều kiện tiên quyết:** Có ít nhất một token/dự án niêm yết.
-    *   **Điều kiện sau khi hoàn thành:** Danh sách token hiển thị đúng định dạng và tiêu chí; Kết quả tìm kiếm hiển thị.
-    *   **Mức độ ưu tiên:** Cao
-
-**FR-009 - Hiển thị Dòng Chảy Giao dịch Gần Đây trên Nền tảng (Marquee/Ticker)**
-*   **FR-009 - Hiển thị Dòng Chảy Giao dịch Gần Đây trên Nền tảng (Marquee/Ticker):** Hệ thống PHẢI hiển thị dòng chảy các giao dịch mua/bán token vừa thực hiện thành công **trên hợp đồng bonding curve của Aiptos (ví dụ: bằng cách lắng nghe các sự kiện (events) phát ra từ contract của Aiptos).**
-    *   **Mô tả:** Dòng chảy hiển thị thông tin tóm tắt: [Tên Token] | [Mua/Bán] | [Giá trị bằng APT/USD] | [Địa chỉ người dùng rút gọn (nếu có thể lấy được)]. Tự động cập nhật. Sau khi token chuyển sang Hyperion, dòng chảy này trên Aiptos có thể dừng lại đối với token đó.
-    *   **Kích hoạt/Sự kiện:** Tự động cập nhật khi có giao dịch mới trên contract của Aiptos.
-    *   **Điều kiện tiên quyết:** **Aiptos có khả năng lắng nghe sự kiện từ hợp đồng thông minh của chính mình một cách hiệu quả.**
-    *   **Điều kiện sau khi hoàn thành:** Dòng chảy giao dịch hiển thị liên tục, chính xác các giao dịch trên bonding curve.
-    *   **Mức độ ưu tiên:** Cao
-
-**FR-010 - Hiển thị Điều khoản Sử dụng và Chính sách Quyền riêng tư**
-*   **FR-010 - Hiển thị Điều khoản Sử dụng và Chính sách Quyền riêng tư:** Hệ thống PHẢI cung cấp quyền truy cập dễ dàng đến các tài liệu này.
-    *   **Mô tả:** Liên kết ở vị trí dễ thấy (ví dụ: footer).
-    *   **Kích hoạt/Sự kiện:** Người dùng nhấp vào liên kết.
-    *   **Điều kiện tiên quyết:** Nội dung tài liệu đã soạn thảo.
-    *   **Điều kiện sau khi hoàn thành:** Người dùng xem được nội dung.
-    *   **Mức độ ưu tiên:** Cao
-
-**FR-011 - Chỉnh sửa Thông tin (Metadata) Token từ Trang Admin**
-*   **FR-011 - Chỉnh sửa Thông tin (Metadata) Token từ Trang Admin:** Hệ thống PHẢI cho phép người tạo token (trên trang Admin) chỉnh sửa metadata.
-    *   **Mô tả:** Trên trang Admin, cập nhật: Mô tả Token, Link Website, Farcaster, X, Telegram. Thay đổi được lưu và cập nhật trên trang chi tiết token.
-    *   **Kích hoạt/Sự kiện:** Người tạo token thay đổi thông tin và nhấp "Save changes".
-    *   **Điều kiện tiên quyết:** Ở trang Admin của token sở hữu (FR-005).
-    *   **Điều kiện sau khi hoàn thành:** Metadata token được cập nhật; Nhận xác nhận.
-    *   **Mức độ ưu tiên:** Trung bình
-
-**FR-012 - Claim Phí Giao dịch từ Hyperion**
-*   **FR-012 - Claim Phí Giao dịch từ Hyperion:** Hệ thống PHẢI cung cấp chức năng cho người tạo token claim (nhận) phần phí giao dịch (40%) của họ từ các giao dịch trên Hyperion.
-    *   **Mô tả:** Trên trang Admin của token, PHẢI có một khu vực hiển thị số dư phí tích lũy từ Hyperion (ví dụ: "Phí có thể nhận: X APT"). Một nút "Claim Fees". Chức năng này chỉ hiển thị và hoạt động sau khi token đã được niêm yết trên Hyperion.
-    *   **Kích hoạt/Sự kiện:** Người tạo token nhấp nút "Claim" trên trang Admin.
-    *   **Điều kiện tiên quyết:** Người dùng là người tạo token, đã đăng nhập (FR-004), đang ở trang Admin (FR-005), có phí tích lũy để claim.
-    *   **Điều kiện sau khi hoàn thành:** Số dư phí được chuyển vào ví của người tạo. Số dư phí chưa claim trên giao diện được cập nhật về 0. Người dùng nhận được xác nhận.
-    *   **Mức độ ưu tiên:** Trung bình
-
-**FR-013 - Hiển thị Mục "How It Works"**
-*   **FR-013 - Hiển thị Mục "How It Works":** Hệ thống PHẢI cung cấp một mục/trang "How It Works" có thể truy cập dễ dàng từ các vị trí chính (ví dụ: header hoặc footer).
-    *   **Mô tả:** Mục này sẽ cung cấp thông tin chi tiết, rõ ràng và dễ hiểu về:
-        *   **Phí tạo token:** Giải thích rằng Aiptos không thu phí để tạo token. Người dùng chỉ cần trả phí gas cho mạng lưới.
-        *   **Quy trình Bonding Curve:** Giải thích cách hoạt động của bonding curve và mục tiêu vốn hóa thị trường cần đạt để được niêm yết trên Hyperion (ví dụ: cần đạt một mốc APT cụ thể).
-        *   **Phí Giao dịch:** "Khi giao dịch trên Hyperion, phí là 1%. Phân chia: 40% cho bạn (người tạo), 40% cho Aiptos, 20% cho Hyperion."
-    *   **Kích hoạt/Sự kiện:** Người dùng nhấp vào liên kết/nút "How It Works".
-    *   **Điều kiện tiên quyết:** Nội dung đã được soạn thảo.
-    *   **Điều kiện sau khi hoàn thành:** Người dùng xem được thông tin giải thích chi tiết, có thể dưới dạng một trang riêng hoặc một modal.
-    *   **Mức độ ưu tiên:** Cao
+- ≥10 giao dịch mỗi giây (Tx/s) duy trì
+- 99.999% khả năng thanh toán của Quỹ Thưởng Thẻ
+- Độ bao phủ kiểm thử cao và không có vấn đề nghiêm trọng trong Move Prover
 
 ---
 
-## 4. Assumptions & Constraints
+## 2. Yêu cầu Kinh doanh (BR)
 
-*   **Assumptions:**
-    *   **A-001 - Ổn định và Năng lực của Mạng Aptos:** Mạng lưới Aptos sẽ hoạt động ổn định, an toàn và có khả năng hỗ trợ khối lượng giao dịch cũng như các loại giao dịch mà nền tảng Aiptos yêu cầu.
-    *   **A-002 - Người dùng có Ví Aptos Tương thích:** Người dùng tiềm năng của Aiptos đã có hoặc có thể dễ dàng thiết lập và sử dụng các ví tiền điện tử tương thích với mạng lưới Aptos.
-    *   **A-003 - Người dùng có Tài khoản X/Farcaster:** Người dùng muốn sử dụng các chức năng quản lý token sẽ có tài khoản X (Twitter) hoặc Farcaster hợp lệ để đăng nhập.
-    *   **A-004 - Kiến thức Cơ bản của Người dùng:** Người dùng có hiểu biết cơ bản về giao dịch token, khái niệm DAO, và các rủi ro liên quan đến việc sử dụng các ứng dụng phi tập trung và tiền điện tử.
-    *   **A-005 - Tính sẵn có và Độ tin cậy của API Xác thực Bên Thứ Ba:** API xác thực của X (Twitter) và Farcaster sẽ hoạt động ổn định và cho phép tích hợp để xác thực người dùng.
-    *   **A-006 - Người dùng có APT cho Phí Gas:** Người dùng sẽ có đủ lượng token APT để chi trả phí giao dịch (gas fees) cho các hoạt động trên mạng lưới Aptos.
-    *   **A-007 - Cấu trúc URL của Hyperion có thể dự đoán được:** Giả định rằng Hyperion có một cấu trúc URL ổn định và có thể dự đoán được cho các trang swap (ví dụ: `hyperion.xyz/swap?input=[token_A]&output=[token_B]`) để Aiptos có thể tạo liên kết chuyển hướng chính xác cho người dùng.
-    *   **A-008 - Hyperion hỗ trợ và cung cấp API/Cơ chế cho việc Chia sẻ Phí:** Giả định rằng Hyperion có một cơ chế kỹ thuật (ví dụ: hợp đồng thông minh hoặc API) cho phép Aiptos và người tạo token truy vấn và rút phần phí giao dịch của họ (40% cho người tạo, 40% cho Aiptos) một cách đáng tin cậy.
-
-*   **Constraints:**
-    *   **C-001 - Thời hạn Dự án:** Dự án Aiptos có mục tiêu hoàn thành và ra mắt các chức năng cốt lõi vào ngày 11 tháng 6 năm 2025.
-    *   **C-002 - Phạm vi Chức năng Ban đầu:** Phiên bản đầu tiên của Aiptos sẽ tập trung vào các chức năng cốt lõi của mô hình bonding curve: tạo token đơn giản, giao dịch trên bonding curve, và tự động chuyển giao thanh khoản sang Hyperion.
-    *   **C-003 - Không có AI trong Giai đoạn Đầu:** Trí tuệ nhân tạo (AI) sẽ không được sử dụng để thực hiện giao dịch hoặc triển khai token thay mặt người dùng trong phiên bản này của Aiptos.
-    *   **C-004 - Quyền Quản lý Token Hạn chế:** Quyền quản lý token của người tạo sẽ giới hạn ở việc chỉnh sửa metadata.
-    *   **C-005 - Phụ thuộc vào Mạng lưới Aptos và Hợp đồng Hyperion:** Hoạt động của nền tảng Aiptos phụ thuộc vào hiệu suất, tính bảo mật và các chính sách của mạng lưới Aptos. Chức năng giao dịch **ban đầu** phụ thuộc vào **hợp đồng thông minh của chính Aiptos**, và **sau đó** phụ thuộc vào sự ổn định và an toàn của hợp đồng Hyperion.
-    *   **C-006 - Giao diện Người dùng Chính:** Giao diện người dùng chính cho các tương tác sẽ là trang web Aiptos.
-    *   **C-007 - Đơn vị tiền tệ giao dịch chính:** Đồng APT là đơn vị tiền tệ chính được sử dụng cho các giao dịch và tính toán phí trên nền tảng Aiptos. Các đơn vị tiền tệ khác (ví dụ: USD, ETH) nếu được hiển thị chỉ mang tính chất tham khảo.
+| ID         | Yêu cầu                                    | Mô tả                                                                                                                                                                                                                                                               |
+| ---------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **BR-001** | Cung cấp Gameplay Thẻ Cào Công bằng        | Hệ thống phải cung cấp trò chơi thẻ cào nơi kết quả được chứng minh công bằng và tiết lộ ngay lập tức                                                                                                                                                               |
+| **BR-002** | Hỗ trợ Nhiều Cấp độ Thẻ và Giá cả          | Người dùng phải có thể mua thẻ cào ở các mức giá khác nhau (ví dụ: 0.5 APT, 1.0 APT, 5.0 APT). Mỗi cấp độ được liên kết với một Quỹ Thưởng Thẻ cụ thể                                                                                                               |
+| **BR-003** | Triển khai Giảm giá Theo gói               | Nền tảng phải cung cấp khuyến khích giảm giá cho việc mua nhiều thẻ theo gói (ví dụ: 10 thẻ được 11, 50 thẻ được 56, 100 thẻ được 115). Thẻ thưởng phải cấp đầy đủ tỷ lệ, điểm và trọng lượng giới thiệu                                                            |
+| **BR-004** | Quản lý Phân bổ Vốn qua Phân chia Bán hàng | Tất cả doanh thu từ việc bán thẻ phải được phân chia nguyên tử và phân bổ cho các quỹ định sẵn: Quỹ Thưởng Thẻ (70%), Phí giao thức (15%), Quỹ Xổ số Lớn (5%), Hoa hồng giới thiệu (5%), và Quỹ Jackpot (5%). Hỗ trợ cho chế độ token kép APT/AMA cũng được yêu cầu |
+| **BR-005** | Tạo điều kiện cho Cơ chế Jackpot           | Một phần (5%) của mỗi giá thẻ phải được phân bổ cho quỹ jackpot. Biểu tượng jackpot chỉ có thể xuất hiện khi quỹ jackpot ≥1,000 APT, với người dùng đầu tiên tiết lộ biểu tượng nhận được thanh toán ngay lập tức (Vàng 80%, Bạc 15%, Đồng 5% của quỹ)              |
+| **BR-006** | Tiến hành Xổ số Hàng tháng                 | Hệ thống phải tiến hành xổ số mỗi 30 ngày cho người chơi có được Vé Xổ số Lớn. Giải thưởng có thể là tài sản vật lý hoặc tương đương USD ổn định (90% giá trị, yêu cầu KYC)                                                                                         |
+| **BR-007** | Triển khai Hệ thống Điểm                   | Điểm phải được trao như biểu tượng trên thẻ, bị ảnh hưởng bởi hệ số nhân, với cơ hội kiếm thêm điểm tăng theo cấp độ thẻ cao hơn                                                                                                                                    |
+| **BR-008** | Tích hợp Chương trình Giới thiệu           | Nền tảng phải hỗ trợ hệ thống giới thiệu nơi người giới thiệu kiếm hoa hồng (5% cho chủ sở hữu NFT Amaterasu/√10,000 $AMA, 2.5% cho những người khác). Hoa hồng phải có thể rút khi đạt ngưỡng tối thiểu (0.1 APT)                                                  |
+| **BR-009** | Đảm bảo Khả năng Thanh toán Tài chính      | Hệ thống phải duy trì khả năng thanh toán cao (99.999%) cho Quỹ Thưởng Thẻ. Nếu giải thưởng vượt quá số dư quỹ, vốn nên được vay từ treasury_reserve và tự động hoàn trả bởi các lần bán tiếp theo                                                                  |
+| **BR-010** | Duy trì Hiệu suất Cao và UX Mượt mà        | Hệ thống nên duy trì ≥10 giao dịch mỗi giây (Tx/s) và nhắm đến 85% lượt chơi sử dụng khóa phiên "Chơi Lại" được ủy quyền trước cho trải nghiệm người dùng không ma sát                                                                                              |
+| **BR-011** | Hỗ trợ Khung Nâng cấp và Vận hành Tuân thủ | Khung hợp đồng thông minh phải cho phép nâng cấp và vận hành tuân thủ, nhắm đến ≥95% độ bao phủ kiểm thử và 0 vấn đề nghiêm trọng trong Move Prover                                                                                                                 |
 
 ---
 
-## 5. Risks
+## 3. Yêu cầu Chức năng (FR)
 
-*   **R-001 - Hiểu Lầm Yêu cầu do Hạn chế Giao tiếp với Khách hàng**
-    *   **Mô tả:** Việc khách hàng không thể trao đổi trực tiếp hàng ngày có thể dẫn đến việc truyền đạt thông tin sai lệch, hiểu sai yêu cầu.
-    *   **Khả năng xảy ra:** Trung bình
-    *   **Tác động:** Cao
-    *   **Kế hoạch Giảm thiểu / Hành động:** Báo cáo hàng ngày chi tiết, chủ động đề xuất yêu cầu, báo cáo tiến độ qua video, duy trì PRD cập nhật.
+### FR-001: Mua Thẻ Cào
 
-*   **R-002 - Tác động của Dịch bệnh đến Năng suất**
-    *   **Mô tả:** Sự bùng phát dịch bệnh có thể ảnh hưởng đến năng suất và tiến độ.
-    *   **Khả năng xảy ra:** Thấp đến Trung bình
-    *   **Tác động:** Trung bình đến Cao
-    *   **Kế hoạch Giảm thiểu / Hành động:** Biện pháp phòng ngừa, kiểm tra sức khỏe, hướng dẫn làm việc từ xa.
+**Mức độ ưu tiên:** Cao  
+**Mô tả:** Hệ thống PHẢI cho phép người dùng mua thẻ cào đơn lẻ hoặc theo gói với một chữ ký ví duy nhất.
 
-*   **R-003 - Khối lượng Công việc UX Lớn**
-    *   **Mô tả:** Khối lượng lớn deliverables UX trong thời gian ngắn có thể gây áp lực.
-    *   **Khả năng xảy ra:** Trung bình
-    *   **Tác động:** Trung bình
-    *   **Kế hoạch Giảm thiểu / Hành động:** Sử dụng dự án DAO mẫu, phân bổ nguồn lực chuyên trách, sử dụng thư viện component UI.
+- **Quy trình:** Người dùng có thể chọn cấp độ thẻ và số lượng. Khi mua, một NFT đại diện cho thẻ được đúc vào ví của họ
+- **Điều kiện tiên quyết:** Người dùng có ví Aptos đã kết nối với đủ APT
+- **Điều kiện sau khi hoàn thành:** NFT thẻ được đúc, vốn được phân chia cho các quỹ, xác nhận thành công
 
-*   **R-004 - Mở rộng Phạm vi / Định nghĩa Hoàn thành (DoD) Không rõ ràng**
-    *   **Mô tả:** Yêu cầu có thể bị mở rộng hoặc DoD không rõ ràng.
-    *   **Khả năng xảy ra:** Trung bình
-    *   **Tác động:** Cao
-    *   **Kế hoạch Giảm thiểu / Hành động:** Xác định DoD rõ ràng, chia nhỏ tác vụ, giao phần hoàn thành tăng dần, quy trình quản lý thay đổi nghiêm ngặt, rà soát PRD.
+### FR-002: Tiết lộ Thẻ Cào
 
-*   **R-005 - Lỗ hổng Bảo mật Hợp đồng Thông minh (Smart Contract) của Aiptos:**
-    *   **Mô tả:** Hợp đồng thông minh **bonding curve cốt lõi của Aiptos** có thể chứa lỗ hổng, dẫn đến mất mát tài sản hoặc hoạt động sai lệch. Đây là rủi ro lớn nhất của dự án.
-    *   **Khả năng xảy ra:** Trung bình đến Cao
-    *   **Tác động:** Rất Cao
-    *   **Kế hoạch Giảm thiểu / Hành động:** Tuân thủ best practices phát triển an toàn (Move), kiểm thử nội bộ, xem xét audit bởi bên thứ ba, sử dụng thư viện đã kiểm chứng.
+**Mức độ ưu tiên:** Cao  
+**Mô tả:** Hệ thống PHẢI cho phép người dùng tiết lộ thẻ cào, hoặc ngay lập tức khi mua (qua cờ auto_reveal) hoặc sau đó bằng cách đốt NFT thẻ.
 
-*   **R-006 - Vấn đề về Hiệu suất và Khả năng Mở rộng của Nền tảng Aiptos:**
-    *   **Mô tả:** Khi người dùng và token tăng, nền tảng Aiptos có thể gặp vấn đề hiệu suất trong việc truy vấn thông tin, hiển thị dữ liệu, và quản lý trạng thái giao dịch trên bonding curve.
-    *   **Khả năng xảy ra:** Trung bình
-    *   **Tác động:** Trung bình đến Cao
-    *   **Kế hoạch Giảm thiểu / Hành động:** Thiết kế kiến trúc mở rộng, caching hiệu quả, tối ưu hóa truy vấn blockchain/indexer, kiểm thử tải.
+- **Quy trình:** Tiết lộ sử dụng tính ngẫu nhiên trên chuỗi (`aptos_framework::randomness::u64_range`) để chọn 25 biểu tượng. Một `RevealEvent` được phát ra
+- **Điều kiện tiên quyết:** Người dùng sở hữu NFT thẻ cào chưa tiết lộ
+- **Điều kiện sau khi hoàn thành:** Thẻ được tiết lộ, biểu tượng hiển thị, giải thưởng (nếu có) được thanh toán, NFT bị đốt (nếu tiết lộ bằng cách đốt), `RevealEvent` được phát ra
 
-*   **R-007 - Thay đổi hoặc Ngừng cung cấp API của Bên Thứ Ba (X, Farcaster):**
-    *   **Mô tả:** Phụ thuộc API X và Farcaster cho đăng nhập. Thay đổi/ngừng API có thể ảnh hưởng đăng nhập.
-    *   **Khả năng xảy ra:** Thấp đến Trung bình
-    *   **Tác động:** Trung bình
-    *   **Kế hoạch Giảm thiểu / Hành động:** Thiết kế module xác thực linh hoạt, theo dõi thông báo API, xem xét phương thức xác thực dự phòng.
+### FR-003: Tiết lộ Thẻ Theo Lô
 
-*   **R-008 - Phụ thuộc vào Hợp đồng Thông minh của Hyperion Aptos (Giai đoạn sau)**
-    *   **Mô tả:** Sau khi token được chuyển giao, Aiptos sẽ phụ thuộc vào các hợp đồng thông minh của Hyperion Aptos. Các lỗi tiềm ẩn trong contract của Hyperion, việc Hyperion nâng cấp contract gây mất tương thích (breaking changes), hoặc các vấn đề bảo mật không lường trước có thể ảnh hưởng đến các token đã "trưởng thành" và gây mất mát cho người dùng.
-    *   **Khả năng xảy ra:** Trung bình
-    *   **Tác động:** Cao
-    *   **Kế hoạch Giảm thiểu / Hành động:** Theo dõi chặt chẽ các thông báo từ Hyperion. Thông báo rõ ràng cho người dùng về việc giao dịch giai đoạn sau được xử lý bởi hợp đồng của Hyperion và các rủi ro liên quan khi chuyển hướng.
+**Mức độ ưu tiên:** Trung bình  
+**Mô tả:** Hệ thống PHẢI hỗ trợ tiết lộ nhiều thẻ trong một giao dịch duy nhất (`batch_reveal()`) hoặc tự động tiết lộ tất cả thẻ còn lại (`Batch_reveal()`).
 
-*   **R-009 - Rủi ro về Cơ chế Thu và Phân phối Phí từ Hyperion:**
-    *   **Mô tả:** Cơ chế kỹ thuật để thu và phân phối phí từ Hyperion có thể phức tạp, không đáng tin cậy, hoặc có thể thay đổi mà không báo trước. Lỗi trong cơ chế này có thể dẫn đến việc tính sai phí, không thể claim, hoặc mất mát doanh thu cho cả Aiptos và người tạo token.
-    *   **Khả năng xảy ra:** Trung bình
-    *   **Tác động:** Cao
-    *   **Kế hoạch Giảm thiểu / Hành động:** Nghiên cứu kỹ lưỡng tài liệu kỹ thuật của Hyperion. Xây dựng một module riêng biệt, được kiểm thử kỹ lưỡng để xử lý việc tương tác với cơ chế phí của Hyperion. Có kế hoạch dự phòng và thông báo cho người dùng nếu cơ chế của Hyperion thay đổi.
+- **Quy trình:** Cho phép tiết lộ hiệu quả nhiều thẻ đã mua
+- **Điều kiện tiên quyết:** Người dùng sở hữu nhiều NFT thẻ cào chưa tiết lộ
+- **Điều kiện sau khi hoàn thành:** Tất cả thẻ được chọn được tiết lộ, giải thưởng được thanh toán
+
+### FR-004: Chức năng Chơi Lại
+
+**Mức độ ưu tiên:** Cao  
+**Mô tả:** Hệ thống PHẢI cho phép người dùng nhanh chóng mua và tiết lộ thẻ khác bằng cách sử dụng khóa phiên "Chơi Lại" được ủy quyền trước với một chữ ký ví duy nhất.
+
+- **Quy trình:** Tối ưu hóa UX cho các phiên chơi liên tục
+- **Điều kiện tiên quyết:** Người dùng có khóa phiên hoạt động và đủ APT
+- **Điều kiện sau khi hoàn thành:** Thẻ mới được mua và tiết lộ
+
+### FR-005: Hiển thị Bản đồ Biểu tượng và Thanh toán
+
+**Mức độ ưu tiên:** Trung bình  
+**Mô tả:** Hệ thống PHẢI hiển thị rõ ràng xác suất và giải thưởng liên quan đến các biểu tượng khác nhau trên thẻ cào.
+
+- **Quy trình:** Bao gồm phần trăm cho trống, các số tiền giải thưởng khác nhau (như % của Quỹ Thưởng Thẻ), và biểu tượng hệ số nhân
+- **Điều kiện tiên quyết:** Người dùng xem chi tiết thẻ hoặc quy tắc trò chơi
+- **Điều kiện sau khi hoàn thành:** Người dùng hiểu tỷ lệ và thanh toán tiềm năng
+
+### FR-006: Tính toán và Trao Điểm
+
+**Mức độ ưu tiên:** Trung bình  
+**Mô tả:** Hệ thống PHẢI tính toán và trao điểm dựa trên biểu tượng được tiết lộ, áp dụng hệ số nhân, và tăng cơ hội dựa trên cấp độ thẻ.
+
+- **Quy trình:** Điểm là một hình thức thưởng cho sự tham gia
+- **Điều kiện tiên quyết:** Thẻ được tiết lộ
+- **Điều kiện sau khi hoàn thành:** Điểm được trao cho số dư người dùng, có thể ảnh hưởng đến hệ số nhân TitleBadge
+
+### FR-007: Xử lý Thanh toán Jackpot
+
+**Mức độ ưu tiên:** Cao  
+**Mô tả:** Hệ thống PHẢI tự động thanh toán giải thưởng jackpot khi biểu tượng jackpot được tiết lộ, với điều kiện quỹ jackpot đạt ngưỡng (≥1,000 APT).
+
+- **Quy trình:** Giao dịch thành công đầu tiên tiết lộ biểu tượng jackpot nhận được phần trăm của quỹ (80% Vàng, 15% Bạc, 5% Đồng)
+- **Điều kiện tiên quyết:** Quỹ jackpot ≥1,000 APT, biểu tượng jackpot được tiết lộ
+- **Điều kiện sau khi hoàn thành:** Số tiền jackpot được chuyển cho người thắng, số dư jackpot_pool giảm, cờ cycle_active bị lật
+
+### FR-008: Quản lý Vé Xổ số Lớn
+
+**Mức độ ưu tiên:** Trung bình  
+**Mô tả:** Hệ thống PHẢI trao vé xổ số dựa trên cấp độ thẻ (cấp cao nhất 50% cơ hội, các cấp thấp hơn tỷ lệ tuyến tính).
+
+- **Quy trình:** Vé giới hạn 1 mỗi thẻ và không bị ảnh hưởng bởi hệ số nhân
+- **Điều kiện tiên quyết:** Thẻ được tiết lộ
+- **Điều kiện sau khi hoàn thành:** Vé xổ số được trao và ghi lại
+
+### FR-009: Tiến hành Xổ số Hàng tháng
+
+**Mức độ ưu tiên:** Trung bình  
+**Mô tả:** Một dịch vụ cron ngoài chuỗi PHẢI kích hoạt hàm `draw_grand_giveaway()` mỗi 30 ngày để chọn người thắng.
+
+- **Quy trình:** Giải thưởng là tài sản vật lý hoặc tương đương USD ổn định (90%). KYC được yêu cầu cho việc yêu cầu giải thưởng
+- **Điều kiện tiên quyết:** 30 ngày đã trôi qua kể từ lần xổ số cuối
+- **Điều kiện sau khi hoàn thành:** Người thắng xổ số được chọn, giải thưởng được trao (hoặc xổ số lại nếu không được yêu cầu sau 30 ngày)
+
+### FR-010: Quản lý Hoa hồng Giới thiệu
+
+**Mức độ ưu tiên:** Trung bình  
+**Mô tả:** Hệ thống PHẢI theo dõi và cho phép rút hoa hồng giới thiệu.
+
+- **Quy trình:** Người giới thiệu đủ điều kiện cho 2.5% hoặc 5% dựa trên tiêu chí, có thể rút sau ngưỡng 0.1 APT. Tự giới thiệu bị vô hiệu hóa
+- **Điều kiện tiên quyết:** Người dùng đã tích lũy đủ hoa hồng
+- **Điều kiện sau khi hoàn thành:** Hoa hồng được chuyển vào ví người giới thiệu
+
+### FR-011: Quản trị Tham số Hệ thống
+
+**Mức độ ưu tiên:** Thấp  
+**Mô tả:** Hệ thống PHẢI cho phép quản trị viên được ủy quyền cấu hình các tham số trò chơi khác nhau.
+
+- **Quy trình:** Bao gồm `CARD_PRICE`, `JACKPOT_THRESHOLD`, `ICON_PAYOUT_SPLIT`, `REFERRAL_PCT`, `POINTS_PER_CARD`, `MAX_PER_TX`
+- **Điều kiện tiên quyết:** Người ký quản trị với khả năng thích hợp
+- **Điều kiện sau khi hoàn thành:** Tham số trò chơi được cập nhật
+
+### FR-012: Cung cấp Rút Khẩn cấp
+
+**Mức độ ưu tiên:** Quan trọng  
+**Mô tả:** Hệ thống PHẢI cho phép quản trị viên được ủy quyền thực hiện rút khẩn cấp vốn.
+
+- **Quy trình:** Một hàm quan trọng để phục hồi vốn trong trường hợp khẩn cấp
+- **Điều kiện tiên quyết:** Người ký quản trị với khả năng thích hợp
+- **Điều kiện sau khi hoàn thành:** Vốn được rút an toàn
+
+### FR-013: Giám sát Số dư Quỹ và Khả năng Thanh toán
+
+**Mức độ ưu tiên:** Cao  
+**Mô tả:** Một Bảng điều khiển Kho bạc ngoài chuỗi PHẢI giám sát số dư quỹ và phát ra cảnh báo nếu tỷ lệ bao phủ giảm xuống dưới 120%.
+
+- **Quy trình:** Đảm bảo sức khỏe tài chính và cảnh báo về các vấn đề khả năng thanh toán tiềm ẩn
+- **Điều kiện tiên quyết:** Hệ thống indexer và giám sát hoạt động
+- **Điều kiện sau khi hoàn thành:** Cảnh báo chủ động về khả năng thanh toán quỹ
 
 ---
 
-## 6. Screens / User Interface
+## 4. Giả định & Ràng buộc
 
-*   **Màn hình Kết nối Ví (Connect Wallet Modal/Section):**
-    *   **Mô tả:** Modal/phần giao diện hiển thị tùy chọn ví Aptos (Petra, Martian, Pontem). Nút "Connect" trên header. Thông báo trạng thái.
+### Giả định
 
-*   **Màn hình Đăng nhập (Login Modal/Page):**
-    *   **Mô tả:** Giao diện chọn "Đăng nhập bằng X" hoặc "Đăng nhập bằng Farcaster". Chuyển hướng/popup để xác thực.
+| ID        | Giả định                                           | Mô tả                                                                                                                             |
+| --------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **A-001** | Ổn định và Khả năng của Mạng Aptos                 | Mạng chính Aptos sẽ hoạt động ổn định, an toàn và hỗ trợ khối lượng giao dịch yêu cầu (≥10 Tx/s)                                  |
+| **A-002** | Người dùng có Ví Aptos Tương thích                 | Người dùng tiềm năng có hoặc có thể dễ dàng thiết lập ví tiền điện tử tương thích với Aptos (ví dụ: Petra, Pontem, Aptos Connect) |
+| **A-003** | Độ tin cậy của Tính ngẫu nhiên Trên chuỗi          | Nguồn `aptos_framework::randomness::*` sẽ cung cấp số ngẫu nhiên đủ đồng đều và an toàn cho việc chọn biểu tượng                  |
+| **A-004** | Hiểu biết Cơ bản của Người dùng về Cơ chế Trò chơi | Người dùng có hiểu biết cơ bản về trò chơi thẻ cào và các khái niệm blockchain liên quan (ví dụ: chữ ký ví, phí gas)              |
 
-*   **Trang Chủ / Danh sách Token (Homepage / Token List Page):**
-    *   **Mô tả:** Hiển thị danh sách token dạng lưới (thẻ token: logo, tên, ký hiệu, market cap (APT, tham khảo USD), thời gian tạo, CA, traders, owner, nút tương tác nhanh). Thanh tìm kiếm. Sắp xếp ("Newest"), lọc ("All Pairs"). Nút "Create Token Mới" (nếu đã đăng nhập/kết nối ví).
+### Ràng buộc
 
-*   **Trang Chi tiết Token (Token Detail Page):**
-    *   **Mô tả:** Thông tin cơ bản (logo, tên, ký hiệu, mô tả, market cap, CA, owner, followers, nút "Add to wallet", link social). **Bổ sung:** hiển thị rõ **lượng token người tạo đã mua trước**, **lượng đã bán cho công chúng**, và **tổng cung hiện tại trên bonding curve**. Biểu đồ giá (hiển thị giá theo từng giao dịch).
-        *   **Khu vực Giao dịch (Giai đoạn Bonding Curve):** Hiển thị Tab Mua/Bán, ô nhập liệu, thông tin giá từ bonding curve, nút "Mua", nút "Bán". **Bên dưới khu vực này sẽ hiển thị:**
-            *   **Thanh tiến độ Bonding Curve:** Cho thấy tiến trình đạt đến mốc vốn hóa thị trường để niêm yết trên Hyperion.
-            *   **Bảng Giao dịch:** Liệt kê các giao dịch mua/bán gần nhất của token này.
-        *   **Khu vực Giao dịch (Giai đoạn sau khi niêm yết Hyperion):** Khu vực này được thay thế bằng một thông báo (ví dụ: "Token này hiện đang giao dịch trên Hyperion!") và một nút bấm duy nhất **"Giao dịch trên Hyperion"** để điều hướng người dùng.
-        *   Nút "Admin page" để người tạo token truy cập trang quản lý.
-    *   **Kích hoạt/Sự kiện:** Người dùng nhấp vào token từ danh sách (FR-008) hoặc truy cập trực tiếp.
-    *   **Điều kiện tiên quyết:** Token tồn tại, metadata có sẵn.
-    *   **Điều kiện sau khi hoàn thành:** Người dùng xem được thông tin toàn diện và có thể thực hiện giao dịch mua/bán token trên bonding curve của Aiptos hoặc được chuyển hướng sang Hyperion.
-    *   **Mức độ ưu tiên:** Cao
+| ID        | Ràng buộc                                           | Mô tả                                                                                                                                                           |
+| --------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **C-001** | Chuỗi Mục tiêu                                      | Trò chơi sẽ hoạt động độc quyền trên mạng chính Aptos sử dụng Move v2                                                                                           |
+| **C-002** | Thẻ Tối đa Mỗi Giao dịch                            | Tối đa 500 thẻ có thể được mua trong một giao dịch duy nhất (`MAX_PER_TX`)                                                                                      |
+| **C-003** | Hạn chế Tốc độ Chơi Lại                             | Có độ trễ tối thiểu 2 giây giữa các lần gọi `play_again()` liên tiếp từ cùng một khóa phiên                                                                     |
+| **C-004** | Ngưỡng Jackpot                                      | Biểu tượng jackpot chỉ xuất hiện khi số dư `jackpot_pool` ít nhất 1,000 APT                                                                                     |
+| **C-005** | Khoảng thời gian Xổ số Lớn                          | Xổ số Lớn được rút chính xác mỗi 30 ngày                                                                                                                        |
+| **C-006** | Phụ thuộc Thanh toán Giải thưởng vào Kho bạc Dự trữ | Trong trường hợp giải thưởng vượt quá số dư `card_reward_pool`, hệ thống dựa vào việc vay từ `treasury_reserve`                                                 |
+| **C-007** | Giao diện Người dùng Chính                          | Giao diện người dùng chính cho các tương tác sẽ là trang web React/NextJS                                                                                       |
+| **C-008** | Hàm Quản trị Có Cổng                                | Các hàm quản trị quan trọng như `set_param` và `emergency_withdraw` được bảo vệ bởi các khả năng cụ thể và yêu cầu khóa đa chữ ký cho các kích hoạt ngoài chuỗi |
 
-*   **Trang Tạo Token Mới (Create New Token Page):**
-    *   **Mô tả:** Biểu mẫu một bước: Token Image (tải lên), Token Name, Token Symbol, Description. **Sẽ có thêm một trường tùy chọn (ví dụ: "Creator Pre-buy Amount (APT)") để người tạo nhập số lượng APT muốn dùng để mua trước token.** Nút "Create".
+---
 
-*   **Trang Quản trị Token (Admin Page):**
-    *   **Mô tả:** Truy cập từ trang chi tiết token (nếu là người tạo). Bao gồm các khu vực:
-        *   **Update Token Info:** Biểu mẫu chỉnh sửa metadata (Description, Website, Farcaster, X, Telegram) và nút "Save changes".
-        *   **Khu vực Claim Phí Giao dịch (Fee Claim Area):** Hiển thị số dư phí tích lũy từ Hyperion (ví dụ: "Phí có thể nhận: X APT"). Một nút "Claim Fees". Chức năng này chỉ hiển thị và hoạt động sau khi token đã được niêm yết trên Hyperion.
+## 5. Rủi ro
 
-*   **Thành phần Dòng Chảy Giao dịch (Live Transactions Ticker/Marquee Component):**
-    *   **Mô tả:** Thành phần động (đầu/cuối trang) hiển thị liên tục giao dịch mới nhất trên các hợp đồng bonding curve của Aiptos.
+| ID Rủi ro | Rủi ro                                                                                                                                                                                                                      | Khả năng            | Tác động   | Kế hoạch Giảm thiểu                                                                                                                                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **R-001** | **Lỗ hổng Bảo mật Hợp đồng Thông minh**<br><br>Hợp đồng thông minh Move có thể chứa lỗ hổng (ví dụ: rò rỉ coin, vấn đề re-entrancy), dẫn đến mất tài sản hoặc hoạt động trò chơi không chính xác                            | Trung bình          | Rất Cao    | • Kiểm thử đơn vị nghiêm ngặt (phân chia quỹ, giới thiệu, vay-hoàn trả)<br>• Kiểm thử thuộc tính (bất biến jackpot)<br>• Xác minh Move Prover (không rò rỉ coin, không re-entrancy)<br>• Kiểm thử fuzz với giới hạn gas độc hại (undergasing) |
+| **R-002** | **Khả năng Thanh toán của Quỹ Thưởng**<br><br>Quỹ Thưởng Thẻ có thể không có đủ vốn để chi trả giải thưởng lớn, mặc dù cơ chế treasury_reserve                                                                              | Thấp đến Trung bình | Cao        | • Nhắm đến 99.999% khả năng thanh toán<br>• Triển khai vay treasury_reserve và hoàn trả tự động<br>• Giám sát Bảng điều khiển Kho bạc với cảnh báo <120% bao phủ                                                                              |
+| **R-003** | **Khai thác/Thiên vị Tính ngẫu nhiên**<br><br>Vấn đề với nguồn tính ngẫu nhiên trên chuỗi có thể dẫn đến kết quả dự đoán được hoặc phân phối biểu tượng không công bằng, làm suy yếu mục tiêu "công bằng"                   | Thấp                | Rất Cao    | • Dựa chính vào `aptos_framework::randomness::*`<br>• Kiểm thử đơn vị cho phân phối RNG (χ² trong 1% sau 10k lần chạy)<br>• Dự phòng tùy chọn cho luồng ORAO-VRF bất đồng bộ                                                                  |
+| **R-004** | **Suy giảm Hiệu suất / Vấn đề Khả năng Mở rộng**<br><br>Nền tảng có thể gặp khó khăn trong việc duy trì ≥10 Tx/s dưới tải cao, hoặc indexer/frontend có thể gặp vấn đề hiệu suất trong việc hiển thị dữ liệu thời gian thực | Trung bình          | Trung bình | • Thiết kế cho 10 Tx/s duy trì<br>• Sử dụng frontend React/NextJS hiệu quả<br>• Indexer tối ưu hóa cho GraphQL<br>• Giám sát thông lượng Tx và mã lỗi với Grafana                                                                             |
+| **R-005** | **Undergasing của Giao dịch Tiết lộ**<br><br>Một giao dịch tiết lộ có thể hết gas, ngăn cản việc thanh toán giải thưởng                                                                                                     | Thấp                | Trung bình | • Bảo vệ undergasing nơi `reveal()` ghi lại biểu tượng/giải thưởng, và `settle_prize()` được thực thi vô điều kiện trong cùng giao dịch<br>• Nếu giao dịch bị hủy, thẻ vẫn chưa tiết lộ, người dùng có thể gọi lại `reveal()`                 |
+| **R-006** | **Jackpot Double-Spend (Tiết lộ Đồng thời)**<br><br>Nhiều người dùng có thể tiết lộ biểu tượng jackpot đồng thời, dẫn đến tranh chấp tiềm ẩn hoặc thanh toán không chính xác                                                | Thấp                | Cao        | • Giao dịch thành công đầu tiên lật cờ `cycle_active` bên trong Tài nguyên Jackpot<br>• Những người khác sẽ thấy cơ hội bằng không cho đến khi đạt ngưỡng tiếp theo                                                                           |
+| **R-007** | **Giải thưởng Xổ số Không được Yêu cầu**<br><br>Một giải thưởng Xổ số Lớn có thể không được yêu cầu, dẫn đến quỹ giải thưởng tĩnh                                                                                           | Thấp                | Thấp       | • `draw_grand_giveaway()` phát hiện timeout sau 30 ngày và kích hoạt xổ số lại<br>• Phát ra sự kiện `RaffleRedistributed`                                                                                                                     |
+| **R-008** | **Tấn công Bot/Sybil**<br><br>Actor độc hại sử dụng bot hoặc tấn công Sybil để có lợi thế không công bằng hoặc phá vỡ trò chơi                                                                                              | Trung bình          | Trung bình | • Bảng đen quản trị cho phát hiện bot<br>• Tuổi tài khoản tối thiểu có thể cấu hình<br>• Kiểm tra lịch sử `account::sequence_number()` cho tấn công Sybil                                                                                     |
 
-*   **Chân Trang (Footer):**
-    *   **Mô tả:** Liên kết "Điều khoản Sử dụng", "Chính sách Quyền riêng tư", link mạng xã hội của Aiptos.
+---
 
-*   **Trang/Modal "How It Works"**:
-    *   **Mô tả:** Một trang hoặc modal giải thích rõ ràng các điểm chính, có thể kèm đồ họa minh họa:
-        *   **Tạo Token:** "Miễn phí trên Aiptos, bạn chỉ trả phí gas mạng lưới."
-        *   **Bonding Curve:** "Token của bạn cần đạt một mốc vốn hóa thị trường nhất định để được niêm yết trên Hyperion."
-        *   **Phí Giao dịch:** "Khi giao dịch trên Hyperion, phí là 1%. Phân chia: 40% cho bạn (người tạo), 40% cho Aiptos, 20% cho Hyperion."
+## 6. Màn hình / Giao diện Người dùng
 
---- 
+### 6.1 Trang Chủ / Sảnh Trò chơi
+
+**Mô tả:** Điểm vào cho người dùng xem các cấp độ thẻ cào có sẵn, giá cả của chúng, và có thể số tiền jackpot hiện tại. Nút "Mua Thẻ" cho mỗi cấp độ.
+
+**Các Yếu tố Chính:**
+
+- Tùy chọn cấp độ thẻ (Thẻ 1, Thẻ 2, Thẻ 3)
+- Giá cả (0.5 APT, 1.0 APT, 5.0 APT)
+- Nút "Mua"
+- Trạng thái kết nối ví
+
+### 6.2 Giao diện Luồng Mua hàng
+
+**Mô tả:** Giao diện để chọn số lượng thẻ, áp dụng giảm giá theo gói, và khởi tạo giao dịch mua hàng. Tùy chọn auto_reveal.
+
+**Các Yếu tố Chính:**
+
+- Đầu vào số lượng
+- Hiển thị thưởng gói (ví dụ: 10 → 11 thẻ)
+- Hộp kiểm Auto_reveal
+
+### 6.3 Giao diện Tiết lộ Thẻ Cào
+
+**Mô tả:** Lưới 5x5 tương tác nơi người dùng có thể "cào" để tiết lộ biểu tượng. Hoạt ảnh cho quá trình tiết lộ. Hiển thị biểu tượng được tiết lộ và số tiền giải thưởng.
+
+**Các Yếu tố Chính:**
+
+- Lưới 5x5 cho biểu tượng
+- Lớp phủ cào (Canvas/WebGL)
+- Hiển thị biểu tượng được tiết lộ
+- Hiển thị giải thưởng
+- Nút "Chơi Lại"
+
+### 6.4 Modal/Khu vực Kết nối Ví
+
+**Mô tả:** Khu vực nổi bật cho phép người dùng kết nối ví Aptos tương thích của họ.
+
+**Các Yếu tố Chính:**
+
+- Nút "Kết nối Ví"
+- Danh sách ví được hỗ trợ (Petra, Pontem, Aptos Connect)
+- Hiển thị địa chỉ ví đã kết nối
+
+### 6.5 Bảng điều khiển Người dùng / Kho
+
+**Mô tả:** Trang hiển thị NFT thẻ cào chưa tiết lộ đã sở hữu, lịch sử thẻ đã tiết lộ, điểm tích lũy, và trạng thái hoa hồng giới thiệu.
+
+**Các Yếu tố Chính:**
+
+- Danh sách NFT
+- Nút "Tiết lộ"
+- Số dư điểm
+- Hoa hồng giới thiệu ước tính
+- Nút "Yêu cầu Thưởng" cho giới thiệu
+
+### 6.6 Hiển thị Thông tin Jackpot
+
+**Mô tả:** Hiển thị thời gian thực số tiền quỹ jackpot hiện tại và chi tiết về người thắng jackpot gần đây (nếu có).
+
+**Các Yếu tố Chính:**
+
+- Quỹ jackpot hiện tại
+- Chỉ báo ngưỡng ≥1,000 APT
+
+### 6.7 Thông tin Xổ số Lớn
+
+**Mô tả:** Hiển thị thông tin về ngày xổ số tiếp theo, quy tắc kiếm vé, và người thắng trong quá khứ.
+
+**Các Yếu tố Chính:**
+
+- Đếm ngược xổ số tiếp theo
+- Số lượng vé xổ số
+- Mô tả giải thưởng
+
+### 6.8 Bảng điều khiển Quản trị (Có Cổng)
+
+**Mô tả:** Giao diện cho quản trị viên được ủy quyền quản lý cấu hình trò chơi và thực hiện hoạt động khẩn cấp.
+
+**Các Yếu tố Chính:**
+
+- Biểu mẫu cho `set_param` (ví dụ: `CARD_PRICE`, `JACKPOT_THRESHOLD`)
+- Nút cho `emergency_withdraw`
+- Bảng điều khiển giám sát cho số dư quỹ và khả năng thanh toán
+
+### 6.9 Xác nhận Giao dịch / Thông báo Trạng thái
+
+**Mô tả:** Pop-up hoặc banner cung cấp phản hồi thời gian thực về trạng thái giao dịch (đang chờ, thành công, thất bại).
+
+**Các Yếu tố Chính:**
+
+- ID giao dịch
+- Trạng thái
+- Thông báo lỗi
+- Liên kết đến blockchain explorer
+
+### 6.10 Chân trang
+
+**Mô tả:** Chân trang website tiêu chuẩn với liên kết pháp lý và thông tin dự án.
+
+**Các Yếu tố Chính:**
+
+- Liên kết đến Điều khoản Dịch vụ (không được đề cập rõ ràng nhưng được ngụ ý bởi "tuân thủ" và thực hành tiêu chuẩn cho trò chơi)
