@@ -4,7 +4,7 @@
 
 **Ngày:** 2025-06-16 (dựa trên phiên bản tài liệu gốc)  
 **Phiên bản:** 1.0-dev  
-**Chuẩn bị bởi:** AI Assistant (dựa trên Amaterasu Scratch Card (1).pdf)
+**Chuẩn bị bởi:** Brian
 
 ---
 

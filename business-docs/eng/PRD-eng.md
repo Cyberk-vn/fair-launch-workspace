@@ -4,7 +4,7 @@
 
 **Date:** 2025-06-16 (based on source document version)  
 **Version:** 1.0-dev  
-**Prepared By:** AI Assistant (drawing from Amaterasu Scratch Card (1).pdf)
+**Prepared By:** Brian
 
 ---
 
