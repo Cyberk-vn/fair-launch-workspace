@@ -6,7 +6,7 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
-echo -e "${GREEN}Setting up AIPTOS Project...${NC}"
+echo -e "${GREEN}Setting up Scratch Project...${NC}"
 
 # Function to handle repository setup
 setup_repo() {
@@ -85,22 +85,26 @@ setup_repo() {
     return 0
 }
 
-# Setup aiptos project
-setup_repo "aiptos" "git@github.com:Cyberk-vn/aiptos.git"
-aiptos_status=$?
+# Setup scratch-fe project
+setup_repo "scratch-fe" "git@github.com:Cyberk-vn/scratch-fe.git"
+scratch_fe_status=$?
 
-# Check if the repository was set up successfully
-if [ $aiptos_status -eq 0 ]; then
-    echo -e "${GREEN}AIPTOS Project setup completed successfully!${NC}"
+# Setup scratch-be project
+setup_repo "scratch-be" "git@github.com:Cyberk-vn/scratch-be.git"
+scratch_be_status=$?
+
+# Check if the repositories were set up successfully
+if [ $scratch_fe_status -eq 0 ] && [ $scratch_be_status -eq 0 ]; then
+    echo -e "${GREEN}Scratch Project setup completed successfully!${NC}"
 else
-    echo -e "${RED}AIPTOS Project setup completed with errors.${NC}"
+    echo -e "${RED}Scratch Project setup completed with errors.${NC}"
     
     # Provide troubleshooting tips
     echo -e "${YELLOW}Troubleshooting tips:${NC}"
-    echo -e "1. Ensure you have SSH access to the repository."
+    echo -e "1. Ensure you have SSH access to the repositories."
     echo -e "2. Check if your SSH key is added to your GitHub account."
     echo -e "3. Try running: ssh -T git@github.com to verify your connection."
-    echo -e "4. If using HTTPS instead of SSH, update the repository URL in this script."
+    echo -e "4. If using HTTPS instead of SSH, update the repository URLs in this script."
     
     exit 1
-fi 
+fi
