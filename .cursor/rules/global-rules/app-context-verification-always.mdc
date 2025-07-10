@@ -1,6 +1,6 @@
 ---
-description: Ensures the AI always verifies and confirms the target context (app/package) within the monorepo (apps/*, packages/*) before generating or modifying code. Mandates a clear identification process, including asking the user for clarification if the context is ambiguous, to prevent incorrect actions and maintain project structure integrity.
-globs: 
+description: Ensures the AI always verifies and confirms the target context (app/library) within the project structure (scratch-fe/, scratch-be/apps/*, scratch-be/libs/*) before generating or modifying code. Mandates a clear identification process, including asking the user for clarification if the context is ambiguous, to prevent incorrect actions and maintain project structure integrity.
+globs:
 alwaysApply: true
 ---
 
@@ -12,64 +12,83 @@ alwaysApply: true
 - MUST verify app context against the following structure:
   ```
   ./
-  ├── apps/
-  │   ├── bankr-fe/     # Bankr Frontend Application
-  │   ├── clanker-fe/   # Clanker Frontend Application
-  │   ├── be/           # Backend Services
-  │   ├── cdk/          # AWS CDK Infrastructure
-  │   └── ai/           # AI related services/logic
-  ├── packages/         # Directory for shared, reusable packages
+  ├── scratch-fe/       # Frontend Application (Next.js)
+  ├── scratch-be/       # Backend Services (NestJS)
+  │   ├── apps/
+  │   │   ├── nest/     # NestJS API Application
+  │   │   └── cdk/      # AWS CDK Infrastructure
+  │   └── libs/         # Shared libraries and modules
+  ├── business-docs/    # Business documentation
+  ├── reports/          # Reports and analysis
+  ├── bugs/             # Bug tracking and documentation
+  └── xnotes/           # Additional notes and resources
   ```
 - MUST explicitly ask the user to confirm app context if it cannot be determined from the request
 - MUST confirm the identified app context with the user before proceeding with any code generation
 - MUST use the following context identification process:
-  1. Check if request explicitly mentions an app name (e.g., "bankr-fe", "clanker-fe", "be", "cdk", "ai", or a specific package name from the `packages/` directory).
-  2. Check if request implies a specific context (e.g., "admin dashboard for bankr" implies `apps/bankr-fe/`).
-  3. Check if request relates to specific functionality (e.g., "update CDK stack" implies `apps/cdk/`, "work on a shared utility" implies a package within `packages/`).
+  1. Check if request explicitly mentions an app name (e.g., "scratch-fe", "scratch-be", "nest", "cdk", or a specific library name from the `scratch-be/libs/` directory).
+  2. Check if request implies a specific context (e.g., "frontend component" implies `scratch-fe/`, "API endpoint" implies `scratch-be/apps/nest/`).
+  3. Check if request relates to specific functionality (e.g., "update CDK stack" implies `scratch-be/apps/cdk/`, "work on a shared utility" implies a library within `scratch-be/libs/`).
   4. If context is ambiguous, ask user to specify.
 - MUST maintain consistent path structure based on identified app context.
-- MUST ensure shared code goes into appropriate packages directory (e.g., `packages/[specific-package-name]/` for any shared package).
+- MUST ensure shared code goes into appropriate library directory (e.g., `scratch-be/libs/[specific-library-name]/` for any shared functionality).
 
 ## Context Identification Guidelines
 
-### Applications (within `apps/`)
-- **bankr-fe**: Bankr frontend application.
-- **clanker-fe**: Clanker frontend application.
-- **be**: Backend services, APIs, data processing for all applications.
-- **cdk**: AWS CDK infrastructure for the project.
-- **ai**: Services, logic, or utilities related to Artificial Intelligence.
+### Main Applications
 
-### Shared Packages (within `packages/`)
-- **packages/**: This directory houses various shared packages (e.g., `ui/`, `helpers/`, `libs/`, `plugin-openrouter/`). Code placed here should be designed for reusability across multiple applications or other packages. When referring to a specific package, use its name (e.g., `packages/plugin-openrouter`).
+- **scratch-fe**: Frontend application built with Next.js, containing React components, pages, and UI logic.
+- **scratch-be**: Backend services built with NestJS, containing API endpoints, business logic, and database operations.
+
+### Backend Services (within `scratch-be/apps/`)
+
+- **nest**: NestJS API application with controllers, services, and modules.
+- **cdk**: AWS CDK infrastructure definitions for cloud resources and deployment.
+
+### Shared Libraries (within `scratch-be/libs/`)
+
+- **libs/**: Shared libraries and modules used across the backend applications (e.g., `auth/`, `core/`, `helper/`, `mailer/`, `user/`).
+
+### Documentation and Resources
+
+- **business-docs/**: Business documentation, PRDs, and engineering plans.
+- **reports/**: Reports, analysis, and templates.
+- **bugs/**: Bug tracking, documentation, and issue management.
+- **xnotes/**: Additional notes, resources, and miscellaneous documentation.
 
 ## Examples
 
 <example>
-User: "Create a new settings page for the Bankr frontend"
-Agent: "I'll be working in the apps/bankr-fe directory for this new settings page. Would you like me to proceed with creating the component in this location?"
+User: "Create a new settings page for the frontend"
+Agent: "I'll be working in the scratch-fe directory for this new settings page. Would you like me to proceed with creating the component in this location?"
 </example>
 
 <example>
 User: "Add a new API endpoint for processing transactions"
-Agent: "This new API endpoint will be added to apps/be/. Is this correct?"
+Agent: "This new API endpoint will be added to scratch-be/apps/nest/. Is this correct?"
 </example>
 
 <example>
-User: "Update the OpenRouter plugin"
-Agent: "I'll be working in the packages/plugin-openrouter/ directory for this update. Shall I proceed?"
+User: "Update the authentication library"
+Agent: "I'll be working in the scratch-be/libs/auth/ directory for this update. Shall I proceed?"
 </example>
 
 <example>
 User: "I need to create a new shared utility function."
-Agent: "Understood. This new shared utility function will be placed in a suitable sub-directory within `packages/`. Could you please specify the package name or a new package name if it doesn't exist yet?"
+Agent: "Understood. This new shared utility function will be placed in a suitable sub-directory within `scratch-be/libs/`. Could you please specify the library name or a new library name if it doesn't exist yet?"
+</example>
+
+<example>
+User: "Update the CDK infrastructure"
+Agent: "I'll be working in the scratch-be/apps/cdk/ directory for this infrastructure update. Is this correct?"
 </example>
 
 <example type="invalid">
 User: "Create a new component"
-Agent: *Proceeds without confirming app context like apps/bankr-fe or apps/clanker-fe, or a specific package*
+Agent: *Proceeds without confirming app context like scratch-fe or scratch-be/apps/nest, or a specific library*
 </example>
 
 <example type="invalid">
 User: "Add a new infrastructure resource"
-Agent: *Assumes apps/cdk without confirmation*
-</example> 
+Agent: *Assumes scratch-be/apps/cdk without confirmation*
+</example>
