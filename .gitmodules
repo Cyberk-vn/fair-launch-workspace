@@ -1,12 +1,6 @@
-[submodule "aiptos"]
-	path = aiptos
-	url = git@github.com:Cyberk-vn/aiptos.git
-[submodule "aiptos-indexer"]
-	path = aiptos-indexer
-	url = git@github.com:Cyberk-vn/aiptos-indexer.git
-[submodule "scratch-fe"]
-	path = scratch-fe
-	url = git@github.com:Cyberk-vn/scratch-fe.git
-[submodule "scratch-be"]
-	path = scratch-be
-	url = git@github.com:Cyberk-vn/scratch-be.git
+[submodule "fair-launch-fe"]
+	path = fair-launch-fe
+	url = git@github.com:Cyberk-vn/fair-launch-fe.git
+[submodule "fair-launch-be"]
+	path = fair-launch-be
+	url = git@github.com:Cyberk-vn/fair-launch-be.git

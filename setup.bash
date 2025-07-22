@@ -85,12 +85,12 @@ setup_repo() {
     return 0
 }
 
-# Setup scratch-fe project
-setup_repo "scratch-fe" "git@github.com:Cyberk-vn/scratch-fe.git"
+# Setup fair-launch-fe project
+setup_repo "fair-launch-fe" "git@github.com:Cyberk-vn/fair-launch-fe.git"
 scratch_fe_status=$?
 
-# Setup scratch-be project
-setup_repo "scratch-be" "git@github.com:Cyberk-vn/scratch-be.git"
+# Setup fair-launch-be project
+setup_repo "fair-launch-be" "git@github.com:Cyberk-vn/fair-launch-be.git"
 scratch_be_status=$?
 
 # Check if the repositories were set up successfully

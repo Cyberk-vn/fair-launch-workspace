@@ -1,326 +1,257 @@
-# Product Requirements Document - Amaterasu Scratch Card
+# Product Requirements Document - [FAIR-LAUNCH]
 
-**English Version**
-
-**Date:** 2025-06-16 (based on source document version)  
-**Version:** 1.0-dev  
-**Prepared By:** Brian
-
----
+**Date:** 20 July 2025  
+**Version:** 1.0.1  
+**Prepared By:** Anderson - Anderson@cyberk.io  
+[FAIR-LAUNCH] -> project name will be changed after agreement.
 
 ## 1. Introduction / Overview
 
-### Project Summary
+**Project Summary:**  
+[FAIR-LAUNCH] is a Solana-based platform that enables fair token launches through single-sided liquidity mechanisms. Users can buy and sell tokens directly with [FAIR-LAUNCH]'s smart contract.
 
-The Amaterasu Scratch Card project aims to create a **provably-fair, instant-reveal scratch-card game** on the Aptos mainnet (Move v2). It includes features like:
+**Detailed Overview:**  
+This document describes the requirements for [FAIR-LAUNCH], a platform developed for the Solana network. The core objective is to allow users to create custom tokens with minimal information (image, name, symbol, description). The platform allows users to buy and sell created tokens using SOL through Saros's single-sided liquidity contract.
 
-- Jackpots
-- Monthly raffle
-- Points system
-- Referral bonuses
-- Bundle discounts
+**Stakeholders:**
 
-### Detailed Overview
+- Token creators
+- Token traders/investors
+- [FAIR-LAUNCH] platform operators
+- Saros DEX integration
 
-This document outlines the requirements for the Amaterasu Scratch Card game. The core objective is to offer a seamless user experience for purchasing and revealing digital scratch cards, with a strong emphasis on fairness and financial solvency.
+**Success Metrics:**
 
-**Key Features:**
-
-- Multiple card tiers with dynamic prize pools (Card-Reward Pool, Grand Giveaway pool, Jackpot pool)
-- Transparent sales split mechanism
-- NFT-based card ownership (can be gifted or burned to reveal outcomes)
-- On-chain randomness for reveals
-- Referral incentives and anti-abuse measures
-
-**Performance Targets:**
-
-- ≥10 transactions per second (Tx/s) sustained
-- 99.999% solvency of the Card-Reward Pool
-- High test coverage and zero critical issues in Move Prover
-
----
+- Number of tokens created
+- Total trading volume on single-sided liquidity
+- Successful transition to Saros
+- User engagement and retention
 
 ## 2. Business Requirements (BR)
 
-| ID         | Requirement                                      | Description                                                                                                                                                                                                                                                           |
-| ---------- | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **BR-001** | Offer Provably-Fair Scratch Card Gameplay        | The system must provide a scratch-card game where outcomes are demonstrably fair and instantly revealed                                                                                                                                                               |
-| **BR-002** | Support Multiple Card Tiers and Pricing          | Users must be able to purchase scratch cards across different price points (e.g., 0.5 APT, 1.0 APT, 5.0 APT). Each tier is associated with a specific Card-Reward Pool                                                                                                |
-| **BR-003** | Implement Bundle Discounts                       | The platform must offer discount incentives for purchasing multiple cards in bundles (e.g., 10 cards get 11, 50 cards get 56, 100 cards get 115). Bonus cards must grant full odds, points, and referral weight                                                       |
-| **BR-004** | Manage Funds Allocation via Sale Split           | All proceeds from card sales must be atomically split and allocated to predefined pools: Card-Reward Pool (70%), Protocol fee (15%), Grand Giveaway pool (5%), Referral commission (5%), and Jackpot pool (5%). Support for dual APT/AMA token modes is also required |
-| **BR-005** | Facilitate Jackpot Mechanics                     | A portion (5%) of each card price must be allocated to a jackpot pool. Jackpot icons can only appear when the jackpot pool is ≥1,000 APT, with the first user to reveal the icon receiving an immediate payout (Gold 80%, Silver 15%, Bronze 5% of pool)              |
-| **BR-006** | Conduct Monthly Grand Giveaway Raffle            | The system must conduct a raffle every 30 days for players who obtain Grand-Giveaway Raffle Tickets. Prizes can be physical assets or USD-stable equivalent (90% value, KYC required)                                                                                 |
-| **BR-007** | Implement a Points System                        | Points must be awarded as icons on the card, affected by multipliers, with chances of earning more points increasing with higher card tiers                                                                                                                           |
-| **BR-008** | Integrate a Referral Program                     | The platform must support a referral system where referrers earn commission (5% for Amaterasu NFT holders/√10,000 $AMA, 2.5% for others). Commissions must be claimable once they reach a minimum threshold (0.1 APT)                                                 |
-| **BR-009** | Ensure Financial Solvency                        | The system must maintain high solvency (99.999%) for the Card-Reward Pool. If a prize exceeds the pool balance, funds should be borrowed from a treasury_reserve and automatically reimbursed by subsequent sales                                                     |
-| **BR-010** | Maintain High Performance and Smooth UX          | The system should sustain ≥10 transactions per second (Tx/s) and aim for 85% of plays to use pre-authorised "Play Again" session keys for a friction-free user experience                                                                                             |
-| **BR-011** | Support Compliant Upgrade & Operations Framework | The smart contract framework must allow for compliant upgrades and operations, aiming for ≥95% test coverage and 0 critical issues in Move Prover                                                                                                                     |
-
----
+- **BR-001 - Homepage Functionality:** Display project list with filters and access to project details.
+- **BR-002 - Token Creation with Pre-buy Option:** Allow users to create new tokens with minimal attributes (image, name, symbol, description) and allow creators to pre-buy tokens at the initial single-sided liquidity price during creation.
+- **BR-003 - Token Trading Support:** Allow users to buy/sell tokens using SOL directly with Saros's single-sided liquidity contract. When a token reaches a predetermined market cap threshold, automatically create a liquidity pair on Saros and redirect users to Saros's swap interface.
+- **BR-004 - Token Metadata Management:** Allow token creators to manage and edit display metadata (description, logo, social media links).
+- **BR-005 - Legal Compliance:** Prepare and integrate necessary legal documents (Terms of Service, Privacy Policy).
+- **BR-006 - Revenue Sharing Mechanism:** Provide token creators with a mechanism to receive a portion of trading fees (40%) generated when their tokens are traded on Saros, creating incentives for quality token creation.
+- **BR-007 - Platform Documentation:** Provide a clear and accessible "How It Works" section explaining the platform mechanism, fee structure, single-sided liquidity process, and token lifecycle stages.
 
 ## 3. Functional Requirements (FR)
 
-### FR-001: Purchase Scratch Cards
+### FR-001 - Solana Wallet Connection
 
-**Priority:** High  
-**Description:** The system MUST allow users to purchase single or bundle scratch cards with a single wallet signature.
+- The system **MUST** allow users to connect their compatible Solana wallets.
+- **Description:** Users need to be able to connect their existing Solana wallets to the [FAIR-LAUNCH] platform. "Connect" button on header. Status notification.
+- **Trigger/Event:** User clicks the "Connect" button on header or attempts to perform an action requiring a connected wallet.
+- **Prerequisites:** User has installed/available wallet compatible with Solana.
+- **Post-conditions:** User's wallet is securely connected to the platform; user's wallet address is displayed on header; user can continue actions requiring wallet. OR Wallet connection fails and user is notified.
 
-- **Process:** Users can select card tier and quantity. On purchase, an NFT representing the card is minted to their wallet
-- **Prerequisites:** User has a connected Aptos wallet with sufficient APT
-- **Postconditions:** Card NFT minted, funds split to pools, success confirmation
+### FR-002 - System Login
 
-### FR-002: Reveal Scratch Cards
+- The system **MUST** allow users to log in through supported authentication methods.
+- **Description:** Users can log in using Phantom wallet. The system will require users to sign a message to verify wallet ownership and after successful verification, users are redirected to the [FAIR-LAUNCH] platform with logged-in status.
+- **Trigger/Event:** User clicks "Login" button and chooses to log in with Phantom wallet.
+- **Prerequisites:** User has connected Phantom wallet (FR-001).
+- **Post-conditions:** User successfully logs in and can access functions requiring authentication.
 
-**Priority:** High  
-**Description:** The system MUST allow users to reveal scratch cards, either immediately upon purchase (via auto_reveal flag) or later by burning the card NFT.
+### FR-003 - Create New Token
 
-- **Process:** Reveal uses on-chain randomness (`aptos_framework::randomness::u64_range`) to pick 25 icons. A `RevealEvent` is emitted
-- **Prerequisites:** User owns an unrevealed scratch card NFT
-- **Postconditions:** Card revealed, icons displayed, prize (if any) settled, NFT burned (if revealed by burning), `RevealEvent` emitted
+- The system **MUST** allow users (logged in and connected wallet) to create new tokens on the Solana network through a simple process on the [FAIR-LAUNCH] platform.
+- **Description:** The token creation process will occur in one step. In addition to providing basic information (Image, Name, Symbol, Description), the system **MUST** allow creators to input an amount of SOL to pre-buy tokens at the initial price of single-sided liquidity. This pre-buy amount is optional.
+- **Trigger/Event:** User is logged in, connected wallet, navigates to "Create" section and completes the form, then clicks "Create" button.
+- **Prerequisites:** Logged in (FR-002), Solana wallet connected (FR-001), Sufficient SOL for gas fees (and for pre-buy amount if applicable).
+- **Post-conditions:** New token contract is deployed; Token is linked to creator; If creator pre-buys, corresponding token amount is transferred to their wallet; Token is listed on [FAIR-LAUNCH] and begins trading on Saros's single-sided liquidity for other users; User receives confirmation.
 
-### FR-003: Batch Reveal Cards
+### FR-004 - Display Token Detailed Information
 
-**Priority:** Medium  
-**Description:** The system MUST support revealing multiple cards in a single transaction (`batch_reveal()`) or automatically revealing all remaining cards (`Batch_reveal()`).
+- The system **MUST** display detailed information and interactive functions for each token.
+- **Description:** Includes: Basic Token Information (image, name, symbol, description, market cap, CA, Owner, followers, "Add to wallet" button, social links); Supply Information: clearly display the amount of tokens the creator has pre-bought, amount sold to the public, and current total supply on single-sided liquidity; Token Status ("Currently trading on single-sided liquidity" or "Listed on Saros"); Token Price Chart (price data queried from saros, showing price per transaction); Trading Area (has two states):
+  - Display Buy/Sell interface. Below that, **MUST** display:
+    - Single-sided liquidity progress bar: A visual progress bar showing current market cap versus the threshold required to list on Saros.
+    - Recent Transactions Table: A table listing the latest buy/sell transactions for this token (transaction type, amount, price, time).
+  - "Admin page" button for token creator to access management page.
+- **Trigger/Event:** User clicks on token from list (FR-008) or direct access.
+- **Prerequisites:** Token exists, metadata available.
+- **Post-conditions:** User can view comprehensive information and perform buy/sell token transactions on [FAIR-LAUNCH] platform.
 
-- **Process:** Allows for efficient reveal of multiple purchased cards
-- **Prerequisites:** User owns multiple unrevealed scratch card NFTs
-- **Postconditions:** All selected cards revealed, prizes settled
+### FR-005 - Access Token Admin Page
 
-### FR-004: Play Again Functionality
+- The system **MUST** allow token creators (logged in) to access a dedicated admin page for their tokens.
+- **Description:** From token detail page, if creator and logged in, click "Admin page" button to go to management page (edit metadata).
+- **Trigger/Event:** Token creator is logged in, on token detail page, clicks "Admin page".
+- **Prerequisites:** Logged in (FR-002); Is creator/owner of token being viewed.
+- **Post-conditions:** Redirect to token admin page.
 
-**Priority:** High  
-**Description:** The system MUST allow users to quickly purchase and reveal another card using a pre-authorised "Play Again" session key with a single wallet signature.
+### FR-006 - Buy Tokens with SOL
 
-- **Process:** Optimizes UX for continuous play sessions
-- **Prerequisites:** User has an active session key and sufficient APT
-- **Postconditions:** New card purchased and revealed
+- The system **MUST** allow users to buy tokens using SOL.
+- **Description:** On token detail page, in Trading Area, users **MUST** be able to input the amount of tokens they want to buy or the amount of SOL they want to spend. The system **MUST** display expected exchange rate from Saros. When user clicks 'Buy' button, the system **MUST** initiate a transaction with Saros's single-sided liquidity contract, requiring user to confirm this transaction from their connected Solana wallet.
+- **Trigger/Event:** User selects buy and confirms transaction on [FAIR-LAUNCH] interface, interacts with [FAIR-LAUNCH] contract.
+- **Prerequisites:** Solana wallet connected; Sufficient SOL for payment and gas fees;
+- **Post-conditions:** Purchased tokens are transferred to user's wallet; User's SOL balance decreases accordingly; Transaction is recorded on blockchain through [FAIR-LAUNCH] contract; User receives confirmation notification.
 
-### FR-005: Display Icon Map and Payouts
+### FR-007 - Sell Tokens for SOL on single-sided liquidity
 
-**Priority:** Medium  
-**Description:** The system MUST clearly display the probabilities and prizes associated with different icons on a scratch card.
+- The system **MUST** allow users to sell tokens in exchange for SOL.
+- **Description:** On token detail page, in Trading Area, users **MUST** be able to select tokens to sell and input amount. The system **MUST** display expected SOL amount to receive. When user clicks 'Sell' button, the system **MUST** initiate a transaction with Saros's single-sided liquidity contract, requiring user to confirm this transaction from their connected Solana wallet.
+- **Trigger/Event:** User selects sell and confirms transaction on [FAIR-LAUNCH] interface, interacts with Saros contract.
+- **Prerequisites:** Solana wallet connected; Sufficient tokens to sell and SOL for gas fees; Token is in single-sided liquidity phase.
+- **Post-conditions:** Sold token amount is deducted from user's wallet; User's SOL balance increases accordingly; Transaction is recorded on blockchain through [FAIR-LAUNCH] contract; User receives confirmation notification.
 
-- **Process:** Includes percentages for blank, various prize amounts (as % of Card-Reward Pool), and multiplier icons
-- **Prerequisites:** User views card details or game rules
-- **Postconditions:** User understands odds and potential payouts
+### FR-008 - Display Token/Project List and Search
 
-### FR-006: Calculate and Award Points
+- The system **MUST** display token/project list and provide search functionality.
+- **Description:** Display as Grid: token cards (image, name, symbol, Market Cap in SOL (USD reference), creation time, CA, traders, owner, quick interaction buttons). Search bar ("Search by token name or symbol..."). Sort ("Newest"), filter ("All Pairs").
+- **Trigger/Event:** User accesses token list page or uses search/filter.
+- **Prerequisites:** At least one token/project listed.
+- **Post-conditions:** Token list displays in correct format and criteria; Search results display.
 
-**Priority:** Medium  
-**Description:** The system MUST calculate and award points based on icons revealed, applying multipliers, and increasing chances based on card tier.
+### FR-009 - Display Terms of Service and Privacy Policy
 
-- **Process:** Points are a form of reward for engagement
-- **Prerequisites:** Card is revealed
-- **Postconditions:** Points awarded to user's balance, potentially affecting TitleBadge multiplier
+- The system **MUST** provide easy access to these documents.
+- **Description:** Links in easily visible location (e.g., footer).
+- **Trigger/Event:** User clicks on link.
+- **Prerequisites:** Document content has been drafted.
+- **Post-conditions:** User can view content.
 
-### FR-007: Process Jackpot Payouts
+### FR-010 - Edit Token Information (Metadata) from Admin Page
 
-**Priority:** High  
-**Description:** The system MUST automatically pay out jackpot prizes when a jackpot icon is revealed, provided the jackpot pool meets the threshold (≥1,000 APT).
+- The system **MUST** allow token creators (on Admin page) to edit metadata.
+- **Description:** On Admin page, update: Token Description, Website Link, Farcaster, X, Telegram. Changes are saved and updated on token detail page.
+- **Trigger/Event:** Token creator changes information and clicks "Save changes".
+- **Prerequisites:** On Admin page of owned token (FR-005).
+- **Post-conditions:** Token metadata is updated; Receive confirmation.
 
-- **Process:** The first successful transaction to reveal a jackpot icon receives a percentage of the pool (80% Gold, 15% Silver, 5% Bronze)
-- **Prerequisites:** Jackpot pool ≥1,000 APT, jackpot icon revealed
-- **Postconditions:** Jackpot amount transferred to winner, jackpot_pool balance reduced, cycle_active flag flipped
+### FR-011 - Claim Trading Fees from Saros
 
-### FR-008: Manage Grand Giveaway Raffle Tickets
+- The system **MUST** provide functionality for token creators to claim their portion of trading fees (40%) from transactions on Saros.
+- **Description:** On token's Admin page, there **MUST** be an area displaying accumulated fee balance from Saros (e.g., "Fees available to claim: X SOL"). A "Claim Fees" button. This function only displays and works after the token has been listed on Saros.
+- **Trigger/Event:** Token creator clicks "Claim" button on Admin page.
+- **Prerequisites:** User is token creator, logged in (FR-002), on Admin page (FR-005), has accumulated fees to claim.
+- **Post-conditions:** Fee balance is transferred to creator's wallet. Unclaimed fee balance on interface is updated to 0. User receives confirmation.
 
-**Priority:** Medium  
-**Description:** The system MUST award raffle tickets based on card tier (top tier 50% chance, lower tiers scale linearly).
+### FR-012 - Display "How It Works" Section
 
-- **Process:** Tickets are limited to 1 per card and not affected by multipliers
-- **Prerequisites:** Card is revealed
-- **Postconditions:** Raffle ticket awarded and recorded
-
-### FR-009: Conduct Monthly Raffle Draw
-
-**Priority:** Medium  
-**Description:** An off-chain cron service MUST trigger the `draw_grand_giveaway()` function every 30 days to select a winner.
-
-- **Process:** Prizes are physical assets or USD-stable equivalent (90%). KYC is required for prize claim
-- **Prerequisites:** 30 days passed since last draw
-- **Postconditions:** Raffle winner selected, prize awarded (or re-drawn if unclaimed after 30 days)
-
-### FR-010: Manage Referral Commissions
-
-**Priority:** Medium  
-**Description:** The system MUST track and allow claiming of referral commissions.
-
-- **Process:** Referrers are eligible for 2.5% or 5% based on criteria, claimable after 0.1 APT threshold. Self-referrals are nullified
-- **Prerequisites:** User has accrued sufficient commission
-- **Postconditions:** Commission transferred to referrer's wallet
-
-### FR-011: Administer System Parameters
-
-**Priority:** Low  
-**Description:** The system MUST allow authorized administrators to configure various game parameters.
-
-- **Process:** Includes `CARD_PRICE`, `JACKPOT_THRESHOLD`, `ICON_PAYOUT_SPLIT`, `REFERRAL_PCT`, `POINTS_PER_CARD`, `MAX_PER_TX`
-- **Prerequisites:** Admin signer with appropriate capability
-- **Postconditions:** Game parameters updated
-
-### FR-012: Provide Emergency Withdrawal
-
-**Priority:** Critical  
-**Description:** The system MUST allow authorized administrators to perform emergency withdrawals of funds.
-
-- **Process:** A critical function for fund recovery in emergencies
-- **Prerequisites:** Admin signer with appropriate capability
-- **Postconditions:** Funds securely withdrawn
-
-### FR-013: Monitor Pool Balances and Solvency
-
-**Priority:** High  
-**Description:** An off-chain Treasury Dashboard MUST monitor pool balances and emit alerts if coverage ratio falls below 120%.
-
-- **Process:** Ensures financial health and alerts to potential solvency issues
-- **Prerequisites:** Operational indexer and monitoring system
-- **Postconditions:** Proactive alerts on pool solvency
-
----
+- The system **MUST** provide a "How It Works" section/page easily accessible from main locations (e.g., header or footer).
+- **Description:** This section will provide detailed, clear, and easy-to-understand information about:
+  - Token creation fees: Explain that [FAIR-LAUNCH] does not charge fees to create tokens. Users only need to pay network gas fees.
+  - Single-sided liquidity process: Explain how single-sided liquidity works and [FAIR-LAUNCH]'s mechanism.
+  - Trading fees: "When trading on Saros, the fee is 1%. Distribution: 40% for you (creator), 40% for [FAIR-LAUNCH], 20% for Saros."
+- **Trigger/Event:** User clicks on "How It Works" link/button.
+- **Prerequisites:** Content has been drafted.
+- **Post-conditions:** User can view detailed explanatory information, possibly as a separate page or modal.
 
 ## 4. Assumptions & Constraints
 
-### Assumptions
+**Assumptions:**
 
-| ID        | Assumption                                | Description                                                                                                                   |
-| --------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **A-001** | Stability and Capability of Aptos Network | The Aptos mainnet will operate stably, securely, and support the required transaction volume (≥10 Tx/s)                       |
-| **A-002** | Users Have Compatible Aptos Wallets       | Potential users have or can easily set up Aptos-compatible crypto wallets (e.g., Petra, Pontem, Aptos Connect)                |
-| **A-003** | Reliability of On-Chain Randomness        | The `aptos_framework::randomness::*` source will provide sufficiently uniform and secure random numbers for icon selection    |
-| **A-004** | User Understanding of Game Mechanics      | Users have a basic understanding of scratch card games and associated blockchain concepts (e.g., wallet signatures, gas fees) |
+- A-001 - Users use Phantom wallet to log in and perform transactions
+- A-002 - System only supports integration with one DEX and that DEX must support DLMM
+- A-003 - Saros DEX will maintain stable API and fee mechanism during development
+- A-004 - Users have basic knowledge of DeFi and Solana wallets
+- A-005 - Users will log in by signing messages from Phantom wallet instead of using social login
 
-### Constraints
+**Constraints:**
 
-| ID        | Constraint                                  | Description                                                                                                                                                     |
-| --------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **C-001** | Target Chain                                | The game will exclusively operate on the Aptos mainnet using Move v2                                                                                            |
-| **C-002** | Maximum Cards Per Transaction               | A maximum of 500 cards can be purchased in a single transaction (`MAX_PER_TX`)                                                                                  |
-| **C-003** | Play Again Throttling                       | There is a minimum 2-second delay between consecutive `play_again()` calls from the same session key                                                            |
-| **C-004** | Jackpot Threshold                           | Jackpot icons only appear when the `jackpot_pool` balance is at least 1,000 APT                                                                                 |
-| **C-005** | Grand Giveaway Draw Interval                | The Grand Giveaway raffle is drawn strictly every 30 days                                                                                                       |
-| **C-006** | Prize Payout Dependency on Treasury Reserve | In cases where a prize exceeds the `card_reward_pool` balance, the system relies on borrowing from a `treasury_reserve`                                         |
-| **C-007** | Primary User Interface                      | The primary user interface for interactions will be a React/NextJS website                                                                                      |
-| **C-008** | Admin Gated Functions                       | Critical administrative functions like `set_param` and `emergency_withdraw` are gated by specific capabilities and require multisig keys for off-chain triggers |
-
----
+- C-001 - Project Timeline: Project can be demo-ready after 1 month of development
+- C-002 - Initial Functionality Scope: The first version of [FAIR-LAUNCH] will focus on core functions of the single-sided liquidity model: simple token creation, trading on single-sided liquidity.
+- C-003 - No AI in Initial Phase: AI will not be used to perform transactions or deploy tokens on behalf of users in this version of [FAIR-LAUNCH].
+- C-004 - Limited Token Management Rights: Token creator's management rights will be limited to editing metadata.
 
 ## 5. Risks
 
-| Risk ID   | Risk                                                                                                                                                                                                        | Likelihood    | Impact    | Mitigation Plan                                                                                                                                                                                                                   |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **R-001** | **Smart Contract Security Vulnerabilities**<br><br>The Move smart contracts may contain vulnerabilities (e.g., coin leakage, re-entrancy issues), leading to asset loss or incorrect game operation         | Medium        | Very High | • Rigorous unit tests (pool splits, referral, borrow-reimburse)<br>• Property tests (jackpot invariant)<br>• Move Prover verification (no coin leakage, no re-entrancy)<br>• Fuzz testing with malicious gas limits (undergasing) |
-| **R-002** | **Solvency of Reward Pools**<br><br>The Card-Reward Pool might not have sufficient funds to cover large prize payouts, despite the treasury_reserve mechanism                                               | Low to Medium | High      | • Target 99.999% solvency<br>• Implement treasury_reserve borrowing and auto-reimbursement<br>• Treasury Dashboard monitoring with <120% coverage alerts                                                                          |
-| **R-003** | **Randomness Exploitation/Bias**<br><br>Issues with the on-chain randomness source could lead to predictable outcomes or unfair distribution of icons, undermining the "provably-fair" goal                 | Low           | Very High | • Primary reliance on `aptos_framework::randomness::*`<br>• Unit tests for RNG distribution (χ² within 1% after 10k runs)<br>• Optional fallback to ORAO-VRF async flow                                                           |
-| **R-004** | **Performance Degradation / Scalability Issues**<br><br>The platform might struggle to sustain ≥10 Tx/s under high load, or the indexer/frontend might face performance issues in displaying real-time data | Medium        | Medium    | • Design for sustained 10 Tx/s<br>• Use efficient React/NextJS frontend<br>• Optimized Indexer for GraphQL<br>• Monitoring of Tx throughput and error codes with Grafana                                                          |
-| **R-005** | **Undergasing of Reveal Transactions**<br><br>A reveal transaction might run out of gas, preventing the prize settlement                                                                                    | Low           | Medium    | • Undergasing defence where `reveal()` records icon/prize, and `settle_prize()` is executed unconditionally in the same transaction<br>• If transaction aborts, card stays unrevealed, user can re-call `reveal()`                |
-| **R-006** | **Jackpot Double-Spend (Concurrent Reveals)**<br><br>Multiple users might reveal a jackpot icon concurrently, leading to potential disputes or incorrect payouts                                            | Low           | High      | • First successful transaction flips `cycle_active` flag inside Jackpot resource<br>• Others will see zero chance until the next threshold is reached                                                                             |
-| **R-007** | **Unclaimed Raffle Prizes**<br><br>A Grand Giveaway prize might remain unclaimed, leading to a static prize pool                                                                                            | Low           | Low       | • `draw_grand_giveaway()` detects timeout after 30 days and triggers a re-draw<br>• Emits `RaffleRedistributed` event                                                                                                             |
-| **R-008** | **Bot/Sybil Attacks**<br><br>Malicious actors using bots or Sybil attacks to gain an unfair advantage or disrupt the game                                                                                   | Medium        | Medium    | • Admin blacklist table for bot detection<br>• Configurable minimum account age<br>• Checking `account::sequence_number()` history for Sybil attacks                                                                              |
+### R-001 - Requirement Misunderstanding Due to Limited Customer Communication
 
----
+- **Description:** Inability to communicate directly with customers daily may lead to miscommunication, misunderstanding of requirements.
+- **Probability:** Medium
+- **Impact:** High
+- **Mitigation Plan / Action:** Detailed daily reporting, proactive requirement suggestions, progress reporting via video, maintain updated PRD.
+
+### R-002 - Requirements Expanding During System Development
+
+- **Description:** Requirements may expand or change during development.
+- **Probability:** High
+- **Impact:** Medium
+- **Mitigation Plan / Action:** Clear scope definition, strict change process, change approval.
+
+### R-003 - Lack of Project Business Documentation
+
+- **Description:** Lack of detailed documentation about business logic and operational processes.
+- **Probability:** Medium
+- **Impact:** High
+- **Mitigation Plan / Action:** Create detailed business requirements documentation, reference similar projects.
+
+### R-004 - Unclear Definition of Done (DoD)
+
+- **Description:** Requirements may expand or DoD may be unclear.
+- **Probability:** Medium
+- **Impact:** High
+- **Mitigation Plan / Action:** Clear DoD definition, break down tasks, deliver incremental completion, strict change management process, review PRD.
+
+### R-005 - Risk of Fee Collection and Distribution Mechanism from Saros
+
+- **Description:** The technical mechanism to collect and distribute fees from Saros may be complex, unreliable, or may change without notice. Errors in this mechanism may lead to incorrect fee calculations, inability to claim, or revenue loss for both [FAIR-LAUNCH] and token creators.
+- **Probability:** Medium
+- **Impact:** High
+- **Mitigation Plan / Action:** Thoroughly research Saros technical documentation. Build a separate, thoroughly tested module to handle interaction with Saros's fee mechanism. Have backup plans and notify users if Saros's mechanism changes.
+
+### R-006 - Smart Contract Security Risk
+
+- **Description:** Smart contracts may contain security vulnerabilities leading to loss of user assets.
+- **Probability:** Low
+- **Impact:** Very High
+- **Mitigation Plan / Action:** Third-party smart contract audit, thorough testnet testing, gradual rollout.
+
+### R-007 - Performance and Scalability Risk
+
+- **Description:** The system may not handle high load when many users are concurrent.
+- **Probability:** Medium
+- **Impact:** Medium
+- **Mitigation Plan / Action:** Load testing, optimization, monitoring performance metrics.
 
 ## 6. Screens / User Interface
 
-### 6.1 Homepage / Game Lobby
+### Connect Wallet Modal/Section
 
-**Description:** Entry point for users to view available scratch card tiers, their prices, and perhaps current jackpot amounts. "Buy Card" buttons for each tier.
+- **Description:** Modal/section displaying Solana wallet options (Phantom, Petra, Martian, Pontem). "Connect" button on header. Status notification.
 
-**Key Elements:**
+### Login Modal/Page
 
-- Card tier options (Card 1, Card 2, Card 3)
-- Pricing (0.5 APT, 1.0 APT, 5.0 APT)
-- "Buy" buttons
-- Wallet connection status
+- **Description:** Login interface using Phantom wallet. Requires user to sign message to verify wallet ownership.
 
-### 6.2 Purchase Flow Interface
+### Homepage / Token List Page
 
-**Description:** Interface for selecting card quantity, applying bundle discounts, and initiating the purchase transaction. Option for auto_reveal.
+- **Description:** Display token list in grid format (token cards: logo, name, symbol, market cap (SOL, USD reference), creation time, CA, traders, owner, quick interaction buttons). Search bar. Sort ("Newest"), filter ("All Pairs"). "Create New Token" button (if logged in/connected wallet).
 
-**Key Elements:**
+### Token Detail Page
 
-- Quantity input
-- Bundle bonus display (e.g., 10 → 11 cards)
-- Auto_reveal checkbox
+- **Description:** Basic information (logo, name, symbol, description, market cap, CA, owner, followers, "Add to wallet" button, social links). Addition: clearly display the amount of tokens the creator has pre-bought, amount sold to the public, and current total supply on single-sided liquidity. Price chart (showing price per transaction).
+- **Trading Area:** Display Buy/Sell tabs, input fields, price information from single-sided liquidity, "Buy" button, "Sell" button. Below this area will display:
+  - **Recent Transactions Table:** List the latest buy/sell transactions for this token.
+  - **Trading Area (Post-Saros Listing):** This area is replaced with a notification (e.g., "This token is now trading on Saros!") and a single "Trade on Saros" button to redirect users.
+- "Admin page" button for token creator to access management page.
 
-### 6.3 Scratch Card Reveal Interface
+### Create New Token Page
 
-**Description:** Interactive 5x5 grid where users can "scratch" to reveal icons. Animations for the reveal process. Displays revealed icons and prize amount.
+- **Description:** One-step form: Token Image (upload), Token Name, Token Symbol, Description. There will be an additional optional field (e.g., "Creator Pre-buy Amount (SOL)") for creators to input the amount of SOL they want to use to pre-buy tokens. "Create" button.
 
-**Key Elements:**
+### Admin Page
 
-- 5x5 grid for icons
-- Scratch overlay (Canvas/WebGL)
-- Revealed icon display
-- Prize display
-- "Play Again" button
+- **Description:** Access from token detail page (if creator). Includes areas:
+  - **Update Token Info:** Form to edit metadata (Description, Website, Farcaster, X, Telegram) and "Save changes" button.
+  - **Fee Claim Area:** Display accumulated fee balance from Saros (e.g., "Fees available to claim: X SOL"). A "Claim Fees" button. This function only displays and works after the token has been listed on Saros.
 
-### 6.4 Wallet Connection Modal/Section
+### Live Transactions Ticker/Marquee Component
 
-**Description:** Prominent section allowing users to connect their Aptos-compatible wallets.
+- **Description:** Dynamic component (top/bottom of page) continuously displaying latest transactions.
 
-**Key Elements:**
+### Footer
 
-- "Connect Wallet" button
-- List of supported wallets (Petra, Pontem, Aptos Connect)
-- Display of connected wallet address
+- **Description:** Links to "Terms of Service", "Privacy Policy", [FAIR-LAUNCH] social media links.
 
-### 6.5 User Dashboard / Inventory
+### "How It Works" Page/Modal
 
-**Description:** Page showing owned unrevealed scratch card NFTs, history of revealed cards, points accumulated, and referral commission status.
-
-**Key Elements:**
-
-- List of NFTs
-- "Reveal" buttons
-- Points balance
-- Estimated referral commission
-- "Claim Reward" button for referrals
-
-### 6.6 Jackpot Information Display
-
-**Description:** Real-time display of the current jackpot pool amount and details about recent jackpot winners (if any).
-
-**Key Elements:**
-
-- Current jackpot pool
-- ≥1,000 APT threshold indication
-
-### 6.7 Grand Giveaway Raffle Information
-
-**Description:** Displays information about the next raffle draw date, rules for earning tickets, and past winners.
-
-**Key Elements:**
-
-- Next draw countdown
-- Raffle ticket count
-- Prize description
-
-### 6.8 Admin Dashboard (Gated)
-
-**Description:** Interface for authorized administrators to manage game configurations and perform emergency operations.
-
-**Key Elements:**
-
-- Forms for `set_param` (e.g., `CARD_PRICE`, `JACKPOT_THRESHOLD`)
-- Buttons for `emergency_withdraw`
-- Monitoring dashboards for pool balances and solvency
-
-### 6.9 Transaction Confirmation / Status Messages
-
-**Description:** Pop-ups or banners providing real-time feedback on transaction status (pending, success, failure).
-
-**Key Elements:**
-
-- Transaction ID
-- Status
-- Error messages
-- Link to blockchain explorer
-
-### 6.10 Footer
-
-**Description:** Standard website footer with legal links and project information.
-
-**Key Elements:**
-
-- Links to Terms of Service (not explicitly mentioned but implied by "compliant" and standard practice for games)
+- **Description:** A page or modal clearly explaining key points, possibly with illustrative graphics:
+  - **Token Creation:** "Free on [FAIR-LAUNCH], you only pay network gas fees."
+  - **Trading Fees:** "When trading on Saros, the fee is 1%. Distribution: 40% for you (creator), 40% for [FAIR-LAUNCH], 20% for Saros."
